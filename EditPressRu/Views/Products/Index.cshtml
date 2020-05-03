@@ -1,0 +1,156 @@
+﻿@model EditPressRu.Models.IndexViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main main-catalog" >
+    <div class="sideBar1">
+        <div class="section1">
+            @if (!ViewBag.IsMobile)
+            {
+                if (Model.BreadCrambs != null && Model.BreadCrambs.Count>3 && ViewBag.PageName != "Sales")
+                {
+                    <div class="cont_popLinks">
+
+                        <div class="popLinks">
+                            <p>популярные подкатегории</p>
+                        </div>
+
+                        <div class="nonePopLinks">
+                            @foreach (var item in Model.BreadCrambs.Where(x => x.Level == 2))
+                            {
+                                <div class="divIndxPop">
+                                    <a href="@item.HrefItem" class="aIndxPop">@item.NameItem</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            @Html.Partial("_PartialMenuSection")
+        </div>
+        @if (ViewBag.PageName == "Sales")
+        {
+            <div class="catSaleList">
+            @foreach (var item in Model.CatSaleList)
+            {
+                if (ViewBag.SaleCatMarker == item.Text)
+                {
+                    <a class="active2">@item.Value</a>
+                }
+                else
+                {
+                    <a href="@item.Text">@item.Value</a>
+                }
+
+            }
+            </div>
+        }
+        else
+        {
+            if (Model.Brand.Count > 1)
+            {
+                <div class="brandDiv">
+                    <p>Бренды @ViewBag.H1</p>
+                    @foreach (var item in Model.Brand)
+                    {
+                        <div class="brandDivItem">
+                            <a href="/products/@Model.Cpu?brand=@item.Text">@item.Text</a>
+                        </div>
+                    }
+                </div>
+             }
+        }
+        
+
+    </div>
+    <div id="prodList">
+        @if (Model.BreadCrambs != null && Model.BreadCrambs.Count>3)
+        {
+            <div class="breadCrambs">
+                <ul class="bc_ul_row" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="@Model.BreadCrambs[0].HrefItem">
+                            <text itemprop="name"> @Model.BreadCrambs[0].NameItem</text>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li>&gt;</li>
+                    <li itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <a href="#" itemprop="item" class="lastBrdcrmbA">
+                            <text itemprop="name">@Model.BreadCrambs[1].NameItem</text>
+                        </a>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                </ul>
+            </div>
+        }
+
+        @if (Model.BreadCrambs != null && Model.BreadCrambs.Count==3)
+        {
+            <div class="breadCrambs">
+                <ul class="bc_ul_row" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    <li itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="@Model.BreadCrambs[0].HrefItem">
+                            <text itemprop="name">@Model.BreadCrambs[0].NameItem</text>
+                        </a>
+                        <meta itemprop="position" content="1" />
+                    </li>
+                    <li>&gt;</li>
+                    <li itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="@Model.BreadCrambs[1].HrefItem">
+                            <text itemprop="name">@Model.BreadCrambs[1].NameItem</text>
+                        </a>
+                        <meta itemprop="position" content="2" />
+                    </li>
+                    <li>&gt;</li>
+                    <li itemprop="itemListElement" itemscope
+                        itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="#" class="lastBrdcrmbA">
+                            <text itemprop="name">@Model.BreadCrambs[2].NameItem</text>
+                        </a>
+                        <meta itemprop="position" content="3" />
+                    </li>
+                </ul>
+            </div>
+        }
+        <h1 class="zagolovok allProdZag">
+            @ViewBag.H1
+        </h1>
+        @{Html.RenderPartial("_PartialProdList", Model);}
+    </div>
+</div>
+<script>
+    //пйджинг
+    function RenderPagingItems(page) {
+        $('#gifLoader').show();
+
+        var id = $("#Cpu").val();
+        var action = '/products/' + id;
+
+        if (page > 1)
+        { action = action + '/' + page; }
+        $("#page").val(page);
+        $('#FilterForm').attr('action', action);
+        $("#FilterForm").submit();
+        return false;
+    }
+
+    //$(document).ready(function () {
+    //    $('#subUlHref').click(function () {
+    //        $('.bc_ul_column').show();
+    //    });
+
+    //});
+
+    //$(document).mouseup(function (e) {
+    //    var container = $(".bc_ul_column");
+    //    if (container.has(e.target).length === 0) {
+    //        container.hide();
+    //    }
+    //});
+
+</script>

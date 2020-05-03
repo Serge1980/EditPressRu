@@ -1,0 +1,119 @@
+﻿
+#carousel1 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 180px;
+    margin: 0 auto;
+    box-sizing:border-box;
+}
+
+#slides1 {
+    overflow: hidden;
+    /* fix ie overflow issue */
+    position: relative;
+    width: 100%;
+    height: 180px;
+    /*margin:10px;*/
+}
+
+    /* remove the list styles, width : item width * total items */
+    #slides1 ul {
+        position: relative;
+        left: 0;
+        top: 0;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display:flex;
+        flex-direction:row;
+        flex-wrap:nowrap;
+        justify-content:space-around;
+        align-items:center;
+    }
+
+    /* width of the item, in this case I put 250x250x gif */
+    #slides1 li {
+        width: 250px;
+        height: 180px;
+        /*float: left;*/
+    }
+
+.sl1div {
+   width:100px;
+   height:180px;
+   display:flex;
+   flex-direction:column;
+   justify-content:flex-start;
+   align-content:center;
+   position:relative;
+}
+
+.sl1divImg {
+    width: 100px;
+    height: 100px;
+}
+.sl1DivInfo {
+    width: 100px;
+    height: 80px;
+    border-top:solid 6px #33B086;
+    position:relative;
+}
+
+.sl1DivInfo p{
+   color:#828282;
+   font-size:14px;
+   text-align:center;
+   padding-top:10px;
+}
+
+.arrBot {
+    position: absolute;
+    left:45%;
+    top: -9px;
+    color: #33B086;
+}
+
+    
+    .sl1divImg img {
+        max-width: 100% !important;
+        height: auto;
+        display: block;
+    }
+/* Styling for prev and next buttons */
+
+
+.buttons1 {
+    align-self:flex-start;
+    padding-top:45px;
+}
+
+.buttons1 a {
+    width: 31px;
+    height: 32px;
+}
+
+a#prev1 {
+    font-size: 30px;
+    color: #828282;
+}
+
+a#next1 {
+    font-size: 30px;
+    color: #828282;
+}
+
+
+a#prev1:hover {
+    color: #33B086;
+}
+
+
+a#next1:hover {
+    color: #33B086;
+}
+

@@ -1,0 +1,92 @@
+﻿@model EditPressRu.Areas.Adminka.Models.BarcodeViewModel
+@{
+    ViewBag.Title = "Генерация штрихкода";
+    Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+}
+
+
+<div style="display:flex;justify-content:center;align-items:center;flex-direction:column;">
+    <h2>@ViewBag.Title</h2>
+    <form method="post" action="/adminka/barcode">
+        <table style="margin-top:50px;" class="table table-responsive">
+            <tr>
+                <th>Начальный номер</th>
+                <th>Количество</th>
+                <th>Тип штрихкода</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="NumberCode" name="NumberCode" value="@Model.NumberCode" placeholder="Введите номер с которого начнем" />
+                </td>
+                <td>
+                    <input type="number" id="CountCode" name="CountCode" value="@Model.CountCode" placeholder="Введите количество" />
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.SelectedType, Model.BarcodeType)
+                    <input type="submit" value="Генерировать" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.PathToFile))
+    {
+        <div>
+            <a class="liAIndx" style="color:green;" href="@Model.PathToFile">скачать ecxel файл</a>
+        </div>
+        if (Model.SpListRez!=null && Model.SpListRez.Count>0)
+        {
+            <div>
+                <table class="table table-hover table-responsive">
+                    <tr>
+                        <th>
+                            Номер по порядку
+                        </th>
+                        <th>
+                            Номер штрихкода
+                        </th>
+                        <th>
+                            Контрольное число
+                        </th>
+                        <th>
+                            Штрихкод стандарт Ean13
+                        </th>
+                        <th>
+                            Штрихкод стандарт Ean8
+                        </th>
+                        <th>
+                            Штрихкод стандарт itf14
+                        </th>
+                    </tr>
+                    @foreach (var item in Model.SpListRez)
+                    {
+                        <tr>
+                            <td>
+                                @item.id
+                            </td>
+                            <td>
+                                @item.shtrih
+                            </td>
+                            <td>
+                                @item.kontr
+                            </td>
+                            <td>
+                                @item.ean13
+                            </td>
+                            <td>
+                                @item.ean8
+                            </td>
+                            <td>
+                                @item.itf14
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        }
+
+        <div>
+            <a class="liAIndx" style="color:green;" href="@Model.PathToFile">скачать ecxel файл</a>
+        </div>
+    }
+</div>

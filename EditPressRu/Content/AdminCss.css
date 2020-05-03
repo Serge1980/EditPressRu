@@ -1,0 +1,590 @@
+﻿.aCatAdm {
+    color: #000000;
+}
+
+    .aCatAdm:active {
+        color:#33B086;
+    }
+    .aCatAdm:hover {
+        color: #33B086;
+    }
+
+.activeCat {
+    color:white;
+    background-color:#33B086;
+}
+
+.mainCatVendor {
+    position:relative;
+}
+
+.contCatVendor {
+    display: none;
+    max-width: 220px;
+    padding: 12px;
+    border: solid 1px #33B086;
+    border-radius: 7px;
+    background-color: #848282;
+    position:absolute;
+    z-index:2;
+    top:10px;
+    left:120px;
+}
+
+.contCatVendor a{
+    color:white;
+}
+.mainCatVendor:hover {
+    background-color:#ccc;
+
+}
+
+.mainCatVendor:hover .contCatVendor {
+    display: block;
+}
+
+.mainCatVendor h5 {
+    padding:15px;
+    border:solid 1px #33B086;
+    border-radius:10px;
+}
+/*-----------------------------------------------------------------*/
+.navLink {
+    color: green;
+    font-weight: 500;
+    padding: 10px;
+}
+
+    .navLink:hover {
+        text-shadow: 3px 3px 5px #33B086;
+    }
+
+
+/*-----------------------------------------------------------------*/
+/*.liAIndx {
+
+
+}*/ 
+
+.liAIndx:hover {
+    text-shadow: 3px 3px 5px #33B086;
+}
+/*-----------------------------------------------------------------*/
+.fltrDiv {
+    border:solid 1px #808080;
+    padding:10px;
+    border-radius:5px;
+    margin:5px;
+}
+
+    .fltrDiv:hover {
+        background: #808080;
+        text-shadow: 3px 3px 5px #33B086,-1px -1px 1px #000000;
+        color: white;
+    }
+
+.fltrDivActive {
+    background: #808080;
+    text-shadow: 3px 3px 5px #33B086,-1px -1px 1px #000000;
+    color: white;
+    border: solid 1px #808080;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.aFltrAdm:hover {
+        text-shadow: 3px 3px 5px #33B086,-1px -1px 1px #000000;
+        color: white;
+    }
+
+.aFltrAdmActiv {
+    text-shadow: 3px 3px 5px #33B086,-1px -1px 1px #000000;
+    color: white;
+}
+/*-----------------------------------------------------------------*/
+
+.kpItem {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    justify-content:space-between;
+    align-items: center;
+    border: solid 1px #828282;
+    padding: 10px;
+    border-radius: 8px;
+    width: 140px;
+    height: 225px;
+    overflow: hidden;
+    background:#ffffff;
+}
+
+    .kpItem:hover {
+        /*box-shadow: -2px 2px 1px #787878;*/
+        box-shadow: 0 1px 3px rgba(0,0,0,.3),-1px -1px 5px rgba(0,0,0,.3);
+        
+    }
+
+
+/*-----------------IndexPopup--------------------------*/
+.lKabIcon {
+    position:relative;
+}
+
+.lKabPopup {
+    display: none;
+    position: absolute;
+    top: 45%;
+    left: -45%;
+    z-index: 50;
+    padding: 15px;
+    /*border: solid 1px #33B086;*/
+    border-radius:3px;
+    background:#334148;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+    width:200px;
+}
+
+.aKabPop {
+    color: #D6D9DA;
+}
+
+    .aKabPop:hover {
+        color: #ffffff;
+    }
+
+/*.divIndxPop {
+    padding: 5px 6px 7px 6px;
+    border-radius: 5px;
+}
+
+
+.aIndxPop {
+    color: #ffffff;
+}
+
+    .aIndxPop:hover {
+        color: #ffffff;
+        text-shadow: none;
+    }*/
+
+
+
+
+/*-----------------KpLayout--------------------------*/
+/*****************************************************************************/
+.bodyStyle {
+    background: url(/images/kpfone/2-bridge.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font: 300 14px 'Open Sans',Arial,sans-serif;
+}
+
+span {
+    font: 300 14px 'Open Sans',Arial,sans-serif;
+}
+
+.pdfconteiner {
+    display: flex;
+    flex-direction: column;
+    padding-top:10px;
+}
+
+
+.pdfTelo {
+    height: 100%;
+    width: 60%;
+    align-self: center;
+    margin-top: 30px;
+    
+    border-radius: 8px;
+}
+
+#kpTelo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 8px 10px 30px 12px;
+    border-radius: 8px;
+    /*box-shadow: 8px 8px 8px 3px #F2F2F2,-8px -8px 8px 3px #F2F2F2;*/
+}
+
+.kpHome {
+    border: solid 1px #757575;
+    max-width: 115px;
+    max-height: 40px;
+    border-radius: 15px 15px;
+    cursor: pointer;
+    padding: 7px 10px 5px 10px;
+}
+
+    .kpHome:hover {
+        background-color: white;
+    }
+
+    .kpHome a {
+        color: #848282;
+        text-shadow: 0px 0px 1px black, 0 0 1em #33B086;
+    }
+
+.divColorUpl {
+    border: solid 1px #334148;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    background: #fff;
+    opacity: 0.7;
+}
+
+.divColorUpl i{
+    display:block;
+}
+
+.divColorSelect {
+        border-radius: 50%;
+        behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+        width: 25px;
+        height: 25px;
+        background: #ccc;
+        opacity: 0.7;
+        /*border: 3px solid #000;*/
+    }
+.divColorSelect:hover {
+    cursor:pointer;
+    opacity:1;
+}
+
+    .divColorUpl:hover {
+        cursor: pointer;
+        opacity: 1;
+        border: solid 1px #000000;
+    }
+
+   
+
+
+
+    .kpMaint {
+    position:sticky;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 10px 30px 10px 17px;
+    max-width: 230px;
+    max-height: 520px;
+    /*margin-top:20px;*/
+    top:20px;
+    margin-left:7px;
+    justify-content:space-around;
+   
+}
+
+    .kpMaint:hover {
+        background-color:white;
+        color:black;
+    }
+
+        .kpMaint:hover span {
+            color: black;
+        }
+
+.kpMaintContain1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+    padding-top: 16px;
+}
+.kpMaintContain2 {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    justify-content: space-around;
+    height: 250px;
+}
+
+.kpColorSelect {
+    display: flex;
+    flex-direction: column;
+    padding:10px;
+    justify-content: space-between;
+    max-height: 315px;
+    margin-top: 35px;
+    margin-right:20px;
+}
+
+.btnSafe {
+    background-color: #2DB187;
+    color: white;
+    font: 300 14px 'Open Sans',Arial,sans-serif;
+    text-align: center;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+
+.pdfMaintHref {
+    /*display: block;*/
+    /*width: 100%;*/
+    color: #000000;
+}
+
+
+
+.pdfH1 {
+    padding: 15px;
+    font-family: 'Open Sans',Arial,sans-serif;
+    font-weight: 300;
+}
+
+    .editable:hover {
+        border: solid 1px #F7D6A6;
+        box-shadow: 4px 4px 8px 2px #F7D6A6,-4px -4px 8px 2px #F7D6A6;
+    }
+
+.kpMaint i.fa, h2 i.fa {
+    /*padding: 2px 1px 0px 1px;*/
+    border: 1px solid;
+    border-radius: 23px;
+    height: 23px;
+    width: 23px;
+    line-height: 21px;
+    font-size: 14px;
+    text-align: center;
+    font-style: normal;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+p.kpDescrpt {
+    padding: 10px;
+    width: 100%;
+    text-align:center;
+}
+
+[contenteditable=true]:empty:not(:focus):before {
+    content: attr(data-text);
+}
+
+.prodImgCont {
+    display: flex;
+    flex-direction: row;
+    /*position: relative;*/
+
+}
+
+.prodImgContItem {
+    padding: 15px 50px 10px 40px;
+    position:relative;
+}
+
+
+.wrap1 {
+    position: relative;
+    padding: 0;
+    /*width: 100px;*/
+    display: block;
+}
+
+.imgTxt {
+    position: absolute;
+    top: 20%;
+    left:20%;
+    
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    z-index: 10;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+    .imgTxt:hover {
+        opacity: 1;
+    }
+
+
+
+img {
+    z-index: 1;
+}
+
+
+.prodImg {
+    max-width: 170px;
+    height: auto;
+   
+}
+
+   
+
+
+
+/*p.kpDescrpt:empty:not(:focus)::before {
+    content: attr(data-placeholder);
+}*/
+
+/*Чекбокс - длинный скрипт*/
+
+.switcher__input {
+    display: none;
+}
+
+    .switcher__input:checked + .switcher__label {
+        color: #000;
+    }
+
+        .switcher__input:checked + .switcher__label:before {
+            background-color: #33B086;
+        }
+
+        .switcher__input:checked + .switcher__label:after {
+            transform: translateX(23px);
+        }
+
+        .switcher__input:checked + .switcher__label:active:after {
+            transform: translateX(12px);
+        }
+
+        .switcher__input:checked + .switcher__label:active:before {
+            background-color: #aaaaaa;
+        }
+
+.switcher__label {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 50px;
+    font-size: 14px;
+    color: #334148;
+    cursor: pointer;
+    position: relative;
+    transition: color .1s linear;
+}
+
+
+.switcher__label:before {
+    content: "";
+    display: block;
+    width: 45px;
+    height: 22px;
+    background-color: #e5e5e5;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    transition: background-color .1s linear;
+}
+
+    .switcher__label:after {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-color: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        z-index: 2;
+        transition: transform .1s linear;
+    }
+
+    .switcher__label:active:after {
+        transform: translateX(12px);
+    }
+
+    .switcher__label:active:before {
+        background-color: #b4effa;
+    }
+
+.switcher__text {
+    line-height: 22px;
+}
+
+
+
+
+/***********************************/
+.idArticl {
+    flex: 0 1 auto;
+}
+
+.idOtpravitel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding: 20px;
+}
+
+.idDescrpt {
+    border-top: dotted;
+    margin-top: 15px;
+    border-color: #CCCCCC;
+    padding: 10px;
+}
+
+
+#delKpHref {
+    color:#000000;
+    cursor:pointer;
+}
+
+.FlexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.FlexRowRound {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding-bottom: 25px;
+}
+
+#idItogP {
+    text-align: right;
+    font-weight: 400;
+    font-size: 24px;
+    padding-right: 20px;
+}
+
+
+.avtr {
+    /*width: 60px;
+    height: 60px;*/
+    border-radius: 60px;
+    text-align: center;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    /*border: 1px solid #ccc;*/
+}
+
+.user-icon {
+    stroke: #848282;
+    -webkit-filter: drop-shadow( 0 0 1em #33B086 );
+    filter: drop-shadow( 0 0 1em #33B086 );
+}
+
+.kpList span {
+    font-size: 28px;
+    color: #848282;
+    text-shadow: 1px 1px 2px black, 0 0 1em #33B086;
+}
+
+.kpList .fa{
+    font-size: 28px;
+    border:none;
+}
+

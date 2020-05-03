@@ -1,0 +1,57 @@
+﻿@*@model EditPress.Ru.Models.CategoryesViewModel
+@{
+    ViewBag.Title = "Акция - нанесенеие логотипа в подарок!";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<table>
+    <tr>
+        <td style="vertical-align: top;">
+            @{Html.RenderPartial("_CatListPartial", Model);}
+        </td>
+        <td style="vertical-align:top;padding:20px 10px 40px 40px;">
+            <article itemscope itemtype="http://schema.org/Article">
+                <h1 itemprop="name" style="text-align:center;">@ViewBag.Title</h1>
+                <meta itemprop="inLanguage" content="ru" />
+                <section itemprop="articleBody">
+                    <p>
+                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Akciya/Logotip_Podarok/23fevralya2017.jpg" style="line-height:230px;float:left;margin:10px;">
+                            <img src="~/Images/Akciya/Logotip_Podarok/23fevralya2017.jpg" alt="Подарки на 23 февраля оптом" style="max-height:230px;" />
+                        </a>
+                        Компания ЭдитПресс является крупным оптовым поставщиком сувенирной продукции на Российский рынок.
+                        Мы имеем партнеров и в Европе и в Азии, у нас очень хорошо поставлена логистика и доставка.
+                        Наши менеджеры всегда помогут Вам с <a href="/Home/Consult" class="artikle_link">выбором подарка</a>.
+                    </p>
+                    <p>
+                        Мы развиваем наше полиграфическое направление. В нашем производственном парке более 100 различных <a href="/Home/ProductionCapacity" class="artikle_link">печатных и гравировочных станков</a>.
+                        Мы занимаемся выпуском полиграфической продукции, осуществляем изготовление визиток, флаеров, буклетов, календарей,
+                        всевозможных рекламных сувенирных изделий. Особое внимание мы уделяем нанесению логотипа компаний наших клиентов на
+                        подарки и корпоративные сувениры . Мы понимаем всю важность этой работы и поэтому у нас строгий контроль качества и
+                        высокие требования к производственному персоналу. У нас работают профессионалы своего дела, ведь мы понимаем,
+                        что бизнес-сувениры - это лицо фирмы. Наши менеджеры всегда помогут Вам не только с выбором сувенира, но и посоветуют,
+                        какой <a href="/uslugy" class="artikle_link">способ нанесения логотипа</a> для выбранного Вами подарка наиболее подходит, и полно раскроет символику вашей компании.
+                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Akciya/Logotip_Podarok/Podarki_vosmoe_marta.jpg" style="line-height:230px;float:right;margin:10px;">
+                            <img src="~/Images/Akciya/Logotip_Podarok/Podarki_vosmoe_marta.jpg" alt="Подарки на 23 февраля оптом" style="max-height:230px;" />
+                        </a>
+                    </p>
+                    <p>
+                        В связи с кануном больших праздников, таких как день защитника отечества и день восьмого марта, наша компания сообщает о старте рекламной акции.
+                        При заказе сувенирной продукции на <b style="color:red;">сумму от 30 000 рублей нанесение логотипа в подарок</b>.
+                        Это выгодное предложение, которое позволит Вам не только сэконмить денег, но и качественно нанести логотип Вашей компании на сувениры.
+                    </p>
+                    <p style="background-color:#b6ff00;margin-top:150px;">
+                        <<< <a href="/articles/akciya" >К списку акций</a> | <a href="/" >Каталог продукции</a> |
+                        <a href="/Home/Cat?id=557" >Подарки к праздникам</a>  | <a href="/contacts" >Реквизиты</a>>>>
+                    </p>
+                </section>
+            </article>
+        </td>
+    </tr>
+</table>*@
+
+
+
+
+
+

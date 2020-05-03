@@ -1,0 +1,44 @@
+﻿@model EditPressRu.Models.BrandsViewModel
+@using EditPressRu.Helpers
+
+@{
+    ViewBag.Title = "Брендовые подарки интернет магазина ЭдитПресс";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;">
+                <section class="products" id="prodListSmall">
+                    @foreach (var item in Model.ProdForPaging.Items)
+                    {
+                        <div class="view view-tenth">
+                            <img class="img-thumbnail" src="@item.Brand.Image" alt="@item.Brand.Name">
+                            <div class="mask">
+                                <h2>@item.Brand.Name</h2>
+                                <p>Стильные сувениры</p>
+                                <a href="@item.TovarsHref" class="info">Смотреть</a>
+                            </div>
+                        </div>
+                    }
+                    <div id="PagedDiv">
+                        @Html.PageLinks2(Model.PageInfo,"/brands", x => Url.Action(null,"brands", new { page = x }))
+                        <div id="inputPage" style="display:none;">
+                            <input id="pagedUl" name="pagedUl" value="" type="text" />
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+

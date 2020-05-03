@@ -1,0 +1,103 @@
+﻿<div class="VertialMenu">
+    @*<div class="VertialMenuItem">
+        @if (ViewBag.PageName == "News")
+        {
+            <a>Новости</a>
+        }
+        else
+        {
+            <a href="/news/index">Новости</a>
+        }
+    </div>
+    <div class="VertialMenuItem"><a href="#">Акции</a></div>
+    <div class="VertialMenuItem">
+        @if (ViewBag.PageName == "Artikles")
+        {
+            <a>Популярное</a>
+        }
+        else
+        {
+            <a href="/articles">Популярное</a>
+        }
+    </div>
+    <div class="VertialMenuItem">
+        @if (ViewBag.PageName == "Sales")
+        {
+            <a>Скидки! (Sale)</a>
+        }
+        else
+        {
+            <a href="/products/toвary-so-skidkoy">Скидки! (Sale)</a>
+        }
+       
+    </div>*@
+    <div class="VertialMenuItem mobChina">
+        @if (ViewBag.PageName == "China")
+        {
+            <a>
+                ИЗ  КИТАЯ
+            </a>
+        }
+        else
+        {
+            <a href="/products/suвeniry-iz-kitaya">
+                ИЗ  КИТАЯ
+            </a>
+        }
+       
+    </div>
+    <div class="VertialMenuItem mobPoligraf">
+        @if (ViewBag.PageName == "Poligraf")
+        {
+            <a>
+                ПОЛИГРАФИЯ
+            </a>
+        }
+        else
+        {
+            <a href="/products/poligrafiya">
+                ПОЛИГРАФИЯ
+            </a>
+        }
+       
+    </div>
+    <div class="VertialMenuItem mobGift">
+        @if (ViewBag.PageName == "Individ")
+        {
+            <a>
+                ИНДИВИДУАЛЬНЫЕ
+                ПОДАРКИ
+            </a>
+        }
+        else
+        {
+            <a href="/products/indiвidualnye-podarki">
+                ИНДИВИДУАЛЬНЫЕ
+                ПОДАРКИ
+            </a>
+        }
+       
+    </div>
+</div>
+<div class="sidebar-item sidebar-item-small">
+ @if (ViewBag.PageName == "Individ")
+ {
+    <a>
+        <span>
+            ИНДИВИДУАЛЬНЫЕ
+            ПОДАРКИ
+        </span>
+        <img src="~/Images/IndividualGiftBg.jpg" alt="Индивидуальные сувениры">
+    </a>
+ }
+ else
+ {
+    <a href="/products/indiвidualnye-podarki">
+        <span>
+            ИНДИВИДУАЛЬНЫЕ
+            ПОДАРКИ
+        </span>
+        <img src="~/Images/IndividualGiftBg.jpg" alt="Индивидуальные сувениры">
+    </a>
+ }
+</div>

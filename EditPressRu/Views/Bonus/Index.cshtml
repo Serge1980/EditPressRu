@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Система бонусов от компании Эдитпресс";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;display:flex;flex-direction:column;">
+
+                <div style="display:flex;flex-direction:row;">
+                    <div>
+                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Artikles/Brelok/brelok2.jpg" style="line-height:230px;float:left;margin:10px;">
+                            <img src="~/Images/bonus.png" alt="Editpress Bonus" style="max-height:230px;" />
+                        </a>
+                    </div>
+                    <div style="padding:0px 5px 0px 20px;">
+                        <ul class="editList">
+                            <li>На индивидуальный счет участника начисляются баллы </li>
+                            <li>Специальные баллы начисляются на счет компании для дополнительных закупок, расширения товарного ассортимента.</li>
+                            <li>Каждый участник программы EditPress Bonus при регистрации на сайте получает индивидуальную накопительную карту.</li>
+                        </ul>
+                        <p>
+                            <span style="line-height: 1.3em;">Программа адресована специалистам в области продаж, развития бизнеса, маркетинга, закупок.</span>
+                        </p>
+                        <ul class="editList">
+                            <li> Программа приглашает к участию в специальных акциях, маркетинговых инициативах, мероприятиях, программах обучения, проводимых компанией EditPress.</li>
+                            <li>
+                                При этом в зависимости от условий проводимых акций, мероприятий и других маркетинговых кампаний, на индивидуальный счет
+                                (индивидуальную накопительную карту) участника будут начисляться баллы, которые держатель карты может обменивать на вознаграждения, ценные призы, участие
+                                в программах профессионального развития.
+                            </li>
+                            <li>
+                                Специальные баллы также начисляются на счет компании, специалисты которой являются зарегистрированными держателями карт и могут
+                                быть использованы компанией для дополнительных закупок, расширения товарного ассортимента, а также при проведении ею маркетинговых программ.
+                                Каждый участник программы EditPress Bonus при регистрации на сайте программы или на одном из мероприятий, проводимых EditPress, получает индивидуальную накопительную карту.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p>Бонусная карта каждого участника привязана к его учетной записи. Персональная учетная запись заводится при активации карты. &nbsp;Учет накопленных баллов ведется в единой базе данных.</p>
+                <p>В личном кабинете, доступном для зарегистрированных участников программы EditPress Bonus, участники могут узнать текущий статус своего счета.</p>
+                @*<div style="padding-top:50px;">
+                        <marquee behavior="alternate" direction="right" bgcolor="#33B086" scrollamount="5" scrolldelay="400" height="30" hspace="20" vspace="20">
+                            <a href="~/news/index" style="padding-top:30px;text-decoration:none;color:white;text-shadow:1px 1px 2px #808080;font-weight:600;font-size:19px;">!!! *** Новости компании *** !!!</a>
+                        </marquee>
+                    </div>*@
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+

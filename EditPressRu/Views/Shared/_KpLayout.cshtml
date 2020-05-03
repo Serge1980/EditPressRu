@@ -1,0 +1,376 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="@ViewBag.metakeywords" />
+    <meta name="description" content="@ViewBag.metadesc" />
+    <meta name="mailru-domain" content="IHQ4WvVSQuq6fAN1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>EditPress</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @*<link href="~/Content/jquery.bxslider.css" rel="stylesheet" />*@
+    <link href="~/Content/PagerCss.css" rel="stylesheet" />
+    @*<link href="~/Content/SliderProduct.css" rel="stylesheet" />*@
+    <link href="~/Content/AdminCss.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/table-styles.css" rel="stylesheet" />
+    <link href="~/Content/kpStyles.css" rel="stylesheet" />
+
+    <script src="~/scripts/jquery-3.2.1.min.js"></script>
+    @*<script src="~/scripts/bxslider/jquery.bxslider.min.js"></script>*@
+    <script src="~/scripts/modernizr-2.6.2.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    @*<link href="~/Content/jquery.range.css" rel="stylesheet" />*@
+    @*<link href="~/Content/YaxMap.css" rel="stylesheet" />*@
+
+
+</head>
+<body class="bodyStyle" style="position:relative;">
+    <div class="pdfconteiner">
+        <div style="display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-around;padding-top:10px;">
+            <div class="kpHome"><a href="/">Каталог</a></div>
+            <div class="logo">
+                <a class="kpList" href="/kpstore"><span>Список</span>&nbsp;&nbsp;<i class="fa fa-tags"></i>&nbsp;&nbsp;&nbsp;&nbsp;<span>КП</span></a>
+            </div>
+            <div class="lKabIcon">
+                <span class="avtr"><svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"><g class="user-icon" sketch:type="MSLayerGroup" transform="translate(4 3)" stroke-width="2" fill="none"><circle sketch:type="MSShapeGroup" cx="11" cy="5" r="5"></circle><path d="M5.343 12h-.336c-2.774 0-5.007 2.24-5.007 5.002v1.996c0 2.773 2.234 5.002 4.99 5.002h12.379c2.744 0 4.782-2.232 4.526-4.985l-.189-2.03c-.244-2.621-2.472-4.766-5.068-4.969-1.543 1.241-3.504 1.984-5.638 1.984-2.143 0-4.112-.749-5.657-2z" sketch:type="MSShapeGroup"></path></g></svg></span>
+                <div class="lKabPopup">
+                    <p style="color:#D6D9DA;">Здравствуйте @ViewBag.UserName</p>
+                    <hr style="color:#D6D9DA;margin:10px 0px 10px 0px;" />
+                    <ul style="list-style:none;display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;">
+                        <li style="flex:1;padding:4px;"><a class="aKabPop" href="/account"><i class="fa fa-user"></i> Личный кабинет</a></li>
+                        <li style="flex:1;padding:4px;"><a class="aKabPop" href="/orders"><i class="fa fa-cube" aria-hidden="true"></i> Мои заказы</a></li>
+                        <li style="flex:1;padding:4px;"><a class="aKabPop" href="/account/accountdetails" title="Здесь можно изменить пароль и личную информацию"><i class="fa fa-address-card-o"></i> Профиль пользователя</a></li>
+                        <li style="flex:1;padding:4px;"><a class="aKabPop" href="/kpstore"><i class="fa fa-tags"></i> Мои коммерческие предложения</a></li>
+                        <li style="flex:1;padding:4px;">
+                            @using (Html.BeginForm("LogOff", "Account", "Post"))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a class="aKabPop"><i class="fa fa-sign-out"></i> <input type="submit" value="выход" style="border:none;background-color:transparent;color:#D6D9DA;font-size:14px; cursor:pointer;" /></a>
+                            }
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div style="display:flex;flex-direction:row;justify-content:center;margin-top:30px;">
+            @RenderSection("colorsPdf", required: false)
+            <div class="pdfTelo">
+                @RenderBody()
+            </div>
+            @RenderSection("MantainentsPdf", required: false)
+        </div>
+    </div>
+
+
+    <div class="button-up btnBott">
+        @*<text>Наверх</text>*@
+    </div>
+    <div class="button-up btnTop">
+        @*<text>Наверх</text>*@
+    </div>
+
+    <!--Модальное окно просмотр картинок-->
+    <div id="modalImg">
+        <div class="closeModalImg"></div>
+        <div class="modalImg-content">
+            nen gjrf xnj [eq]
+        </div>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+
+
+    <script>
+        $(document).ready(function () {
+            //$(".overlay").hide();
+            //height of body
+            if ($(".telo").height() < 700) {
+                $(".telo").height(700);
+            }
+
+
+            //Кнопка наверх
+            /**
+ * При прокрутке страницы, показываем или скрываем кнопку
+ */
+            $(window).scroll(function () {
+                // Если отступ сверху больше 100px то показываем кнопку "Наверх"
+                if ($(this).scrollTop() > 700) {
+                    $('.button-up').fadeIn();
+                } else {
+                    $('.button-up').fadeOut();
+                }
+            });
+
+            $('.lKabIcon').hover(
+             function () {
+                 $(this).children('.lKabPopup').show();
+             },
+             function () {
+                 $(this).children('.lKabPopup').hide();
+             });
+
+            /** При нажатии на кнопку мы перемещаемся к началу страницы */
+            $('.button-up').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 500);
+                return false;
+            });
+
+            //*****************KpStore_Dop**********************************
+            $('#dopuslHref').click(function () {
+
+                var kpId = $('#KpId').val();
+                var partName = '_KpStorePartial';
+
+                $.ajax({
+                    url: "/kpstore/getmodal",
+                    type: "get",
+                    data: { kpId: kpId, partName: partName },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (returndata, textStatus, XMLHttpRequest) {
+
+                        $('#modal').show();
+                        $('.overlay2').show();
+                        $(".modal-content").html(returndata);
+                        //alert('адский вирус2');
+                    }
+
+                });
+                return false;
+
+            });
+
+            $(document).on('click', '#closeMdl', function () {
+                $('#modal').hide();
+                $('.overlay2').hide();
+            });
+
+
+            $(document).on('click', '#sendModal', function () {
+
+                var kpId = $('#KpId').val();
+
+                var marg = $('#pMarg').text();
+                var sale = $('#pSale').text();
+
+                var cur = $('#pCurVal').text();
+                var curVal = $('#pCurCur').text();
+
+                try {
+
+                    curVal = parseFloat(curVal);
+
+                } catch (err) {
+
+                    curVal = 1;
+
+                }
+
+                //var arrSrv = $(".contSrv span").get().map(el => el.textContent);
+                var arrSrv = [];
+                var mappedItems = $(".contSrv").map(function (i, e) {
+
+                    var text = $(e).children("span:first").text();
+                    var vle = $(e).children("span:last").text();
+
+                    if (!vle.trim()) {
+                        vle = 0;
+                    }
+                    //alert(text + ' ' + vle);
+                    arrSrv.push({
+                        Text: text,
+                        Value: vle
+                    });
+                });
+
+                if (!marg.trim()) {
+                    marg = 0;
+                }
+
+                if (!sale.trim()) {
+                    sale = 0;
+                }
+                // contAddsServs
+
+                //----change color icon----
+
+                if (marg != 0) {
+                    $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                }
+                else
+
+                    if (sale != 0) {
+                        $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                    }
+                    else
+
+                        if (curVal != 0) {
+                            $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                        }
+                        else
+
+                            if (arrSrv.length > 1) {
+                                $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                            }
+                            else {
+                                $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#000000' });
+                            }
+
+                //--------------------//
+
+                $.ajax({
+                    url: "/kpstore/dopfunction",
+                    type: "POST",
+                    data: { kpId: kpId, marg: marg, sale: sale, cur: cur, curVal: curVal, arrSrv: arrSrv },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (data) {
+                        $('#modal').hide();
+                        $('.overlay2').hide();
+                        var partName = '_OsnPartial';
+                        var kpId = $('#KpId').val();
+                        //$('#kpTelo').load('/kpstore/getmodal', { partName: partName, kpId: kpId });
+
+                        $.ajax({
+                            url: "/kpstore/getmodal",
+                            type: "get",
+                            data: { kpId: kpId, partName: partName },
+                            error: function () {
+                                //alert("ошибка в автокомплите");
+                            },
+                            success: function (returndata, textStatus, XMLHttpRequest) {
+
+                                $('#kpTelo').html(returndata);
+                                //alert('адский вирус2');
+                            }
+
+                        });
+                    }
+
+                });
+                return false;
+            });
+
+            $(document).on('click', '#removeSett', function () {
+
+                var kpId = $('#KpId').val();
+                var marg = 0;
+                var sale = 0;
+                var cur = 'руб';
+                var curVal = 1;
+
+                var arrSrv = [];
+                var mappedItems = $(".contSrv").map(function (i, e) {
+
+                    var text = $(e).children("span:first").text();
+                    var vle = $(e).children("span:last").text();
+
+                    if (!vle.trim()) {
+                        vle = 0;
+                    }
+                    //alert(text + ' ' + vle);
+                    arrSrv.push({
+                        Text: text,
+                        Value: vle
+                    });
+                });
+
+                //----change color icon----
+
+                if (marg != 0) {
+                    $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                }
+                else
+
+                    if (sale != 0) {
+                        $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                    }
+                    else
+
+                        if (curVal != 0) {
+                            $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                        }
+                        else
+
+                            if (arrSrv.length > 1) {
+                                $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#33B086' });
+                            }
+                            else {
+                                $('.fa-rub[data-id=dopuslHref]').css({ 'color': '#000000' });
+                            }
+
+                //--------------------//
+
+                $.ajax({
+                    url: "/kpstore/dopfunction",
+                    type: "POST",
+                    data: { kpId: kpId, marg: marg, sale: sale, cur: cur, curVal: curVal, arrSrv: arrSrv },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (data) {
+                        $('#modal').hide();
+                        $('.overlay2').hide();
+                        var partName = '_OsnPartial';
+                        var kpId = $('#KpId').val();
+                        //$('#kpTelo').load('/kpstore/getmodal', { partName: partName, kpId: kpId });
+
+                        $.ajax({
+                            url: "/kpstore/getmodal",
+                            type: "get",
+                            data: { kpId: kpId, partName: partName },
+                            error: function () {
+                                //alert("ошибка в автокомплите");
+                            },
+                            success: function (returndata, textStatus, XMLHttpRequest) {
+
+                                $('#kpTelo').html(returndata);
+                                //alert('адский вирус2');
+                            }
+
+                        });
+                    }
+
+                });
+                return false;
+            });
+
+
+            //AddRowDop -------*****************************-----------
+            //var rowDop = "<p class='contSrv'><span>Название услуги</span> <span>0.00</span> <span class='addService' title='Добавить еще услугу'><i class='fa fa-plus'></i></span><p>";
+            //var rowDop="<p class='contSrv'><span contenteditable='true' data-text='Название услуги'></span> <span contenteditable='true' data-text='0.00'></span> <span class='addService' title='Добавить еще услугу'><i class='fa fa-plus'></i></span></p>"
+            var rowDop = "<p class='contSrv'><span contenteditable='true' data-id='1' data-text='Название услуги'></span> <span contenteditable='true' data-id='2' data-text='0.00'></span> <label class='addService' title='Добавить еще услугу'><i class='fa fa-plus'></i></label></p>";
+
+            $(document).on('click', '.addService', function () {
+                $('#contAddsServs').append(rowDop);
+                $(this).attr('class', 'remService');
+                $(this).attr('title', 'Удалить услугу');
+                $(this).children("i").attr('class', 'fa fa-minus');
+                //$(this).next('.fa-plus').attr('class', 'fa fa-minus');
+            });
+
+            //RemoveRowDop -------*****************************-----------
+
+            $(document).on('click', '.remService', function () {
+                $(this).parent('.contSrv').remove();
+            });
+
+
+        });
+    </script>
+
+
+</body>
+</html>

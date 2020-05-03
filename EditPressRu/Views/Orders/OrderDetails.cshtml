@@ -1,0 +1,36 @@
+﻿@model EditPressRu.Models.OrderDetailsView
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+}
+
+<div class="CartForm" id="CartForm">
+    <div class="TeloPartCont">
+        @{Html.RenderPartial("_TeloPartial", Model); }
+        <div class="bot-itog-wrap">
+            <div class="bot-itog">
+                @*<div class="bot-item">
+                        <h6>Вес(кг)</h6>
+                        <p></p>
+                    </div>
+                    <div class="bot-item">
+                        <h6>Объем(м<sup><small>3</small></sup>)</h6>
+                        <p></p>
+                    </div>*@
+                <div class="bot-item">
+                    <h6>Общий тираж</h6>
+                    <p>@Model.TotalItems шт.</p>
+                </div>
+                <div class="bot-item">
+                    <h6>Сумма заказа</h6>
+                    <p>@Model.OrderDetail.FirstOrDefault().TotalSummOrder</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="BtnPartCont">
+        @{Html.RenderPartial("_ButtonsPartial", Model); }
+    </div>
+</div>
+
+

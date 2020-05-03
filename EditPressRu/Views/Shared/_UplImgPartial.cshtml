@@ -1,0 +1,23 @@
+﻿@model String
+
+@if (String.IsNullOrEmpty(Model))
+{
+    <section>
+        <figure></figure>
+        <p>Загрузка файлов</p>
+        <p><small>Перетащите ваши файлы в эту область!</small></p>
+        <input id="fileUpload" type="file" multiple="multiple" accept="image/x-png,image/jpeg">
+    </section>
+}
+else
+{
+    <section style="border:none;border-radius:0px;background-size:contain;background-image:url('@Model');background-repeat: no-repeat;">
+        @*<figure></figure>
+            <p>Загрузка файлов</p>
+            <p><small>Перетащите ваши файлы в эту область!</small></p>*@
+        @*<img src="@Model.File" />*@
+        <figure></figure>
+        <input id="fileUpload" type="file" multiple="multiple" accept="image/x-png,image/jpeg">
+    </section>
+}
+

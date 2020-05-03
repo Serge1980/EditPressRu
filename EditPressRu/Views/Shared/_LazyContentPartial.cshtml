@@ -1,0 +1,24 @@
+﻿@model List<string>
+<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Content/fancybox/jquery.fancybox.pack.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+	    $('.fancybox').fancybox();
+    });
+</script>
+    @foreach (var item in Model)
+            {
+        <div class="product-card">
+            <div class="product-image">
+                <a class="fancybox" rel="group" href="@item"><img src="@item" alt="Кейсы нанесения логотипа ЭдитПресс" /></a>
+            </div>
+            <div class="product-info">
+                <a href="#">
+                    @*<h5>@item.Product.ShName</h5>
+                    <h6>@String.Format("{0:0.##}", @item.Product.Price)</h6>*@
+                </a>
+            </div>
+        </div>
+    }
+        

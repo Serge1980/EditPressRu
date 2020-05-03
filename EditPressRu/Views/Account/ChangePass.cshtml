@@ -1,0 +1,49 @@
+﻿@model EditPressRu.Models.ChangePass
+@{
+    ViewBag.Title = "ChangePass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<form action="/Account/ChangePass" method="post">
+    <fieldset>
+        <div style="display:flex;flex-direction:row;padding-top:20px">
+            <div style="flex:1;"></div>
+            <div style="flex:1;">
+                <div class="well" style="width:360px;">
+                    <span style="color:red;">@Html.ValidationSummary()</span>
+                    <legend style="font-weight:600;">
+                        Восстановление/Смена пароля
+                    </legend>
+                    <p style="font-style:italic;color:#808080;">Введите электронную почту или логин на сайте</p>
+                    <table>
+                        <tr>
+                            <td align="right">Ваш Логин на сайте или email</td>
+                            <td align="left" style="padding-left:5px;">
+                                @Html.TextBoxFor(m => m.UserEmailOrLogin, new { placeholder = "Ваш email или логин", style = "margin-top:5px; margin-bottom:5px;" })
+                               
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="color:red;background:#F5F5F5;">
+                               @Model.ErrMessage
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" style="background-color:#33B086; border-color:#80BD00;color:white;width:100%;border-radius:5px;padding:7px;font-size:14px;cursor:pointer;">
+                                    Отправить мои данные на электронную почту
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div style="flex:1;"></div>
+        </div>
+    </fieldset>
+    <p style="text-align:center;">
+        @Html.ActionLink("Ой, вспомнил(а)!Войти", "Login", "Account", new { style = "text-decoration:underline;" }).
+    </p>
+    <p style="text-align:center;">
+        @Html.ActionLink("Зарегистрируйтесь", "Register", "Account", new { style = "text-decoration:underline;" }), если у вас нет учетной записи.
+    </p>
+</form>

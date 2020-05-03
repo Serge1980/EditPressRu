@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Список категорий";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>@ViewBag.Title</h3>
+@{
+    int i = 0;
+}
+<p>
+    <a href="/Account/NewCategory"><button class="btn btn-mini btn-primary" type="button">Добавить категорию</button></a>
+</p>
+<table class="table">
+    <thead>
+        
+            <th style="text-align:center">№</th>
+            <th style="text-align:center">Категория</th>
+            <th style="text-align:center">Опубликовано</th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center"></th>
+            <th style="text-align:center"></th>
+        
+    </thead>
+        
+        @foreach (var category in ViewBag.records)
+        {
+            i++;
+            <tr>
+                <td style="text-align:center">@i</td>
+                <td>@category.Naim</td>
+                <td style="text-align:center">
+                    @if ((bool)category.Publish)
+                    {
+                        <div>Да</div>
+                    }
+                    else
+                    {
+                        <div>Нет</div>
+                    }
+                </td>
+                <td style="text-align:center">
+                    @{if (i != 1)
+                        {
+                            <span class="glyphicon glyphicon-arrow-up"></span> 
+                        }
+                    }
+                    @{if (i != ViewBag.records.Count)
+                        {
+                            <span class="glyphicon glyphicon-arrow-down"></span>
+                        }
+                    }
+                    
+                </td>
+                <td style="width:120px;text-align:center; vertical-align:middle">
+                    @Html.ActionLink("Редактировать", "EditCategory", "Account", new { CategoryID = category.CategoryID, OpenSubCat = true }, new { })
+                </td>
+                <td style="width:120px;text-align:center; vertical-align:middle">
+                    @Html.ActionLink("Удалить", "DeleteCategory", "Account", new { category.CategoryID }, new { })
+                </td>
+            </tr>
+        }
+
+</table>

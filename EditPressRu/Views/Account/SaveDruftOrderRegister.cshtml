@@ -1,0 +1,126 @@
+﻿@model EditPressRu.Models.AccountDetailsViewModel
+
+@{
+    ViewBag.Title = "Регистрация и сохранение заказа";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .h2Cart {
+        margin-bottom: 30px;
+    }
+
+    .h3Cart {
+        margin-bottom: 5px;
+        margin-top: 35px;
+    }
+</style>
+
+<div style="display:flex;flex-direction:row;justify-content:center;padding-top:40px;">
+    <div style="border-right:solid 1px #808080;padding:10px 30px 40px 30px;">
+        <h2 class="h2Cart">Вход для зарегистрированных покупателей</h2>
+        @Html.Partial("_LoginPartial",Model.LogMod)
+    </div>
+    <div style="padding:10px 20px 40px 30px;">
+        <h2 class="h2Cart">Регистрация для новых покупателей</h2>
+        <p style="color:#828282;"><span style="color:red;">*</span> Указаны поля обязательные для заполнения</p>
+        <form action="/account/savedruftorderregister" method="post">
+            <input type="hidden" id="orderId" name="orderId" value="@Model.OrderId" />
+            <input type="hidden" id="shipment" name="shipment" value="@Model.Shipment" />
+            <input type="hidden" id="statusId" name="statusId" value="@Model.StatusId" />
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            <span style="color:red;">*</span>
+                            @Html.LabelFor(model => model.UserName)
+                            <p style="color:#808080;font-size:9px;">На указанный Вами адрес придет письмо с паролем,</p>
+                            <p style="color:#808080;font-size:9px;">который можно будет поменять в личном кабинете</p>
+                        </div>
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.UserName)
+                        <span style="color:red;">@Html.ValidationMessageFor(model => model.UserName)</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.FIO)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.FIO)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.PhoneNumber)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.PhoneNumber)
+                            <span style="color:red;">@Html.ValidationMessageFor(model => model.PhoneNumber)</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div style="display:flex;justify-content:center;align-items:center;">
+                <button class="button-cart" style="border-radius:5px;" type="submit">Я спешу, достаточно букв!Готово!</button>
+            </div>
+            <p style="text-align:center;">
+                <a href="/politikakonfidencialnosty">Нажимая кнопку [Готово!], Вы принимаете политику конфиденциальности</a>
+            </p>
+            <h3 class="h3Cart">Данные для доставки</h3>
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Shipment)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            @Html.TextAreaFor(model => model.Shipment, new { @class = "text-area", rows = "7" })
+                            <span style="color:red;">@Html.ValidationMessageFor(model => model.Shipment)</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div style="display:flex;justify-content:center;align-items:center;">
+                <button class="button-cart" style="border-radius:5px;" type="submit">Я физлицо, и уже устал заполнять форму. Готово!</button>
+            </div>
+            <p style="text-align:center;">
+                <a href="/politikakonfidencialnosty">Нажимая кнопку [Готово!], Вы принимаете политику конфиденциальности</a>
+            </p>
+            <h3 class="h3Cart">Дополнительные данные для диллеров и организаций</h3>
+            <table class="table">
+                <tr>
+                    <td><div class="editor-field"><label>Наименование организации: </label></div></td>
+                    <td><input type="text" name="OrgName" value="@Model.OrgName" style="width:100%;" /></td>
+                </tr>
+                <tr>
+                    <td><div class="editor-field"><label>ИНН организации: </label></div></td>
+                    <td><input type="text" name="INN" value="@Model.INN" style="width:100%;" /></td>
+                </tr>
+            </table>
+            <div style="display:flex;justify-content:center;align-items:center;">
+                <button class="button-cart" style="border-radius:5px;" type="submit">Я молодец! Заполнил все!Готово!</button>
+            </div>
+            <p style="text-align:center;">
+                <a href="/politikakonfidencialnosty">Нажимая кнопку [Готово!], Вы принимаете политику конфиденциальности</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/scripts/jquery.validate-vsdoc.js"></script>
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+}

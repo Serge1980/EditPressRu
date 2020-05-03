@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a7d800aff97b49caa35ca23cb54c570b" Name="Diagram1">
+        <EntityTypeShape EntityType="EditPressModel.ArtiklesIndexes" Width="1.5" PointX="0.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Brands" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Categories" Width="1.5" PointX="6" PointY="26.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Cityes" Width="1.5" PointX="2.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Colors_spr" Width="1.5" PointX="6" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Discounts" Width="1.5" PointX="11.75" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EbazarBase_Categories" Width="1.5" PointX="2.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EbazarBase_CatIntercept" Width="1.5" PointX="4.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EbazarBase_ImagesAdvanced" Width="1.5" PointX="6.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EbazarBase_Products" Width="1.5" PointX="8.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EklekticBase_Categories" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EklekticBase_CatIntercept" Width="1.5" PointX="8.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EklekticBase_ProdCat" Width="1.5" PointX="10.75" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.EklekticBase_Products" Width="1.5" PointX="13.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_Attachments" Width="1.5" PointX="15.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_Catalog" Width="1.5" PointX="16.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_GiftEditCatIntersept" Width="1.5" PointX="16.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_Prints" Width="1.5" PointX="16.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_Prod_Cat" Width="1.5" PointX="17.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_Products" Width="1.5" PointX="15.75" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GiftBase_SubProducts" Width="1.5" PointX="17.75" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GroupColorProducts" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.GroupSizeProducts" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.KP_Store" Width="1.5" PointX="14" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Kp_Store_dop" Width="1.5" PointX="16.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Makety" Width="1.5" PointX="5.25" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Materials_spr" Width="1.5" PointX="6" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Nanesenie_spr" Width="1.5" PointX="9" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.OrderDetails" Width="1.5" PointX="14" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Orders" Width="1.5" PointX="11.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.ProdImages" Width="1.5" PointX="5.25" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.ProdInCategory" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Prods_Colors" Width="1.5" PointX="8.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Prods_Materials" Width="1.5" PointX="8.25" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Prods_Nanesenie" Width="1.5" PointX="11.25" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Products" Width="1.5" PointX="3" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.ProdVideos" Width="1.5" PointX="5.25" PointY="36.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Redirect" Width="1.5" PointX="18.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.ShluseForVendors" Width="1.5" PointX="18.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.StatusPlace_spr" Width="1.5" PointX="10.75" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.subcription" Width="1.5" PointX="18.75" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.ToEbazar" Width="1.5" PointX="19.75" PointY="17.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.UserProfile" Width="1.5" PointX="11.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.UserProfileDetails" Width="1.5" PointX="14" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EditPressModel.Vendors" Width="1.5" PointX="0.75" PointY="18.125" IsExpanded="true" />
+        <AssociationConnector Association="EditPressModel.FK_Products_Brands" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_ProdInCategory_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Prods_Colors_Colors_spr" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_UserProfileDetails_Discounts" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_GroupProducts2_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_SizeGroupProducts_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Kp_Store_dop_KP_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_KP_Store_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_KP_Store_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Makety_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Prods_Materials_Materials_spr" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Prods_Nanesenie_Nanesenie_spr" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_ProdImages_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_ProdInCategory_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Prods_Colors_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Prods_Materials_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Prods_Nanesenie_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Products_Vendors" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_Products_Vendors1" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_ProdVideos_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="EditPressModel.FK_UserProfileDetails_UserProfile" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EditPressModel.XinDao_Categories" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.XinDao_Foto" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.XinDao_Nanesenie" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.XinDao_ProdInCat" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.XinDao_Products" Width="1.5" PointX="20.75" PointY="19.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_Categories" Width="1.5" PointX="21.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_Materials" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_ProdColors" Width="1.5" PointX="21.375" PointY="8.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_ProdImages" Width="1.5" PointX="21.375" PointY="11.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_Products" Width="1.5" PointX="23.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_ProdInCategory" Width="1.5" PointX="16.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_ProdInCategoryFull" Width="1.5" PointX="18.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EditPressModel.Oasis_Packages" Width="1.5" PointX="22.375" PointY="14.75" />
+        <EntityTypeShape EntityType="EditPressModel.OrdersStatus_spr" Width="1.5" PointX="23.375" PointY="10.75" />
+        <EntityTypeShape EntityType="EditPressModel.CPrestige_Categories" Width="1.5" PointX="5.375" PointY="10.75" />
+        <EntityTypeShape EntityType="EditPressModel.CPrestige_CatProd" Width="1.5" PointX="10.375" PointY="23.75" />
+        <EntityTypeShape EntityType="EditPressModel.CPrestige_Images" Width="1.5" PointX="23.375" PointY="18.75" />
+        <EntityTypeShape EntityType="EditPressModel.CPrestige_Makety" Width="1.5" PointX="23.375" PointY="21.75" />
+        <EntityTypeShape EntityType="EditPressModel.CPrestige_Products" Width="1.5" PointX="12.375" PointY="24.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,54 @@
+﻿@model EditPressRu.Models.RegisterModel
+@{
+    ViewBag.Title = "Регистрация";
+}
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl})) {
+        @Html.AntiForgeryToken()
+        <fieldset>
+    
+                <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding:50px 20px 20px 20px;">
+    
+                    <div class="well">
+                    <span style="color:red;">@Html.ValidationSummary()</span>
+                    <legend style="text-align:center;font-weight:600;">Форма регистрации</legend>
+                    <table>
+                        <tr>
+                            <td align="right">
+                                @Html.LabelFor(m => m.UserName)
+                            </td>
+                            <td align="left" style="padding-left:5px;">@Html.TextBoxFor(m => m.UserName, new { placeholder = "Почта", style = "margin-top:5px; margin-bottom:5px;" })</td>
+                        </tr>
+                        <tr>
+                            <td align="right">@Html.LabelFor(m => m.Password)</td>
+                            <td align="left" style="padding-left:5px;">@Html.PasswordFor(m => m.Password, new { placeholder = "Ваш пароль", style = "margin-top:5px; margin-bottom:5px;" })</td>
+                        </tr>
+                        <tr>
+                            <td align="right">@Html.LabelFor(m => m.ConfirmPassword)</td>
+                            <td align="left" style="padding-left:5px;">@Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Повторите пароль", style = "margin-top:5px; margin-bottom:5px;" })</td>
+                        </tr>
+
+
+                        <tr>
+                            <td align="center" colspan="2">
+                                <button type="submit" style="background-color:#33B086; border-color:#80BD00;color:white;width:100%;border-radius:5px;padding:7px;font-size:14px;" >
+                                    Зарегистрировать
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+</fieldset>
+<p style="text-align:center;">
+    @*@Html.ActionLink("Нажимая кнопку зарегистрировать,Вы принимаете политику конфиденциальности", "PolitikaKonfidencialnosty", "Home", new { style = "text-decoration:underline;" })*@
+    <a href="/politikakonfidencialnosty">Нажимая кнопку зарегистрировать,Вы принимаете политику конфиденциальности</a>
+</p>
+}
+
+@section Scripts {
+   <script src="~/scripts/jquery.validate-vsdoc.js"></script>
+   <script src="~/scripts/jquery.validate.min.js"></script>
+   <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+}

@@ -1,0 +1,87 @@
+﻿@model EditPressRu.Areas.Adminka.Models.UserOrdersViewModel
+@{
+    string pref = "";
+    string title = "";
+    string number = "";
+
+    if (Model.ListOrders.OrderDetail!=null && Model.ListOrders.OrderDetail.Count>0)
+    {
+        number = Model.ListOrders.OrderDetail.FirstOrDefault().OrderId.ToString();
+
+        ViewBag.Title = String.Format("Заказ пользователя номер {0}", number);
+        Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+        title = String.Format("Заказ пользователя <i style='color:#33B086;'>{0}</i> номер <i style='color:#33B086;'>{1}</i>", Model.UserName, number);
+        if (Model.ListOrders.OrderDetail.FirstOrDefault().StatusId == 3)
+        {
+            title = title + " (образец продукции)";
+            pref = "P";
+        }
+
+        if (Model.ListOrders.OrderDetail.FirstOrDefault().StatusId == 2)
+        {
+            title = title + " (макет на данный образец)";
+            pref = "M";
+        }
+
+        if (Model.ListOrders.OrderDetail.FirstOrDefault().StatusId == 1)
+        {
+            pref = "C";
+        }
+    }
+
+
+}
+
+@if (Model.ListOrders.OrderDetail != null && Model.ListOrders.OrderDetail.Count > 0)
+{
+    <h2 style="color:#828282;text-align:center;margin:45px;font-size:20px;">@Html.Raw(title)</h2>
+    <p style="text-align:center;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+    <p style="text-align:center;">
+        <a class="navLink" href="/adminka/ordersadmin?pr=@pref&user=@Model.UserName&number=@number">К списку заказов</a>
+    </p>
+    <div style="display:flex;justify-content:center;align-items:center;margin-top:30px;">
+        <div>
+            <table class="table table-hover table-responsive">
+                <tr>
+                    <th></th>
+                    <th>Наименование товара</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Стоимость</th>
+                </tr>
+                @foreach (var item in Model.ListOrders.OrderDetail)
+                {
+                    <tr>
+                        <td>
+                            <a href="/products/product/@item.ProductId">
+                                <img src="@item.Img" style="width:55px;height:55px;" />
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/products/product/@item.ProductId">
+                                @item.ProdName
+                            </a>
+                        </td>
+                        <td>
+                            @item.ItemPrice
+                        </td>
+                        <td>
+                            @item.Cnt
+                        </td>
+                        <td>
+                            @item.ItemSumm
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </div>
+
+
+
+}
+else
+{
+    <h2 style="color:#828282;text-align:center;margin:45px;font-size:20px;">В этом заказе нет товаров</h2>
+}

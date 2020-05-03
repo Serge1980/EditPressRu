@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Календарь с логотипом";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Content/fancybox/jquery.fancybox.pack.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+	    $('.fancybox').fancybox();
+    });
+</script>
+
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;">
+                <table>
+                    <tr>
+                        <td style="vertical-align:top;padding:20px 10px 40px 40px;">
+                            <article itemscope itemtype="http://schema.org/Article">
+                                <h1 itemprop="name" style="text-align:center;">Календари 2017 с логотипом -  от компании “ЭдитПресс”</h1>
+                                <meta itemprop="inLanguage" content="ru" />
+                                <section itemprop="articleBody">
+                                    <p>
+                                        <b>Календари</b> с самым разнообразным дизайном, <a href="/Home/SubCategory?id=1599" class="artikle_link">настенные</a>,
+                                        <a href="/Home/SubCategory?id=1598" class="artikle_link">
+                                            настольные
+                                        </a> оригинальные.
+                                        Работать с нами очень удобно! Если Вы уже знаете какие конкретно календари Вам необходимы, то  можете не утруждать себя поисками на страницах сайта,
+                                        а сразу же позвонить по телефону <strong style="color:#33B086;">8-800-333-50-90</strong>  нашим менеджерам.
+                                    </p>
+                                    <p>
+                                        Если Вы не определились с календарной продукцией,
+                                        то на <a href="/Home/SubCategory?id=1598" class="artikle_link">сайте</a>
+                                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Artikles/Kalendar/Kalendar_Cube.jpg" style="line-height:230px;float:left;margin:10px;">
+                                            <img src="~/Images/Artikles/Kalendar/Kalendar_Cube.jpg" alt="Календарь куб, под нанесение логотипа" style="max-height:230px;" />
+                                        </a>
+                                        Вы без труда сможете найти все многообразие   календарей 2017 и комплектующих к ним, а так же выбрать нужную вам цветовую гамму, вариант оформления.
+                                    </p>
+
+                                    <p>
+                                        Заказ <strong>календарной продукции на 2017 год</strong>  можно осуществить,
+                                        позвонив  по телефону  менеджерам  или сформировать заказ самостоятельно,
+                                        <a href="/Home/Item/?id=ab37b354-8bf5-496f-9bee-609b240aefd1" class="artikle_link">добавив товар в корзину на сайте</a>.
+                                    </p>
+                                    <p>
+                                        На сайте предложен обширный ассортимент календарной продукции, тем не менее, если чего-то там нет, мы всегда быстро и оперативно выполним почти любое Ваше пожелание, потому
+                                        что у нас очень хорошо развита система логистики и доставки, есть свое производство в Москве, а так же свои представительства в Европе и Китае. Мы владеем поистине эксклюзивными вещами.
+                                    </p>
+                                    <p style="padding-top:30px;">
+                                        Если Вы уже закупили календари,и Вам необходимо <b>нанесение на них логотипа Вашей компании,</b> <a href="/Home/AboutUs" class="artikle_link">то это наш профиль!</a>
+                                        Для печати календарей <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Artikles/Kalendar/product-cap-7.jpg" style="line-height:230px;float:left;margin:10px;">
+                                            <img src="~/Images/Artikles/Kalendar/product-cap-7.jpg" alt="Рулонная машина Komori System 38D для печати журналов" style="max-height:230px;" />
+                                        </a> мы применяем только <a href="/Home/ProductionCapacity" class="artikle_link">передовые технологии, производственную технику</a> и материалы,
+                                        чтобы Вы получили исключительно высококачественный продукт. Мы производим нанесение изображений и графических элементов на календари абсолютно любых типов – настенные, настольные,
+                                        отрывные, из небумажных материалов различной формы и т. д. а также осуществляем <b>печать календарей на 2017 год с нанесением</b> любой символики Вашей компании,
+                                        в полном соответствии с ее стилем и имиджем.
+                                    </p>
+                                    <p>
+                                        <a href="/Home/ProductionCapacity" class="artikle_link">Технические средства нашего производства</a> позволяют выполнять
+                                        <a href="/Home/LogoApplication" class="artikle_link">нанесение на календари изображения</a> самыми современными способами,
+                                        это и <a href="/Home/UFPrinting" class="artikle_link">УФ печать</a> и <a href="/Home/Stamping" class="artikle_link">тиснение,</a>
+                                        и <a href="/Home/LaserEnrgaving" class="artikle_link">лазерная гравировка</a> и многие другие,
+                                        с полностью уникальным дизайном, с нанесением всевозможных изображений, использованием любых графических элементов.
+                                        Так же, если Вы уже имеете готовые <a href="/cases" class="artikle_link">дизайнерские макеты</a>, мы выполним печать в полном соответствии с их креативным замыслом!
+
+                                    </p>
+                                    <p class="article_item_nav">
+                                        <<< <a href="/articles">К списку статей</a> | <a href="/">Каталог продукции</a> |
+                                        <a href="/Home/SubCategory?id=1599&actName=subcategory">Календари</a>  | <a href="/contacts">Реквизиты</a>>>>
+                                    </p>
+                                </section>
+                            </article>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

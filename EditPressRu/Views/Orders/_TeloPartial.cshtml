@@ -1,0 +1,66 @@
+﻿@model EditPressRu.Models.OrderDetailsView
+
+@if (ViewBag.IsMobile)
+{
+    @Html.Raw("<div style='position:sticky;min-height:250px;top:10px;display:flex;flex-direction:column;padding:5px;'>")
+}
+    <div class="part-shapka">
+        <div style="display:flex;font-size:33px;height:48px;padding-right:5px;color:#5d5d5d;">
+            @Model.OrderDetail.FirstOrDefault().DateOrder.ToString("dd")
+        </div>
+        <div style="display:flex;flex-direction:column;height:48px;padding-right:5px;">
+            <div style="display:flex;font-size:19px;justify-content:center;padding:0px;color:#5d5d5d;">@Model.OrderDetail.FirstOrDefault().DateOrder.ToString("MMMM").Substring(0, 3).ToLower()</div>
+            <div style="display:flex;font-size:11px;justify-content:center;padding:0px;color:#5d5d5d;">@Model.OrderDetail.FirstOrDefault().DateOrder.ToString("yyyy")</div>
+        </div>
+        <div style="display:flex;font-size:20px;height:45px;padding-left:5px;color:#5d5d5d;border-left:solid 1px #B2B2B2;">
+            <div style="height:40px;width:40px;border:solid 1px #5d5d5d;border-radius:50%;display:flex;justify-content:center;align-items:center;">
+                <div class="ico_logo_order">
+                    <i class="fa fa-user-o"></i>
+                    <div class="lKabPopup">
+                        <p>@User.Identity.Name</p>
+                        <hr />
+                        <ul>
+                            <li><a class="aKabPop" href="/orders"><i class="fa fa-cube"></i> Заказы</a></li>
+                            <li><a class="aKabPop" href="/orders/index/1"><i class="fa fa-gift" aria-hidden="true"></i> Оформленные</a></li>
+                            <li><a class="aKabPop" href="/orders/index/4"><i class="fa fa-cart-plus"></i> Корзины</a></li>
+                            <li><a class="aKabPop" href="/orders/index/3"><i class="fa fa-eyedropper"></i> Образцы</a></li>
+                            <li><a class="aKabPop" href="/orders/index/2"><i class="fa fa-file-archive-o"></i> Макеты</a></li>
+                            <li><a class="aKabPop" href="/kpstore"><i class="fa fa-tags"></i> КП</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <p class="pHeader" style="align-self:center;margin-bottom:40px;"><a href="/orders/orderdetails/@Model.OrderDetail.FirstOrDefault().OrderId">Заказ №@Model.OrderDetail.FirstOrDefault().OrderId</a></p>
+        <div class="cartRowHeader">
+            <div class="cartColumn2"></div>
+            <div class="cartColumn1">Артикул</div>
+            <div class="cartColumn2"></div>
+            <div class="cartColumn3">Тираж</div>
+            <div class="cartColumn4">Сумма</div>
+        </div>
+    @foreach (var item in Model.OrderDetail)
+    {
+        <div class="cartItRow">
+            <div class="cartColumn1">
+                <p><a style="color:#33b086;font-size:21px;font-weight:300;" href="/products/product/@item.ProductId">@item.Articul</a></p>
+                <p class="cc1p2">@item.ProdName</p>
+            </div>
+            <div style="">
+                <a href="/products/product/@item.ProductId"><img src="@item.Img" style="width:100px;height:100px;" /></a>
+            </div>
+            <div>
+                @item.Cnt шт.
+            </div>
+            <div>
+                <p class="cc1p3">сумма</p>
+                @item.ItemSumm
+            </div>
+        </div>
+    }
+
+@if (ViewBag.IsMobile)
+{
+    @Html.Raw("</div>")
+}

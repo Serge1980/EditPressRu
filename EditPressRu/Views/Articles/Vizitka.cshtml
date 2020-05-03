@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Визитки самые разные решения!";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Content/fancybox/jquery.fancybox.pack.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+	    $('.fancybox').fancybox();
+    });
+</script>
+
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;">
+                <table>
+                    <tr>
+                        <td style="vertical-align:top;padding:20px 10px 40px 40px;">
+                            <article itemscope itemtype="http://schema.org/Article">
+                                <h1 itemprop="name" style="text-align:center;">Визитки качественно, красиво и с пользой!</h1>
+                                <meta itemprop="inLanguage" content="ru" />
+                                <section itemprop="articleBody">
+                                    <p>
+                                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Artikles/Vizitka/Vizitka-Moskow.jpg" title="Печать визиток в Москве" style="line-height:230px;float:left;margin:10px;">
+                                            <img src="~/Images/Artikles/Vizitka/Vizitka-Moskow.jpg" alt="Печать визиток в Москве" style="max-height:230px;" />
+                                        </a>
+                                        В современном мире медийной и интернет рекламы, все меньше места остается традиционным средствам Рекламы.
+                                        Но, тем не менее, визитки остаются в тренде. Хорошая визитка способна выгодно представить Вашу компанию
+                                        на конкурентном рынке предоставляемых услуг. Поэтому, естественно, и между самими визитками идет конкуренция.
+                                        Соревнование дизайнеров, печатного оборудования, художников и менеджеров задают современный облик визиток.
+                                    </p>
+                                    <p>
+                                        Как добиться того, чтоб Вашу визитку не положили в дальний карман пиджака или стола и не забыли о ней на веки вечные?
+                                        Или более того, выкинули сразу в ближайшую урну? В чем же секрет успеха?
+                                        Может он состоит в том, что классный дизайн, дорогая печать, изысканное <a href="/Home/Stamping" class="artikle_link">тиснение</a> или <a href="/Home/Serigraphy" class="artikle_link">шелкография</a>,
+                                        способны визитку сохранить хотя бы  только как шедевр искусства. Возможно, такой прием имеет место быть,
+                                        но дороговат он для визиток, которые должны распространятся тысячными экземплярами и стоить копейки.
+                                        Гораздо более изящный способ – это сделать визитку полезной.
+                                    </p>
+                                    <p>
+                                        Компания ООО «Эдит Пресс»  предоставляет не только качественный дизайн и печать визиток,
+                                        но и нанесение контактной информации, и логотипа компании на различные сувениры.
+                                        Так же в наличии имеются пластиковые карты в виде визиток, пластиковая карта нож с контактной информацией,
+                                        флешки-визтки и другие полезные предметы и сувениры, на которые можно нанести контакты и логотип Вашей компании.
+                                    </p>
+                                    <p>
+                                        В любом случае, звоните нашим менеджерам по бесплатному телефону <span class="artikle_link">8-800-333-50-90</span>,
+                                        или заполняйте <a href="/Home/BriefList" class="artikle_link">форму обратной связи</a>, напишите нам в чат на сайте.
+                                        У нас широкий выбор полиграфических услуг, более 100 печатных машин различного назначения
+                                        и профиля, отличная команда профессионалов. Мы сделаем Вам супер визитки любым тиражом в сжатые сроки.
+                                        У нас есть услуги дизайнера, а так же свой <a href="/articles/InernetMagazin" class="artikle_link">Интернет магазин сувениров</a>,
+                                        бизнес подарков и рекламной продукции. Мы поможем Вам заявить о своей компании в самом лучшем виде.
+                                    </p>
+                                    <p class="article_item_nav">
+                                        <<< <a href="/articles">К списку статей</a> | <a href="/">Каталог продукции</a> |
+                                        <a href="/Home/Item/?id=a8d78871-6ca9-45bf-b9f1-a2c7fe8f9519">Подарки на пасху</a>  | <a href="/contacts">Реквизиты</a>>>>
+                                    </p>
+                                </section>
+                            </article>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

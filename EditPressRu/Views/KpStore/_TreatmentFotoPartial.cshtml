@@ -1,0 +1,32 @@
+﻿@model EditPressRu.Models.DopImgList 
+
+<div class="buttons1">
+    <a href="#" class="prev1"
+       data-text="@Model.FirstOrDefault(x=>x.Selected).ProdId"
+       data-id="@Model.FirstOrDefault(x=>x.Selected).ImgId">
+        <i class="fa fa-chevron-circle-left"></i>
+    </a>
+</div>
+<div class="buttons1">
+    <span>@Model.FirstOrDefault(x => x.Selected).NumberImg</span>/<span>@Model.Count()</span>
+</div>
+<div class="buttons1">
+    <a href="#" class="next1" data-text="@Model.FirstOrDefault(x=>x.Selected).ProdId" data-id="@item.DopImgList.FirstOrDefault(x=>x.Selected).ImgId"><i class="fa fa-chevron-circle-right"></i></a>
+</div>
+
+
+
+
+@*<div class="buttons1">
+    <a href="#" class="prev1"
+       data-text="@item.ProdId"
+       data-id="@item.DopImgList.FirstOrDefault(x=>x.Selected).ImgId">
+        <i class="fa fa-chevron-circle-left"></i>
+    </a>
+</div>
+<div class="buttons1">
+    <span>@item.DopImgList.FirstOrDefault(x => x.Selected).NumberImg</span>/<span>@item.DopImgList.Count()</span>
+</div>
+<div class="buttons1">
+    <a href="#" class="next1" data-text="@item.ProdId" data-id="@item.DopImgList.FirstOrDefault(x=>x.Selected).ImgId"><i class="fa fa-chevron-circle-right"></i></a>
+</div>*@

@@ -1,0 +1,731 @@
+﻿@model EditPressRu.Models.IndexViewModel
+@using EditPressRu.Helpers
+@*@{int i = 1; }*@
+@* <input type="hidden" id="NalichieHidden" value="@Model.Nalichie" />
+*@
+
+<form id="FilterForm" method="post" action="/products/@Model.Cpu">
+    <section class="filterSection">
+        <input type="hidden" id="startPriceAjax" value="false" />
+
+        <input type="hidden" id="Hit" name="Hit" value="@Model.SaleHitNew.Hit.ToString()" />
+        <input type="hidden" id="Sale" name="Sale" value="@Model.SaleHitNew.Sale.ToString()" />
+        <input type="hidden" id="New" name="New" value="@Model.SaleHitNew.New.ToString()" />
+        <input type="hidden" id="HitCount" name="HitCount" value="@Model.SaleHitNew.HitCount" />
+        <input type="hidden" id="NewCount" name="NewCount" value="@Model.SaleHitNew.NewCount" />
+        <input type="hidden" id="SaleCount" name="SaleCount" value="@Model.SaleHitNew.SaleCount" />
+        <input type="hidden" id="id" name="id" value="@Model.id" />
+        <input type="hidden" id="MinCatPrice" name="MinCatPrice" value="@Model.MinCatPrice" />
+        <input type="hidden" id="MaxCatPrice" name="MaxCatPrice" value="@Model.MaxCatPrice" />
+        <input type="hidden" id="MinPrice" name="MinPrice" value="@Model.MinPrice" />
+        <input type="hidden" id="MaxPrice" name="MaxPrice" value="@Model.MaxPrice" />
+        <input type="hidden" id="UpPriceOrder" name="UpPriceOrder" value="@Model.UpPriceOrder.ToString()" />
+        <input type="hidden" id="DownRankOrder" name="DownRankOrder" value="@Model.DownRankOrder.ToString()" />
+        <input type="hidden" id="PageProductCount" name="PageProductCount" value="@Model.PageInfo.PageSize" />
+        <input type="hidden" id="page" name="page" value="@Model.PageInfo.page" />
+        <input type="hidden" id="QueryString" name="QueryString" value="@Model.QueryString" />
+        <input type="hidden" id="Cpu" name="Cpu" value="@Model.Cpu" />
+
+
+        @foreach (var item in ViewBag.Categories)
+            {
+            <input id="ListCatId"
+                   name="ListCatId"
+                   value="@(item.Selected==true?item.Value:0)"
+                   type="hidden" />
+        }
+        <div class="Parameters">
+            <h3>
+                Параметры
+            </h3>
+            <div class="filter-price">
+                <div class="filter-price-label"><p class="pFilter">Цена</p></div>
+                <div class="filter-price-slider">
+                    <input class="range-slider" type="hidden" value="@Model.MinCatPrice,@Model.MaxCatPrice" />
+                </div>
+            </div>
+            <div class="price-row">
+                <div>
+                    <select id="materialSelect" class="filterSelect">
+                        <option selected="selected">Материал</option>
+                        @foreach (var item in Model.Materials.Where(x => x.Value == "0"))
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="ddl-container" id="ddl_material">
+                    @foreach (var item in Model.Materials.Where(x => x.Value == "1"))
+                    {
+                        <input class="ddl-cont-item1" id="Materials" name="Materials" type="text" value="@item.Text" readonly />
+                    }
+                </div>
+            </div>
+            <div class="price-row">
+                <div>
+                    <select id="nanesenieSelect" class="filterSelect">
+                        <option selected="selected">Нанесение</option>
+                        @foreach (var item in Model.Nanesenie.Where(x => x.Value == "0"))
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="ddl-container" id="ddl_nanesenie">
+                    @foreach (var item in Model.Nanesenie.Where(x => x.Value == "1"))
+                    {
+                        <input class="ddl-cont-item2" id="Nanesenie" name="Nanesenie" type="text" value="@item.Text" readonly />
+                    }
+                </div>
+            </div>
+            <div class="price-row">
+                <div style="display:flex;flex-direction:row;">
+                    <p class="pFilter">Наличие на складе</p><div id="Nalichie" class="@((Model.Nalichie ==false) ? "nalichSpan" : "nalichSpanSelect")">&nbsp;</div>
+                </div>
+                <div>
+                    <select id="brandSelect" class="filterSelect">
+                        <option selected="selected">Бренд</option>
+                        @foreach (var item in Model.Brand.Where(x => x.Value == "0"))
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+                <div class="ddl-container" id="ddl_brand">
+                    @foreach (var item in Model.Brand.Where(x => x.Value == "1"))
+                    {
+                        <input class="ddl-cont-item3" id="Brand" name="Brand" type="text" value="@item.Text" readonly />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="Filters">
+            <h3 class="filter-title1">Фильтр</h3>
+            <div style="padding-top:16px;">
+                <a href="#" class="@((Model.UpPriceOrder ==true) ? "a_arrow_up" : "a_arrow_down")" id="priceArrow">По цене</a>
+                <a href="#" class="@((Model.DownRankOrder ==true) ? "a_arrow_down" : "a_arrow_up")" id="rankArrow">По релевантости</a>
+            </div>
+            <div class="colors-row">
+                <div class="color-title">
+                    По цвету
+                </div>
+                <div id="colorPopup">
+                    &nbsp;
+                </div>
+                <div id="colorPiker" style="display: none;">
+                    <div class="colorPiker-box">
+                        @if (Model.ColorAll != null && Model.ColorAll.Count > 0)
+                        {
+                            foreach (var item in Model.ColorAll)
+                            {
+                                <div data-id="@item.Value" data-text="@item.Text" style="background:@item.Text;color:#fff;" class="colorPikerElement">&nbsp;</div>
+                            }
+                        }
+
+                    </div>
+                    <hr color="#ECECEC" />
+                    <div class="colorPiker_selected">
+                        <div class="ddl-container-color" id="ddl_color">
+                            @if (Model.ColorSelected != null && Model.ColorSelected.Count > 0)
+                            {
+                                foreach (var item in Model.ColorSelected)
+                                {
+                                    <input class="colorPikerElement1" style="background:url(../images/color_marker.png) no-repeat @item.Text;color:@item.Text;" value="@item.Value" id="Color" name="Color" type="text" readonly />
+                                }
+                            }
+                        </div>
+                    </div>
+                    <hr color="#ECECEC" />
+                    <div id="ColorPikerClose">ok</div>
+                </div>
+                <div class="ddl-container-color" id="ddl_color2">
+                    @if (Model.ColorSelected != null && Model.ColorSelected.Count > 0)
+                    {
+                        foreach (var item in Model.ColorSelected)
+                        {
+                            <div data-id="@item.Value" data-text="@item.Text" style="background:@item.Text;color:#fff;" class="colorPikerElement2">&nbsp;</div>
+                        }
+                    }
+                </div>
+            </div>
+            <h3 class="filter-title2">На странице</h3>
+            <div>
+                <a class="a_filter" data-id="24" href="#">По 24 шт.</a> <a class="a_filter" data-id="50" href="#">По 50 шт.</a>
+                <a class="a_filter" data-id="100" href="#">По 100 шт.</a> <a class="a_filter" data-id="200" href="#">По 200 шт.</a>
+            </div>
+        </div>
+
+    </section>
+</form>
+<div class="divHitSalNew">
+    @if (Model.SaleHitNew.HitCount > 0)
+    {
+        <a id="hit" href="/products/@Model.Cpu?hit=true">HIT(@Model.SaleHitNew.HitCount)</a>
+    }
+    @if (Model.SaleHitNew.SaleCount > 0)
+    {
+        <a id="sale" href="/products/@Model.Cpu?sale=true">Sale(@Model.SaleHitNew.SaleCount)</a>
+    }
+    @if (Model.SaleHitNew.NewCount > 0)
+    {
+        <a id="new" href="/products/@Model.Cpu?nev=true">New(@Model.SaleHitNew.NewCount)</a>
+    }
+</div>
+<div>
+    @if (ViewBag.IsMobile)
+            {
+                if (Model.BreadCrambs != null && Model.BreadCrambs.Count > 2)
+                {
+            <div class="cont_popLinks">
+
+                <div class="popLinks">
+                    <p>популярные подкатегории</p>
+                </div>
+
+                <div class="nonePopLinks">
+                    @foreach (var item in Model.BreadCrambs.Where(x => x.Level == 2))
+                    {
+                        <div class="divIndxPop">
+                            <a href="@item.HrefItem" class="aIndxPop">@item.NameItem</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>
+<div id="gifLoader" style="display:none;"><p>Загрузка...</p></div>
+<section class="products" id="prodListSmall">
+    @foreach (var item in Model.ProdForPaging.Items)
+    {
+        <div class="product-card">
+            @if (item.Nalichie)
+            {
+                <div class="nalich">
+                    <div><img src="/images/check_nalich.png" alt=""></div>
+                    <div>
+                        <p>В наличии</p>
+                        <p>на складе!</p>
+                    </div>
+                </div>
+            }
+            <div>
+                @if (item.New)
+                {
+                    <div class="divNew">NEW</div>
+                }
+                @if (item.Hit)
+                {
+                    <div class="divHit">HIT</div>
+                }
+                @if (item.Sale)
+                {
+                    <div class="divSale">@item.SaleSize</div>
+                }
+            </div>
+            @if (item.Main)
+                {
+                <div class="product-image">
+                    <div class="contMain">
+
+                        @if (item.GroupProduct != null && item.GroupProduct.Count > 0)
+                        {
+                            <ul class="contSmallimgs1">
+                                @foreach (var subItem in item.GroupProduct.Take(4))
+                                {
+                                    <li class="thumbProd" data-id="@item.ProdId">
+                                        <a href="@subItem.Link"><img data-id="@item.ProdId" src="@subItem.Img" /></a>
+                                    </li>
+                                }
+
+                                @if (item.GroupProduct.Count > 4)
+                                {
+
+                                    <li data-id="@item.ProdId" class="raquo">&raquo;</li>
+                                    <li>
+                                        <ul class="contSmallimgs2">
+                                            @foreach (var subItem in item.GroupProduct.Skip(4))
+                                            {
+                                                <li class="thumbProd" data-id="@item.ProdId">
+                                                    <a href="@subItem.Link"><img data-id="@item.ProdId" src="@subItem.Img" /></a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                        <div class="prod_img">
+                            <a href="/products/product/@item.ProdId"><img class="img_list_prod" data-id="@item.ProdId" src="@item.ImagePath" alt="@item.Name"></a>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="product-image">
+                    <a href="/products/product/@item.ProdId"><img class="img_list_prod" src="@item.ImagePath" alt="@item.Name"></a>
+                </div>
+            }
+            <div class="contCart">
+                <div class="messgCart" data-id="@item.ProdId">
+                    <p>Товар добавлен в корзину!</p>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <p><a href="/orders/editorder/@ViewBag.OrderId" style="color:white;">Перейти в корзину</a></p>
+                    }
+                    else
+                    {
+                        <p><a href="/orders/editorderanms/@ViewBag.OrderId" style="color:white;">Перейти в корзину</a></p>
+                    }
+                </div>
+                <div class="cartListInfce" data-id="@item.ProdId">
+                    <p class="pEdtAddCrt" data-id="@item.ProdId" contenteditable="true">
+                        1
+                    </p>
+                </div>
+                <div class="listCart" data-id="@item.ProdId" data-dat="@item.ProdId">В корзину</div>
+            </div>
+            <div class="prod-info">
+                <a href="/products/product/@item.ProdId">
+                    <h5 data-id="@item.ProdId">@item.Name</h5>
+                    @if (item.Nalichie)
+                    {
+                        if (item.Sale)
+                        {
+                            <h6 data-id="@item.ProdId">@String.Format("{0:0.##}", @item.Price) <span class="spanSale">@String.Format("{0:0.##}", @item.OldPrice)</span> р./шт.</h6>
+                        }
+                        else
+                        {
+                            if (item.Price > 0)
+                            {
+                                <h6 data-id="@item.ProdId">
+                                    @String.Format("{0:0.##}", @item.Price) р./шт.
+                                </h6>
+                            }
+                            else
+                            {
+                                <h6>
+                                    Цена по запросу
+                                </h6>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <h6>
+                            Цена по запросу
+                        </h6>
+                    }
+                </a>
+            </div>
+        </div>
+
+
+
+    }
+
+    <div id="PagedDiv">
+        @Html.PageLinks1(Model.PageInfo, String.Format("/products/{0}", Model.Cpu))
+        <div id="inputPage" style="display:none;">
+            <input id="pagedUl" name="pagedUl" value="" type="text" />
+        </div>
+    </div>
+    @if (!String.IsNullOrEmpty(Model.Description))
+    {
+        <div class="CatDescription">
+            @Html.Raw(Model.Description)
+        </div>
+    }
+
+</section>
+
+
+<script src="~/scripts/jquery.range.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+        var PageProductCount = $('#PageProductCount').val();
+        var MinCatPrice = $('#MinCatPrice').val();
+        var MaxCatPrice = $('#MaxCatPrice').val();
+        var MinPrice = $('#MinPrice').val();
+        var MaxPrice = $('#MaxPrice').val();
+
+        //Если строка поиска не пуста
+        var QueryString = $('#QueryString').val();
+
+        if (QueryString.length > 0) {
+            $('#queryString').val(QueryString);
+        }
+
+        //****************HitSaleNew  в поиске*********************************
+        $('#hit').click(function () {
+            var cpu = $('#Cpu').val();
+            if (cpu == "search-result") {
+                $("#page").val(1);
+                $("#Hit").val("true");
+                $("#FilterForm").submit();
+                return false;
+            }
+        });
+
+        $('#sale').click(function () {
+            var cpu = $('#Cpu').val();
+            if (cpu == "search-result") {
+                $("#page").val(1);
+                $("#Sale").val("true");
+                $("#FilterForm").submit();
+                return false;
+            }
+        });
+
+        $('#new').click(function () {
+            var cpu = $('#Cpu').val();
+            if (cpu == "search-result") {
+                $("#page").val(1);
+                $("#New").val("true");
+                $("#FilterForm").submit();
+                return false;
+            }
+        });
+        //________________HitSaleNew_____________________________
+
+        //вызов функции прорисовки слайдера
+        RenderPriceSlider(MinPrice, MaxPrice, MinCatPrice, MaxCatPrice);
+
+        // реакция на движек слайдера цены
+        $('#startPriceAjax').change(function () {
+            var valPriceSlide = $('.range-slider').jRange('getValue2');
+            MinPrice = valPriceSlide.split(';')[0].replace('руб', '');
+            MaxPrice = valPriceSlide.split(';')[1].replace('руб', '');
+            $('#MinPrice').val(MinPrice);
+            $('#MaxPrice').val(MaxPrice);
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        $('#price0').hover(
+           function () {
+               $('#price0').after("<div class='toolTipPric0'><p>Введите минимальную цену</p><p>Нажмите enter</p></div>");
+           },
+           function () {
+               $("div").remove(".toolTipPric0");
+           });
+
+        $('#price1').hover(
+           function () {
+               $('#price1').after("<div class='toolTipPric0'><p>Введите максимальную цену</p><p>Нажмите enter</p></div>");
+           },
+           function () {
+               $("div").remove(".toolTipPric0");
+           });
+
+        //make type number
+        $("#price0, #price1").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if (((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) && e.keyCode != 13) {
+                e.preventDefault();
+            }
+        });
+
+        //price Input
+        $('#price0').keypress(function (e) {
+            //alert(e.keyCode);
+            if (e.keyCode == 13) {
+                MinPrice = $(this).val();
+                MaxPrice = $('#price1').val();
+                MinCatPrice = $(this).val();
+                MaxCatPrice = $('#price1').val();
+
+                $('#MinPrice').val(MinPrice);
+                $('#MaxPrice').val(MaxPrice);
+                $('#MinCatPrice').val(MinCatPrice);
+                $('#MaxCatPrice').val(MaxCatPrice);
+                $("#page").val(1);
+                $("#FilterForm").submit();
+            }
+        });
+
+        $('#price1').keypress(function (e) {
+
+            if (e.keyCode == 13) {
+                MinPrice = $('#price0').val();
+                MaxPrice = $(this).val();
+                MinCatPrice = $('#price0').val();
+                MaxCatPrice = $(this).val();
+
+                $('#MinPrice').val(MinPrice);
+                $('#MaxPrice').val(MaxPrice);
+                $('#MinCatPrice').val(MinCatPrice);
+                $('#MaxCatPrice').val(MaxCatPrice);
+                $("#page").val(1);
+                $("#FilterForm").submit();
+            }
+        });
+
+        //Сортировка по цене
+        $("#priceArrow").click(function () {
+
+            var hiddenField = $('#UpPriceOrder');
+            var value = hiddenField.val();
+            var qs6 = '';
+            if ($(this).attr("class") === 'a_arrow_up') {
+                //hiddenField.val(value === "True" ? "false" : "true");
+
+                hiddenField.val("false");
+                $("#priceArrow").removeClass("a_arrow_up").addClass("a_arrow_down");
+            }
+            else {
+                //hiddenField.val(value === "False" ? "true" : "false");
+
+                hiddenField.val("true");
+                $("#priceArrow").removeClass("a_arrow_down").addClass("a_arrow_up");
+            }
+
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        //Сортировка по релевантности
+        $("#rankArrow").click(function () {
+
+            var hiddenField = $('#DownRankOrder');
+            var value = hiddenField.val();
+            var qs7 = '';
+            if ($(this).attr("class") === 'a_arrow_down') {
+
+                hiddenField.val("false");
+                $("#rankArrow").removeClass("a_arrow_down").addClass("a_arrow_up");
+            }
+            else {
+
+                hiddenField.val("true");
+                $("#rankArrow").removeClass("a_arrow_up").addClass("a_arrow_down");
+            }
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        //************ PageSize_Select **********************
+        if (PageProductCount == 24) {
+            var aFltr = $('.a_filter[data-id=24]');
+            aFltr.addClass("a_fltr_select");
+        }
+
+        if (PageProductCount == 50) {
+            var aFltr = $('.a_filter[data-id=50]');
+            aFltr.addClass("a_fltr_select");
+        }
+
+        if (PageProductCount == 100) {
+            var aFltr = $('.a_filter[data-id=100]');
+            aFltr.addClass("a_fltr_select");
+        }
+
+        if (PageProductCount == 200) {
+            var aFltr = $('.a_filter[data-id=200]');
+            aFltr.addClass("a_fltr_select");
+        }
+
+        $('.a_filter').click(function () {
+            var aFiltr = $(this).data('id');
+            $('#PageProductCount').val(aFiltr);
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        //_______end PageSize_Select ________________
+
+
+        //материал дропдавн
+        $('#materialSelect').change(function () {
+            var option = $("#materialSelect option:selected");
+            var text = option.text();
+            if (!(text === 'Материал')) {
+                $('#ddl_material').append('<input class="ddl-cont-item1" id="Materials" name="Materials" type="text" value="' + text + '" readonly />');
+                $("#page").val(1);
+                $("#FilterForm").submit();
+            }
+        });
+
+        $('#ddl_material').on('click', '.ddl-cont-item1', function (event) {
+            $(this).detach();
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        //нанесение дропдавн
+        $('#nanesenieSelect').change(function () {
+            var option = $("#nanesenieSelect option:selected");
+            var text = option.text();
+            //alert(text);
+            if (!(text === 'Нанесение')) {
+                $('#ddl_nanesenie').append('<input class="ddl-cont-item2" id="Nanesenie" name="Nanesenie" type="text" value="' + text + '" readonly />');
+                $("#page").val(1);
+                $("#FilterForm").submit();
+            }
+        });
+
+        $('#ddl_nanesenie').on('click', '.ddl-cont-item2', function (event) {
+            $(this).detach();
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        //Бренд дропдавн
+        //нанесение дропдавн
+        $('#brandSelect').change(function () {
+            var option = $("#brandSelect option:selected");
+            var text = option.text();
+            //alert(text);
+            if (!(text === 'Бренд')) {
+                $('#ddl_brand').append('<input class="ddl-cont-item3" id="Brand" name="Brand" type="text" value="' + text + '" readonly />');
+                $("#page").val(1);
+                $("#FilterForm").submit();
+            }
+        });
+
+        $('#ddl_brand').on('click', '.ddl-cont-item3', function (event) {
+            $(this).detach();
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        // ColorPiker
+        $('#colorPopup').click(function () {
+            $('#colorPiker').toggle();
+        });
+
+        $('.colorPikerElement').click(function () {
+            var colorId = $(this).data('id');
+            var colorText = $(this).data('text');
+            //alert(colorText);
+            $('#ddl_color').append('<input class="colorPikerElement1" style="background:' + colorText + ';color:' + colorText + ';" id="Color" name="Color" type="text" value="' + colorId + '" readonly />');
+            // $('#ddl_color').append('<div data-id=' + colorId + ' style=background:' + colorText + '; class="colorPikerElement1">&nbsp;</div>');
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        $('#ddl_color').on('click', '.colorPikerElement1', function (event) {
+            $(this).detach();
+            $("#page").val(1);
+            $("#FilterForm").submit();
+        });
+
+        //но можно проще
+        $('#ddl_color2').click(function () {
+            $('#colorPiker').toggle();
+        });
+
+        $('#ColorPikerClose').click(function () {
+            $('#colorPiker').hide();
+        });
+
+
+
+        //прорисовка слайдеа цены
+        function RenderPriceSlider(Min, Max, MinCatPrice, MaxCatPrice) {
+            $('.range-slider').val(Min + ',' + Max);
+            $('.range-slider').jRange({
+                from: MinCatPrice,
+                to: MaxCatPrice,
+                step: 1,
+                scale: [MinCatPrice, MaxCatPrice],
+                format: '%s руб',
+                width: 300,
+                showLabels: true,
+                isRange: true
+            });
+        }
+
+
+
+        //*********************************************************************
+        //*********************************************************************
+        //*********************************************************************
+
+        //PaginationHelper
+        $('.mainPager').click(function () {
+            $('#inputPage').show();
+            $('#pagedUl').focus();
+        });
+        //скрыть форму PaginationHelper по клику вне формы
+        $(document).mouseup(function (e) {
+            var container = $("#inputPage");
+            if (container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+
+        $('#inputPage').keypress(function (e) {
+            var key = e.which;
+            if (key == 13) // the enter key code
+            {
+                var page = parseInt($('#pagedUl').val());
+                var maxPage = parseInt($('#TotalPage').val());
+                if (page >= 1 && page <= maxPage) {
+                    RenderPagingItems(page);
+                    $('#inputPage').hide();
+                }
+                else {
+                    alert('введенное значение превышает максимальное количество страниц!');
+                    $('#pagedUl').val(1);
+                    $('#inputPage').hide();
+                    return false;
+                }
+
+                return false;
+            }
+        });
+
+        //GroupProduct hoverEffects
+
+        $(".thumbProd img").hover(function () {
+            var src = $(this).attr("src");
+            var datId = $(this).data("id");
+
+            $.ajax({
+                url: "/ajax/getbigsrc",
+                type: 'get',
+                dataType: 'json',
+                cache: false,
+                data: { src: src },
+                success: function (dataout) {
+
+                    $('.img_list_prod[data-id=' + datId + ']').attr("src", dataout.srcBig);
+                    $('h5[data-id=' + datId + ']').html(dataout.name);
+                    $('h6[data-id=' + datId + ']').html(dataout.price + ' р./шт.');
+
+                    $('.prod_img a').attr("href", '/products/product/' + dataout.prodId);
+                    $('.product-info a').attr("href", '/products/product/' + dataout.prodId);
+
+
+                    $('.listCart').data('id', dataout.prodId);
+
+                }
+
+            });
+
+
+        }, function () { // задаем функцию, которая срабатывает, когда указатель выходит из элемента
+            
+        });
+
+    });
+
+
+
+</script>

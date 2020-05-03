@@ -1,0 +1,55 @@
+﻿@model EditPressRu.Models.AutoComplSearchViewModel
+@if (!ViewBag.IsMobile)
+{
+    <div style="display:flex;flex-direction:row;justify-content:space-around;">
+        <div>
+            <p style="font-weight:600;font-size:1.286rem;color:#58585A;">Категории</p>
+        </div>
+        <div>
+            <p style="font-weight:600;font-size:1.286rem;color:#58585A;">Модели</p>
+        </div>
+    </div>
+    <hr style="color:#33B086;" />
+
+
+    <div style="display:flex;flex-direction:row;justify-content:space-around;box-shadow:7px 9px 16px rgba(0, 0, 0, 0.48);">
+        <div>
+            <ul class="dropdownAutocompl">
+                @foreach (var item in Model.ListCat)
+                {
+                    <li>
+                        <a style="font-weight:600;" href="/products/@item.Value">@item.Text</a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div>
+            <ul class="dropdownAutocompl">
+                @foreach (var item in Model.ListTovar)
+                {
+                    <li>
+                        <a href="/products/product/@item.Value">@item.Text</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <ul class="dropdownAutocompl">
+            @foreach (var item in Model.ListTovar)
+                {
+                <li>
+                    <a href="/products/product/@item.Value">@item.Text</a>
+                </li>
+            }
+        </ul>
+    </div>
+}
+    @*box-shadow:7px 9px 16px rgba(0, 0, 0, 0.48);
+        -webkit-box-shadow:7px 9px 16px rgba(0, 0, 0, 0.48);*@
+
+
+    @*box-shadow: 0px 15px 2px 0px #DDDDDD;*@

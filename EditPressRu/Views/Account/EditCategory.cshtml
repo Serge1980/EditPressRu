@@ -1,0 +1,357 @@
+﻿@*@model IEnumerable<EditPressRu.Models.SubCategory>*@
+
+@{
+    ViewBag.Title = "Категория";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function readURL(input, pic_id) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(pic_id).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).ready(function () {
+        $("#pic1").change(function () {
+            readURL(this, "#pic1_img");
+        });
+        $("#pic1clear").click(function () {
+            $("#pic1_img").attr('src', '');
+            $("#pic1").val('');
+            event.preventDefault();
+        });
+    });
+</script>
+
+<h3>@ViewBag.Title</h3>
+
+<div class="container">
+    <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs" id="myTab">
+            @if (ViewBag.OpenSubCat)
+            {
+                <li id="licatref">
+                    <a href="#home" id="catref">Категория</a>
+                </li>
+                <li class="active" id="lisubcatref">
+                    <a href="#subcat" id="subcatref">Список подкатегорий</a>
+                </li>
+            }
+            else
+            {
+                <li class="active" id="licatref">
+                    <a href="#home" id="catref">Категория</a>
+                </li>
+                <li id="lisubcatref">
+                    <a href="#subcat" id="subcatref">Список подкатегорий</a>
+                </li>
+            }
+        </ul>
+
+
+        <div class="tab-content">
+        @if (ViewBag.OpenSubCat)
+        {
+            <div class="tab-pane" id="home">
+                <form action="/Account/EditCategorySave" method="post" enctype="multipart/form-data">
+                    <p>
+                        Дата создания: @ViewBag.cat.category_add_date
+                    </p>
+                    <input type="hidden" name="id" value="@ViewBag.cat.CategoryID" />
+                    <table class="add-category">
+                        <tr>
+                            <td style="width:150px;">Наименование:</td>
+                            <td><input type="text" name="naim" value="@ViewBag.cat.Naim" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Alias:</td>
+                            <td><input type="text" name="alias" value="@ViewBag.cat.Alias" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Краткое описание:</td>
+                            <td><input type="text" name="shortdesc" value="@ViewBag.cat.ShortDescription" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Полное описание:</td>
+                            <td><input id="desc" type="text" name="fulldesc" value="@ViewBag.cat.Description" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>meta-title:</td>
+                            <td><input type="text" name="metatitle" value="@ViewBag.cat.MetaTitle" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>meta-keywords:</td>
+                            <td><input type="text" name="metakeywords" value="@ViewBag.cat.MetaKeyWords" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>meta-description:</td>
+                            <td><input type="text" name="metadesc" value="@ViewBag.cat.MetaDesc" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Изображение:</td>
+                            <td>
+                                <input id="pic1" type="file" name="pic1" />
+
+                                @if (ViewBag.cat.image != null)
+                                {
+                                    string picname = ViewBag.cat.image.ToString() + ".jpg";
+                                    <img id="pic1_img" style="max-height:150px;max-width:150px;margin-top:30px;" src="~/Images/Categories/@picname" />
+                                }
+                                else
+                                {
+                                    <img id="pic1_img" style="max-height:150px;max-width:150px;margin-top:30px;" />
+                                }
+                                <input id="pic1_img_data" name="pic1_img" type="hidden">
+                                <button id="pic1clear" style="display:block;">Удалить изображение</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    <span>
+                                        @if (ViewBag.cat.Publish)
+                                        {
+                                            <input id="publish" name="publish" type="checkbox" style="width: 100%;" checked />
+                                        }
+                                        else
+                                        {
+                                            <input id="publish" name="publish" type="checkbox" style="width: 100%;" />
+                                        }
+                                        Опубликовать
+                                    </span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value=" Записать категорию " class="btn btn-success" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="tab-pane active" id="subcat">
+                <div>
+                    <a href="/SubCat/Create?CategoryID=@ViewBag.cat.CategoryID">
+                        <button class="btn btn-default btn-primary" style="margin-top:10px;margin-bottom:10px;"> Добавить подкатегорию </button>
+                    </a>
+                </div>
+                <table class="table" style="width:100px;">
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubCategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Publish)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubCategoryAlias)
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+
+                    </tr>
+
+                    @foreach (var item in ViewBag.sclist)
+                    {
+                        <tr>
+                            <td>
+                                @item.SubCategoryName
+                            </td>
+                            <td>
+                                @item.Publish
+                            </td>
+                            <td>
+                                @item.SubCategoryAlias
+                            </td>
+                            <td>
+                                @Html.ActionLink("Редактировать", "Edit", "SubCat", new { id = item.SubCategoryId }, new { })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Просмотр", "Details", "SubCat", new { id = item.SubCategoryId }, new { })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Удалить", "Delete", "SubCat", new { id = item.SubCategoryId }, new { })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <div class="tab-pane active" id="home">
+                <form action="/Account/EditCategorySave" method="post" enctype="multipart/form-data">
+                    <p>
+                        Дата создания: @ViewBag.cat.category_add_date
+                    </p>
+                    <input type="hidden" name="id" value="@ViewBag.cat.CategoryID" />
+                    <table class="add-category">
+                        <tr>
+                            <td style="width:150px;">Наименование:</td>
+                            <td><input type="text" name="naim" value="@ViewBag.cat.Naim" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Alias:</td>
+                            <td><input type="text" name="alias" value="@ViewBag.cat.Alias" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Краткое описание:</td>
+                            <td><input type="text" name="shortdesc" value="@ViewBag.cat.ShortDescription" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Полное описание:</td>
+                            <td><input type="text" name="fulldesc" value="@ViewBag.cat.Description" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>meta-title:</td>
+                            <td><input type="text" name="metatitle" value="@ViewBag.cat.MetaTitle" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>meta-keywords:</td>
+                            <td><input type="text" name="metakeywords" value="@ViewBag.cat.MetaKeyWords" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>meta-description:</td>
+                            <td><input type="text" name="metadesc" value="@ViewBag.cat.MetaDesc" style="width:100%;" /></td>
+                        </tr>
+                        <tr>
+                            <td>Изображение:</td>
+                            <td>
+                                <input id="pic1" type="file" name="pic1" />
+
+                                @if (ViewBag.cat.image != null)
+                        {
+                            string picname = ViewBag.cat.image.ToString() + ".jpg";
+                                    <img id="pic1_img" style="max-height:150px;max-width:150px;margin-top:30px;" src="~/Images/Categories/@picname" />
+                        }
+                        else
+                        {
+                                    <img id="pic1_img" style="max-height:150px;max-width:150px;margin-top:30px;" />
+                        }
+                                <input id="pic1_img_data" name="pic1_img" type="hidden">
+                                <button id="pic1clear" style="display:block;">Удалить изображение</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>
+                                    <span>
+                                        @if (ViewBag.cat.Publish)
+                                {
+                                            <input id="publish" name="publish" type="checkbox" style="width: 100%;" checked />
+                                }
+                                else
+                                {
+                                            <input id="publish" name="publish" type="checkbox" style="width: 100%;" />
+                                }
+                                        Опубликовать
+                                    </span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value=" Записать категорию " class="btn btn-success" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+            <div class="tab-pane" id="subcat">
+                <div>
+                    <a href="/SubCat/Create?CategoryID=@ViewBag.cat.CategoryID">
+                        <button class="btn btn-default btn-primary" style="margin-top:10px;margin-bottom:10px;"> Добавить подкатегорию </button>
+                    </a>
+                </div>
+                <table class="tabstyle-sankus">
+
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubCategoryName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Publish)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.SubCategoryAlias)
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+                        <th>
+                        </th>
+ 
+                    </tr>
+
+                    @foreach (var item in ViewBag.sclist)
+                    {
+                        <tr>
+                            <td>
+                                @item.SubCategoryName
+                            </td>
+                            <td>
+                                @item.Publish
+                            </td>
+                            <td>
+                                @item.SubCategoryAlias
+                            </td>
+                            <td>
+                                @Html.ActionLink("Редактировать", "Edit", "SubCat", new { id = item.SubCategoryId }, new { })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Просмотр", "Details", "SubCat", new { id = item.SubCategoryId }, new { })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Удалить", "Delete", "SubCat", new { id = item.SubCategoryId }, new { })
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            </div>
+        }
+        </div>
+
+      </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#licatref").click(function (e) {
+            e.preventDefault();
+            if ($("#licatref").hasClass("active") == false) {
+                $("#licatref").addClass("active");
+                $("#home").addClass("active");
+            }
+            $("#lisubcatref").removeClass("active");
+            $("#subcat").removeClass("active");
+
+        })
+        $("#subcatref").click(function (e) {
+            e.preventDefault();
+            if ($("#lisubcatref").hasClass("active") == false) {
+                $("#lisubcatref").addClass("active");
+                $("#subcat").addClass("active");
+            }
+            $("#licatref").removeClass("active");
+            $("#home").removeClass("active");
+        })
+    });
+</script>

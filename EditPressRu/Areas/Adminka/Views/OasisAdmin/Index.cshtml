@@ -1,0 +1,293 @@
+﻿@model EditPressRu.Areas.Adminka.Models.OasisAdminIndexViewModel
+@using EditPressRu.Helpers
+
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+    String dat = "";
+    
+    try
+    {
+        System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("ru-RU");
+        dat = Model.ProdForPaging.Items.First().Product.LastUpdate.ToString();
+    }
+    catch
+    {
+    }
+}
+<input type="hidden" id="cat" name="cat" value="@Model.CatId" />
+<h2 style="text-align:center;font-weight:300;">@Model.Title</h2>
+<p style="text-align:center;">
+    <a style="color:red;font-weight:500;" href="/Adminka/OasisAdmin/UpdateOasisStock">Обновить остатки</a>
+    <span style="color:green;font-size:10px;">Может занимать до 5 минут</span>
+    <br />
+    <a style="color:red;font-weight:500;" href="/Adminka/OasisAdmin/GetNewTovar">Добавить новый товар</a>
+    @*<span style="color:green;font-size:10px;">Может занимать до 5 минут</span>*@
+</p>
+<div style="display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:flex-end;margin-right:40px;">
+    <div style="padding-right:40px;"><p>Дата последнего обновления-@dat</p></div>
+    <div style="display:flex;flex-direction:row;flex-wrap:nowrap;border:solid 1px #33B086;border-radius:5px;padding:6px;">
+        <div>
+            <p style="padding-right:15px;color:#332718;font-family:a_futuraroundregular;font-weight:600;">
+                Ценовые группы товаров:
+            </p>
+        </div>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=000000002"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;border:solid 1px #D9D9D9;background:#ffffff;font-size:13px;font-weight:600;color:black;padding:5px 0px 0px 3px;">30%</div></a>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=000000001"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;background:#0253B7;font-size:13px;font-weight:600;color:white;padding:5px 0px 0px 3px;">30%</div></a>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=000000003"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;background:#DC0A1E;font-size:13px;font-weight:600;color:white;padding:5px 0px 0px 3px;">20%</div></a>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=1-0000001"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;background:#4C108F;font-size:13px;font-weight:600;color:white;padding:5px 0px 0px 3px;">50%</div></a>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=1-0000006"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;background:#4C1C24;font-size:13px;font-weight:600;color:white;padding:5px 0px 0px 3px;">40%</div></a>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=1-0000002"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;background:#FF5400;font-size:13px;font-weight:600;color:white;padding:5px 0px 0px 3px;">30%</div></a>
+        <a href="/Adminka/OasisAdmin/index?cat=@Model.CatId&priceCat=1-0000003"><div style="margin-right:5px;width:30px;height:30px;border-radius:50%;background:#FFFF00;font-size:13px;font-weight:600;color:white;padding:5px 0px 0px 3px;">60%</div></a>
+    </div>
+</div>
+<div style="display:flex;flex-direction:row;flex-wrap:nowrap;">
+    <div style="padding:10px;display:flex;flex-direction:column;flex:2 1 auto;">
+        <h3>Категории</h3>
+        <a href="/Account" class="navLink"> В личный кабинет</a>
+        @foreach (var item in Model.CatList)
+        {
+            <h5><a style="color:#000000;" href="/Adminka/OasisAdmin/index?cat=@item.Category.Id">@item.Category.Name</a></h5>
+            if (item.ListSubcat != null && item.ListSubcat.Count > 0)
+            {
+                foreach (var subitem in item.ListSubcat)
+                {
+                    <h5><a href="/Adminka/OasisAdmin/index?cat=@subitem.Id">@subitem.Name</a></h5>
+                }
+            }
+
+        }
+        <a href="/Account" class="navLink"> В личный кабинет</a>
+    </div>
+    <div style="padding:10px;flex:9 1 auto;">
+        <form action="/Adminka/OasisAdmin/index" method="get" style="background:#33B086;padding-left:100px;">
+            <span>Артикул </span><input type="text" id="Artikle" name="Artikle" value="@Model.Artikle" style="padding:3px 4px 3px 5px" />
+            <span>Наименование </span><input type="text" id="Name" name="Name" value="@Model.Name" style="padding:3px 4px 3px 5px" />
+            <input type="submit" value="Найти" />
+        </form>
+        <table class="table table-hover">
+            <tr>
+                <th>Ссылка</th>
+                <th>
+                    Фото
+                </th>
+                <th>
+                    Артикул
+                </th>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Цена на сайте
+                </th>
+                <th>
+                    Резервы
+                </th>
+                <th>
+                    Остатки в Москве
+                </th>
+                <th>
+                    Остатки на удаленном складе
+                </th>
+                <th>
+                    Цена поставщика 030
+                </th>
+                <th>
+                    Цена поставщика оптовая
+                </th>
+                <th>
+                    Файлы макетов
+                </th>
+            </tr>
+            @foreach (var item in Model.ProdForPaging.Items)
+            {
+                <tr>
+                    <td>
+                        <div>
+                            @if (item.Product.Rating != null && item.Product.Rating == 1)
+                            {
+                                <div style="top:0px;right:0px;color:white;background:#33B086;padding:2px;border-radius:3px;align-self:flex-start;font-size:15px;">NEW</div>
+                            }
+                            @if (item.Product.Rating != null && item.Product.Rating == 2)
+                            {
+                                <div style="top:0px;right:0px;color:white;background:#828282;padding:2px;border-radius:3px;align-self:flex-start;font-size:15px;">HIT</div>
+                            }
+                            @if (item.Product.Rating != null && item.Product.Rating == 3)
+                            {
+                                <div style="top:0px;right:0px;color:white;background:#EA2C3E;padding:2px;border-radius:3px;align-self:flex-start;font-size:15px;">@item.Product.SaleSize</div>
+                            }
+                        </div>
+
+                        <a target="_blank" href="/products/product/@item.ProdId">@item.ProdId</a>
+                    </td>
+                    <td>
+                        <img src="@item.ImgPth" style="max-height:100px;" />
+                    </td>
+                    <td>
+                        @item.Product.Article
+                    </td>
+                    <td>
+                        @item.Product.Name
+                    </td>
+                    <td style="color:green">
+                        @item.Product.Price
+                    </td>
+                    <td>
+                        @item.Product.Reserve
+                    </td>
+                    <td>
+                        @if (item.Product != null)
+                        {
+                            <b>@item.Product.Stock</b>
+                        }
+                        else
+                        {
+                            <span>
+                                Данные отсутствуют
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Product != null)
+                        {
+                            <b>@item.Product.Stock_remote</b>
+                        }
+                        else
+                        {
+                            <span>
+                                Данные отсутствуют
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Product != null)
+                        {
+                            <span style="color:green;font-size:15px;">
+                                @item.Product.Price
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                Данные отсутствуют
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Product != null)
+                        {
+                            switch (item.Product.Discount_group_id)
+                            {
+                                case "000000003": //red
+                                    <b style="color:#DC0A1E;">@item.Product.Price_opt</b>
+                                    break;
+                                case "000000001":
+                                    <b style="color:#0253B7;">@item.Product.Price_opt</b>
+                                    break;
+                                case "000000002":
+                                    <b style="color:#000000;border:solid 1px #D9D9D9;">@item.Product.Price_opt</b>
+                                    break;
+                                case "1-0000001":
+                                    <b style="color:#4C108F;">@item.Product.Price_opt</b>
+                                    break;
+                                case "1-0000003":
+                                    <b style="color:#FFFF00;">@item.Product.Price_opt</b>
+                                    break;
+                                case "1-0000006":
+                                    <b style="color:#4C1C24;">@item.Product.Price_opt</b>
+                                    break;
+                                default:
+                                    <b>@item.Product.Price_opt</b>
+                                    break;
+                            }
+
+                        }
+                        else
+                        {
+                            <span>
+                                Данные отсутствуют
+                            </span>
+                        }
+
+                    </td>
+                    <td>
+                        @if ((item.PdfFiles != null && item.PdfFiles.Count > 0) || (item.CdrFiles != null && item.CdrFiles.Count > 0))
+                        {
+                            if (item.CdrFiles != null && item.CdrFiles.Count > 0)
+                            {
+                                foreach (var subitem in item.CdrFiles)
+                                {
+                                    <a href="@subitem">скачать CDR</a>
+                                }
+                            }
+
+                            if (item.PdfFiles != null && item.PdfFiles.Count > 0)
+                            {
+                                foreach (var subitem in item.PdfFiles)
+                                {
+                                    <a href="@subitem">скачать PDF</a>
+                                }
+                            }
+
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div id="PagedDiv">
+            @Html.PageLinks(Model.PagInfo, x => Url.Action("index", new { page = x, cat = Model.CatId }))
+            <div id="inputPage" style="display:none;">
+                <input id="pagedUl" name="pagedUl" value="" type="text" />
+            </div>
+        </div>
+        <p style="text-align:center;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+
+    </div>
+</div>
+
+
+
+<script>
+
+    $(document).ready(function () {
+        //PaginationHelper
+        $('.mainPager').click(function () {
+            $('#inputPage').show();
+            $('#pagedUl').focus();
+        });
+        //скрыть форму PaginationHelper по клику вне формы
+        $(document).mouseup(function (e) {
+            var container = $("#inputPage");
+            if (container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+
+        $('#inputPage').keypress(function (e) {
+            var cat = $('#cat').val();
+            var url = window.location.href.split(/\?/)[0];
+            var key = e.which;
+            if (key == 13) // the enter key code
+            {
+                var page = parseInt($('#pagedUl').val());
+                var maxPage = parseInt($('#TotalPage').val());
+                if (page >= 1 && page <= maxPage) {
+                    url = url + '?page=' + page + '&cat=' + cat;
+                    window.location = url;
+                    $('#inputPage').hide();
+                }
+                else {
+                    alert('введенное значение превышает максимальное количество страниц!');
+                    $('#pagedUl').val(1);
+                    $('#inputPage').hide();
+                    return false;
+                }
+
+                return false;
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,261 @@
+﻿@model EditPressRu.Models.ContacstViewModel
+@{
+    ViewBag.Title = "Контакты ООО Эдитпресс в Москве | 8-499-750-55-50";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main">
+    <div class="product-container">
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @Html.Partial("_TopSalesPartial", Model.TopSalesList)
+            </div>
+        </div>
+        <div class="contact-holder vcard" itemscope itemtype="http://schema.org/Organization">
+            <h2>Как нас найти</h2>
+            <div class="contact-frame">
+                <div class="contact-content">
+                    <div class="map-holder">
+                        <h2 class="nadpisContact">
+                            Офис продаж <text class="fn org" itemprop="name">ООО "ЭдитПресс"</text>
+                        </h2>
+                        <h3 style="color:#33b086;font-weight:300;font-size:15px;" class="zphone tel"> 8-800-333-50-90</h3>
+                        <h3 style="color:#33b086;font-weight:300;font-size:15px;" class="zphone tel">8-499-750-55-50</h3>
+                        <p class="contactP" style="padding-bottom:40px;">
+                            119021, г. Москва,
+                            Оболенский переулок, д. 10, стр. 3
+                        </p>
+                        <div id="map"></div>
+                    </div>
+                    <div class="map-holder">
+                        <h2 class="nadpisContact">
+                            Оптовый склад бизнес сувениров
+                        </h2>
+                        <p class="contactP">
+                            Адрес: 143080, Московская Обл, Одинцовский р-н, Лесной Городок ДП, Энергетиков ул, 7
+                        </p>
+                        <p class="contactP">
+                            Минское шоссе, 15 км
+                        </p>
+                        <p class="contactP">
+                            Часы работы: ПН-ПТ: 9.00 - 18.00, СБ-ВСК: выходной
+                        </p>
+                        <p class="contactP">
+                            Уважаемые партнёры,
+                        </p>
+                        <p class="contactP" style="padding-bottom:20px;font-weight:600;">
+                            Обращаем ваше внимание, что отгрузки с оптового склада возможны только официальным дилерам.
+                        </p>
+                        <div id="map2"></div>
+                    </div>
+                </div>
+                <div class="sideBar1 adr" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                    <div>
+                        <h2 class="nadpisContact">Адрес офиса продаж</h2>
+                        <p class="contactP locality"><text itemprop="addressLocality">г. Москва,</text><text itemprop="postalCode">119021</text></p>
+                        <p class="contactP street-address" itemprop="streetAddress">Оболенский переулок, д. 10, стр. 3</p>
+                    </div>
+                    <div style="padding-top:30px;">
+                        <h2 class="nadpisContact">Телефон</h2>
+                        <p class="contactP zphone" itemprop="telephone">8-800-333-50-90</p>
+                        <p class="contactP zphone" itemprop="telephone">8-499-750-55-50</p>
+                    </div>
+                    <div style="padding-top:30px;">
+                        <h1 class="nadpisContact">E-mail</h1>
+                        <p class="contactP email" itemprop="email">info@editpress.ru</p>
+                    </div>
+                    <div style="padding-top:20px;">
+                        <h2 class="nadpisContact">Адрес оптового склада</h2>
+                        <p class="contactP locality"> Московская обл,143080, Одинцовский р-н</p>
+                        <p class="contactP street-address">, Лесной Городок ДП, Энергетиков ул, д. 7 </p>
+                    </div>
+                    <div class="tallks-form">
+                        <h2 class="nadpisContact">Отзыв</h2>
+                        <p class="contactP" style="padding-bottom:12px;">
+                            <input type="text" id="nameCt" class="inputText" placeholder="ФИО">
+                        </p>
+                        <p class="contactP" style="padding-bottom:12px;">
+                            <input type="text" id="emailCt" class="inputText" placeholder="e-mail">
+                        </p>
+                        <p class="contactP">
+                            <textarea id="msgBodyCt" placeholder="отзыв"></textarea>
+                        </p>
+                        <div class="btns">
+                            <button class="btn-reset">Отмена</button>
+                            <button class="btn-send">Отправить</button>
+                        </div>
+                        <div id="BckClRez" class="msgContact"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+<script type="text/javascript">
+    ymaps.ready(init); // карта соберется после загрузки скрипта и элементов
+    var myMap; // заглобалим переменную карты чтобы можно было ею вертеть из любого места
+    var myMap2;
+    function init() { // функция - собиралка карты и фигни
+        myMap = new ymaps.Map("map", { // создаем и присваиваем глобальной переменной карту и суем её в див с id="map"
+            center: [55.7306, 37.5867], // ну тут центр
+            behaviors: ['default', 'scrollZoom'], // скроллинг колесом
+            zoom: 16 // тут масштаб
+        });
+        myMap.controls // добавим всяких кнопок, в скобках их позиции в блоке
+            .add('zoomControl', { left: 5, top: 5 }) //Масштаб
+            .add('typeSelector') //Список типов карты
+            .add('mapTools', { left: 35, top: 5 }) // Стандартный набор кнопок
+            .add('searchControl'); // Строка с поиском
+
+        /* Создаем кастомные метки */
+        myPlacemark0 = new ymaps.Placemark([55.7325, 37.5832]);
+        ymaps.option.presetStorage.add('my#preset1', {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: '/images/EditBalon.png',
+            iconImageSize: [150, 80], // размеры картинки
+            iconImageOffset: [-45, -75], // смещение картинки
+            iconContentOffset: [0, 0]
+        });
+        myPlacemark0.options.set("preset", "my#preset1");
+        //потом просто присваиваете метке этот пресет и все
+        /* тоже самое для других меток */
+        myPlacemark1 = new ymaps.Placemark([55.7274, 37.5806]);
+        ymaps.option.presetStorage.add('my#preset2', {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: '/images/manFromMap.png',
+            iconImageSize: [25, 37], // размеры картинки
+            iconImageOffset: [-25, -30], // смещение картинки
+            iconContentOffset: [0, 0]
+        });
+        myPlacemark1.options.set("preset", "my#preset2");
+
+        /* Добавляем */
+        myMap.geoObjects
+            .add(myPlacemark0)
+            .add(myPlacemark1);
+        //.add(myPlacemark2);
+
+        //добавление линии
+        var geometry = [[55.7274, 37.5806], [55.7275, 37.5808], [55.7287, 37.5795],
+            [55.7310, 37.5784], [55.7316, 37.5806], [55.7324, 37.5832], [55.7325, 37.5832]],
+
+         properties = {
+             hintContent: "Путь от метро до ЭдитПресс"
+         },
+         options = {
+             draggable: true,
+             strokeColor: '#ea2c3e',
+             strokeWidth: 1
+
+         },
+         polyline = new ymaps.Polyline(geometry, properties, options);
+        myMap.geoObjects.add(polyline);
+
+        /* Фикс кривого выравнивания кастомных балунов */
+        myMap.geoObjects.events.add([
+            'balloonopen'
+        ], function (e) {
+            var geoObject = e.get('target');
+            myMap.panTo(geoObject.geometry.getCoordinates(), {
+                delay: 0
+            });
+        });
+
+        //Вторая карта
+        myMap2 = new ymaps.Map("map2", { // создаем и присваиваем глобальной переменной карту и суем её в див с id="map2"
+            center: [55.6398, 37.2242], // ну тут центр
+            behaviors: ['default', 'scrollZoom'], // скроллинг колесом
+            zoom: 16 // тут масштаб
+        });
+        myMap2.controls // добавим всяких кнопок, в скобках их позиции в блоке
+            .add('zoomControl', { left: 5, top: 5 }) //Масштаб
+            .add('typeSelector') //Список типов карты
+            .add('mapTools', { left: 35, top: 5 }) // Стандартный набор кнопок
+            .add('searchControl'); // Строка с поиском
+
+        myPlacemark5 = new ymaps.Placemark([55.6399, 37.2207]);
+        ymaps.option.presetStorage.add('my#preset5', {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: '/images/EditBalon.png',
+            iconImageSize: [150, 80], // размеры картинки
+            iconImageOffset: [-25, -85], // смещение картинки
+            iconContentOffset: [0, 0]
+        });
+        myPlacemark5.options.set("preset", "my#preset5");
+        myMap2.geoObjects
+          .add(myPlacemark5);
+        /* Фикс кривого выравнивания кастомных балунов */
+        myMap2.geoObjects.events.add([
+            'balloonopen'
+        ], function (e) {
+            var geoObject = e.get('target');
+            myMap.panTo(geoObject.geometry.getCoordinates(), {
+                delay: 0
+            });
+        });
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        //---------------*********backCall***********--------------------------
+
+        $(".btn-reset").click(function () {
+            $('#nameCt').val("");
+            $('#emailCt').val("");
+            $('#msgBodyCt').val("");
+        });
+
+        $(".btn-send").click(function () {
+
+            var sub = "Сообщение со страницы КОНТАКТЫ";
+            var name = $('#nameCt').val();
+            var email = $('#emailCt').val();
+            var msgBody = $('#msgBodyCt').val();
+
+            if (name.length < 1) {
+                //$('#err_name2').html('Вы не заполнили имя');
+                return false;
+            }
+            else {
+                //$('#err_name2').html('');
+            }
+            if (email.length < 5) {
+                //$('#err_email2').html('Проверьте поле почта');
+                return false;
+            }
+            else {
+                // $('#err_email2').html('');
+            }
+            if (msgBody.length < 7) {
+                //$('#err_body2').html('Слишком маленькое сообщение');
+                return false;
+            }
+            else {
+                //$('#err_body2').html('');
+            }
+
+            $.ajax({
+                url: "/ajax/backcall",
+                type: "POST",
+                data: { name: name, email: email, sub: sub, msgBody: msgBody },
+                error: function () {
+                    alert("ошибка при отправке сообщения");
+                },
+                success: function (returndata) {
+                    $("#BckClRez").show();
+                    $("#BckClRez").html(returndata);
+                    setTimeout(function () { $("#BckClRez").hide() }, 3000);
+                }
+
+            });
+            return false;
+        });
+    });
+</script>
+
+

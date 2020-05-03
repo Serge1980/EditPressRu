@@ -1,0 +1,444 @@
+﻿@model EditPress.Ru.Models.ItemsViewModel
+
+@{
+    ViewBag.Title = "Создать товар";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="/Items/Edit" method="post">
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+
+        <div class="editor-label">
+            <strong>Категория</strong>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $('footer').hide();
+
+                //Дропдавн заполнения субкатегорий
+                $("#CategoryList").change(function () {
+                    //alert("ffff");
+                    var cat = $(this).val();
+                    //var cat = $("#CategoryList option:selected").val();
+
+                    $.ajax({
+                        //путь куда отправлять данные(в нашем случае метод контроллера)
+                        url: "/Items/GetSubCategories",
+                        type: "post",
+                        //это отправка данных на сервер
+                        data: { CategoryIndex: cat },
+                        //ответ сервера в случае неудачи  (код сервера 500)
+                        error: function () { alert("server error in fill SubCat"); },
+                        //это ответ сервера. в случае успеха эта функция выполнится(код 200),dataout--это данные с сервера
+                        success: function (dataout) {
+
+                            $('#SubCategoryList').html(dataout); //--заполнили тело шаблона+проекты
+
+                        }
+                    });
+                });
+
+
+                //загрузка одиночной картинки в пункте выбора
+                $('.uploadOnImg').on('click', function (e) {
+                    e.preventDefault();
+
+                    var imgId = $(this).data("id");
+                   // alert(imgId);
+                    var files = document.getElementById(imgId).files;
+                    //alert(files.length);
+                    if (files.length > 0) {
+                        if (window.FormData !== undefined) {
+                            var data = new FormData();
+                            for (var x = 0; x < files.length; x++) {
+                                data.append("file" + x, files[x]);
+                            }
+                            var ID = $('#ItemRec_ItemID').val();
+                            //alert(ID);
+                            data.append("ID", ID);
+                            data.append("ItemPicId", imgId);
+                            //alert(window.FormData);
+                            $.ajax({
+                                type: "POST",
+                               url: '/Items/Upload2',
+                                contentType: false,
+                                processData: false,
+                                data: data,
+                                success: function (result) {
+                                    // console.log(result);
+                                    window.location.reload();
+                                },
+                                error: function (xhr, status, p3) {
+                                    console.log(xhr.responseText);
+                                }
+                            });
+                        } else {
+                            alert("This browser doesn't support HTML5 file uploads!");
+                        }
+                    }
+                });
+
+                //загрузка новой одиночной картинки в пункте выбора
+                $('#uploadNewImg').on('click', function (e) {
+                    e.preventDefault();
+
+                    var files = document.getElementById("uploadNewImg1").files;
+                    //alert(files.length);
+                    if (files.length > 0) {
+                        if (window.FormData !== undefined) {
+                            var data = new FormData();
+                            for (var x = 0; x < files.length; x++) {
+                                data.append("file" + x, files[x]);
+                            }
+                            var ID = $('#ItemRec_ItemID').val();
+                            //alert(ID);
+                            data.append("ID", ID);
+                          
+                            //alert(window.FormData);
+                            $.ajax({
+                                type: "POST",
+                                url: '/Items/Upload3',
+                                contentType: false,
+                                processData: false,
+                                data: data,
+                                success: function (result) {
+                                    // console.log(result);
+                                    window.location.reload();
+                                },
+                                error: function (xhr, status, p3) {
+                                    console.log(xhr.responseText);
+                                }
+                            });
+                        } else {
+                            alert("This browser doesn't support HTML5 file uploads!");
+                        }
+                    }
+                });
+
+                ////загрузка рисунка
+
+                //$('#submit1').on('click', function (e) {
+                //    e.preventDefault();
+                //    var files = document.getElementById('uploadFile').files;
+                //    if (files.length > 0) {
+                //        if (window.FormData !== undefined) {
+                //            var data = new FormData();
+                //            for (var x = 0; x < files.length; x++) {
+                //                data.append("file" + x, files[x]);
+                //            }
+                //            var ID = $('#ItemRec_ItemID').val();
+                //            //alert(ID);
+                //            data.append("ID", ID);
+
+                //            $.ajax({
+                //                type: "POST",
+                //                url: '/Items/Upload',
+                //                contentType: false,
+                //                processData: false,
+                //                data: data,
+                //                success: function (result) {
+                //                    //alert(result);
+                //                    $('#RespUpload').html(result);
+                //                },
+                //                error: function (xhr, status, p3) {
+                //                    alert(xhr.responseText);
+                //                }
+                //            });
+                //        } else {
+                //            alert("Браузер не поддерживает загрузку файлов HTML5!");
+                //        }
+                //    }
+                //});
+
+
+                //cделать главной картинку
+                $(document).on('click', '.setMainImg', function () {
+                    var id = $(this).data("id");
+                    var ItemId = $(this).data("name");
+
+                    //alert(picId + ' ' + ItemId);
+                    $.ajax({
+                        url: "/Items/SetMainImg",
+                        type: "POST",
+                        data: { id: id, ItemId: ItemId },
+                        error: function () {
+                            alert("ошибка при попытке сделать картинку главной");
+                        },
+                        success: function (returndata) {
+                            window.location.reload();
+                        }
+
+                    });
+                    return false;
+                });
+               
+
+                //удалить картинку
+                $(document).on('click', '.ImgDel', function () {
+                    var id = $(this).data("id");
+                    var ItemId = $('#ItemRec_ItemID').val();
+
+                    //alert(picId + ' ' + ItemId);
+                    $.ajax({
+                        url: "/Items/DeleteImg",
+                        type: "POST",
+                        data: { id: id, ItemId: ItemId },
+                        error: function () {
+                            alert("ошибка при попытке удалить картинку ");
+                        },
+                        success: function (returndata) {
+                            window.location.reload();
+                        }
+
+                    });
+                    return false;
+                });
+
+
+            });
+
+        </script>
+
+        @Html.HiddenFor(model => model.ItemRec.ItemID)
+
+        <div class="editor-label">
+
+            @Html.DropDownList("Category", Model.CatDD, new { id = "CategoryList" })
+        </div>
+        <br />
+
+        <div class="editor-label">
+            <strong>Подкатегория</strong>
+        </div>
+
+        @*<select id="SubCategoryList" name="Sel_SubCategory"></select>*@
+        @Html.DropDownList("SubCategory", Model.SubCatDD, new { id = "SubCategoryList" })
+        <br />
+        <br />
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.ItemName)
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemName)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemShName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.ItemShName)
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemShName)
+        </div>
+
+        <div class="editor-label">
+            <b>Артикул</b>
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.ItemArtikul)
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemArtikul)
+        </div>
+
+        <hr />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Material)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Material)
+            @Html.ValidationMessageFor(model => model.ItemRec.Material)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Color)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Color)
+            @Html.ValidationMessageFor(model => model.ItemRec.Color)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Size)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Size)
+            @Html.ValidationMessageFor(model => model.ItemRec.Size)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Nanesenie)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Nanesenie)
+            @Html.ValidationMessageFor(model => model.ItemRec.Nanesenie)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Weightl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Weightl)
+            @Html.ValidationMessageFor(model => model.ItemRec.Weightl)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Brand)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Brand)
+            @Html.ValidationMessageFor(model => model.ItemRec.Brand)
+        </div>
+       
+         <hr />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemAttributes)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.ItemAttributes)
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemAttributes)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemPreservative)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.ItemPreservative)
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemPreservative)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemDesc)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ItemRec.ItemDesc, new { id = "ItemDesc", style = "width:100%;" })
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemDesc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemMetaDesc)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ItemRec.ItemMetaDesc, new { id = "ItemMetaDesc", style = "width:100%;" })
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemMetaDesc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemMetaKeywords)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ItemRec.ItemMetaKeywords, new { id = "ItemMetaKeywords", style = "width:100%;" })
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemMetaKeywords)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.ItemPrice)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.ItemPrice)
+            @Html.ValidationMessageFor(model => model.ItemRec.ItemPrice)
+        </div>
+       
+        <hr />
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.Publish)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.Publish)
+            @Html.ValidationMessageFor(model => model.ItemRec.Publish)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.hit)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.hit)
+            @Html.ValidationMessageFor(model => model.ItemRec.hit)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.newitem)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.newitem)
+            @Html.ValidationMessageFor(model => model.ItemRec.newitem)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemRec.china)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemRec.china)
+            @Html.ValidationMessageFor(model => model.ItemRec.china)
+        </div>
+       
+         <hr />
+
+        <div class="editor-field">
+
+            <h3>Работа с картинками</h3>
+
+            <table class="table-bordered table-hover table-condensed">
+
+                @foreach (var pic in Model.PicList)
+                {
+                    <tr>
+                        <td>
+                            <a class="fancybox" id="@pic.Id-a" rel="group" href="@pic.Pic">
+                                <img id="@pic.Id" src="@pic.Pic" style="max-width:100px;max-width:50px;" />
+                            </a>
+                        </td>
+                        @if (pic.Pic == Model.ItemRec.ImagePic)
+                        {
+                            <td><span data-id='@pic.Id' class='label label-warning setMainImg'>ХГлавнаяХ</span></td>
+                        }
+                        else
+                        {
+                            <td><span data-id='@pic.Id' data-name="@Model.ItemRec.ItemID" class='label label-info setMainImg'><a href='#'>Сделать Главной</a></span></td>
+                        }
+
+                        <td>
+                            <input type="file" name="upload" id="@("upload"+pic.Id)"  /><button class="uploadOnImg" data-id="@("upload"+pic.Id)">Загрузить</button>
+                        </td>
+                        <td><span data-id='@pic.Id' class='label label-danger ImgDel'><a href='#'>удалить</a></span></td>
+
+                    </tr>
+                }
+
+                <tr>
+                    <td>Загрузить еще картинку</td>
+                    <td><span data-id='' class='label label-default setMainImg'>Сделать Главной</span></td>
+                    <td>
+                        <input type="file" name="upload" id="uploadNewImg1" /><button id="uploadNewImg">Загрузить</button>
+                    </td>
+                    <td><span data-id='' class='label label-default '>удалить</span></td>
+
+                </tr>
+            </table>
+
+        </div>
+
+        <hr />
+        @*<label>Загрузка картинок:</label>
+            <div>
+                <input type="file" name="upload" id="uploadFile" accept="image/*" multiple="multiple" /><br />
+                <button id="submit1" class="btn btn-mini btn-primary" type="button">Загрузить</button>
+            </div>*@
+        <hr style="padding-bottom:50px;" />
+        <p style="margin-top:5px;">
+            <input type="submit" value="Записать/Сохранить" />
+        </p>
+    </fieldset>
+</form>
+
+<div>
+    @Html.ActionLink("В список товара", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

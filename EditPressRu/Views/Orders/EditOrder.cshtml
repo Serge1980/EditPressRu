@@ -1,0 +1,33 @@
+﻿@model EditPressRu.Models.OrderDetailsView
+@{
+    if (Model.ModelIsEmpty)
+    {
+        ViewBag.Title = "Корзина пуста";
+    }
+    else
+    {
+        ViewBag.Title = String.Format("Заказ №{0}", Model.OrderDetail.FirstOrDefault().OrderId);
+    }
+
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+}
+
+
+@if (!Model.ModelIsEmpty)
+{
+    <div class="CartForm" id="CartForm">
+        @{ Html.RenderPartial("_PartialOrder", Model); }
+    </div>
+}
+else
+{
+    <div style="color:#586A74;">
+        <h1 style="margin-top:50px;text-align:center;font-weight:200;">Ваша корзина пуста</h1>
+        <p style="margin-top:80px;text-align:center;font-size:20px;">Чтобы создать новый заказ, добавьте товар в корзину</p>
+    </div>
+}
+
+
+
+
+

@@ -1,0 +1,41 @@
+﻿@model EditPressRu.Models.ArtiklesIndexViewModel
+@using EditPressRu.Helpers
+
+@{
+    ViewBag.Title = "Новости рекламно-полиграфической компании EditPress";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="zagolovok" style="border-bottom:solid 1px #808080;margin-bottom:15px;">@ViewBag.Title</h1>
+
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;display:flex;flex-direction:column;">
+                @foreach (var item in Model.ArtiklesIndexPL)
+                {
+                    <div class="article_div" style="border-bottom:1px solid #33B086;margin-bottom:20px;padding-bottom:15px;">
+                        <h2 class="article_h2" style="padding:10px 0px 10px 15px">@item.Title</h2>
+                        @*<hr />*@
+                        <p class="article_p">
+                            @Html.Raw(@item.Description)
+                        </p>
+                        <a class="article_a" href="@item.HrefToArtikle" style="background-color:#33B086;color:#422C18;">дальше>>></a>
+                        @*<hr />*@
+                    </div>
+                }
+            </div>
+            @Html.PageLinks(Model.Paging, x => Url.Action("Index", "News", new { page = x }))
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

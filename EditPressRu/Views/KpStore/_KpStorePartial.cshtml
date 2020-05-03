@@ -1,0 +1,75 @@
+﻿@model EditPressRu.Models.EditKPViewModel
+
+    <div class="header">
+        <div style="float:right;"><a href="#" id="closeMdl"><i class="fa fa-times"></i></a></div>
+        <h2><i class="fa fa-rub"></i> Цены и услуги</h2>
+    </div>
+    <div class="modalBody">
+        <div class="modalR1">
+            <div class="modalR1Item">
+                @if (Model.KpStore.MarkUp.HasValue)
+                {
+                    <p contenteditable="true" id="pMarg">@Model.KpStore.MarkUp.Value</p>
+                        <label>Наценка % <i class="fa fa-info-circle" title="Наценка выполняется повышением цены за штуку для каждой позиции"></i></label>
+                }
+                else
+                {
+                    <p contenteditable="true" id="pMarg">0</p>
+                        <label>Наценка % <i class="fa fa-info-circle" title="Наценка выполняется повышением цены за штуку для каждой позиции"></i></label>
+                }
+
+            </div>
+            <div class="modalR1Item">
+                @if (Model.KpStore.Sale.HasValue)
+                {
+                    <p contenteditable="true" id="pSale">@Model.KpStore.Sale.Value</p>
+                        <label>Скидка % <i class="fa fa-info-circle" title="Скидка вычитается из общей суммы заказа"></i></label>
+                }
+                else
+                {
+                    <p contenteditable="true" id="pSale">0</p>
+                        <label>Скидка % <i class="fa fa-info-circle" title="Скидка вычитается из общей суммы заказа"></i></label>
+                }
+            </div>
+            <div class="modalR1Item">
+                <p contenteditable="true" id="pCurVal">@Model.KpStore.Currency</p>
+                <label>Название валюты&nbsp;<i class="fa fa-info-circle" title="Вы можете задать свою валюту"></i></label>
+            </div>
+            <div class="modalR1Item">
+                <p contenteditable="true" id="pCurCur">@Model.KpStore.СurrencyValue.ToString("0.00")</p>
+                <label>Стоимость в рублях&nbsp;<i class="fa fa-info-circle" title="Курс вашей валюты к рублю (рублей за 1 у.е.)"></i></label>
+            </div>
+        </div>
+        <div class="modalR1">
+            <p class="sumKp">Сумма</p><p id="totSummModal" class="sumKp">@Model.Cost.ToString("0.00")</p>
+        </div>
+        @if (Model.KpStore.Sale.HasValue && Model.KpStore.Sale.Value>0)
+        {
+            <div class="modalR1">
+                <p class="sumKp">Скидка</p><p id="totSummModal" class="sumKp">- @Model.CostSale.ToString("0.00")</p>
+            </div>
+        }
+       @if (Model.KpStore.MarkUp.HasValue && Model.KpStore.MarkUp.Value > 0)
+       {
+        <div class="modalR1">
+            <p class="sumKp">Наценка</p><p id="totSummModal" class="sumKp">@Model.CostMark.ToString("0,##")</p>
+        </div>
+       }
+        <div id="contAddsServs">
+            @if (Model.KpStoreDopList != null && Model.KpStoreDopList.Count > 0)
+            {
+                foreach (var item in Model.KpStoreDopList)
+                {
+                    <p class="contSrv"><span contenteditable="true" data-id="1">@item.Service</span> <span contenteditable="true" data-id="2">@item.Price.ToString("0.00")</span> <label class="remService" title="Удалить услугу"><i class="fa fa-minus"></i></label></p>
+                }
+
+            }
+            <p class="contSrv"><span contenteditable="true" data-id="1" data-text="Название услуги"></span> <span contenteditable="true" data-id="2">0.00</span> <label class="addService" title="Добавить еще услугу"><i class="fa fa-plus"></i></label></p>
+        </div>
+        <div class="modalR1">
+            <p class="sumKp">ИТОГО</p><p id="totSummModal" class="sumKp">@Model.TotalSumm.ToString("0.00")</p>
+        </div>
+        <div class="modalR1" style="justify-content:center;">
+            <div id="sendModal" style="margin-right:15px;">Применить настройки</div> <div>или</div> <div style="margin-left:15px;" id="removeSett"><a href="#" style="text-decoration:underline;">Сбросить</a></div>
+        </div>
+    </div>

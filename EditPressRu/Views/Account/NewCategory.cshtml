@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Категория";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function readURL(input, pic_id) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(pic_id).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).ready(function () {
+        $("#pic1").change(function () {
+            readURL(this, "#pic1_img");
+        });
+        $("#pic1clear").click(function () {
+            $("#pic1_img").attr('src', '');
+            $("#pic1").val('');
+            event.preventDefault();
+        });
+    });
+</script>
+
+<h3>@ViewBag.Title</h3>
+<form action="/Account/NewCategorySave" method="post" enctype="multipart/form-data">
+    <table class="add-category">
+        <tr>
+            <td style="width:150px;">Наименование:</td>
+            <td><input type="text" name="naim" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>Alias:</td>
+            <td><input type="text" name="alias" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>Краткое описание:</td>
+            <td><input type="text" name="shortdesc" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>Полное описание:</td>
+            <td><input type="text" name="fulldesc" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>meta-title:</td>
+            <td><input type="text" name="metatitle" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>meta-keywords:</td>
+            <td><input type="text" name="metakeywords" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>meta-description:</td>
+            <td><input type="text" name="metadesc" value=" " style="width:100%;" /></td>
+        </tr>
+        <tr>
+            <td>Изображение:</td>
+            <td>
+                <input id="pic1" type="file" name="pic1" />
+                <img id="pic1_img" style="max-height:150px;max-width:150px;margin-top:30px;" />
+                <input id="pic1_img_data" name="pic1_img" type="hidden">
+                <button id="pic1clear" style="display:block;">Удалить изображение</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>
+                    <span><input id="publish" name="publish" type="checkbox" style="width: 100%;" />Опубликовать</span>
+                </label>   
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value=" Записать категорию " class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+</form>

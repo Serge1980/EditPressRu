@@ -1,0 +1,70 @@
+﻿@*@model List<EditPressRu.Models.DopImgList>*@
+@model EditPressRu.Models.PicterPartialModel
+
+<input type="hidden" id="KpId" value="@Model.KpId"/>
+<input type="hidden" id="ProdId" value="@Model.ProdId" />
+<input type="hidden" id="Numbr" value="@Model.Numbr" />
+
+<div style="overflow: hidden;">
+    <ul style="display:flex;flex-direction:row;justify-content:center;align-items:center;list-style:none;">
+        @foreach (var item in Model.DopImgList.Where(x=>x.NumberImg==Model.Numbr))
+        {
+            <li style="width:800px;">
+                <img src="@item.Image" class="modalImg-Img" />
+            </li>
+        }
+    </ul>
+    @if (Model.DopImgList.Count > 1)
+    {
+        <div style="position:absolute;bottom:-40px;left:40%;display:flex;flex-direction:row;justify-content:center;align-items:center;">
+            <div class="buttons1">
+                <a href="#" class="prev1">
+                    <i class="fa fa-chevron-circle-left"></i>
+                </a>
+            </div>
+            <div class="buttons1">
+                <span>@Model.Numbr</span>/<span>@Model.DopImgList.Count()</span>
+            </div>
+            <div class="buttons1">
+                <a href="#" class="next1"><i class="fa fa-chevron-circle-right"></i></a>
+            </div>
+        </div>
+    }
+    
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('.next1').click(function () {
+            GetNextImg('True');
+        });
+
+        $('.prev1').click(function () {
+            GetNextImg('False');
+        });
+
+    });
+
+
+    function GetNextImg(nxt) {
+       
+        var prodId = $('#ProdId').val();
+        var kpId = $('#KpId').val();
+        var nbr = $('#Numbr').val();
+
+        $.ajax({
+            url: "/kpstore/getpictureviewer",
+            type: "POST",
+            data: { kpId: kpId, prodId: prodId, next: nxt, number: nbr },
+            error: function () {
+                //alert("ошибка в автокомплите");
+            },
+            success: function (returndata, textStatus, XMLHttpRequest) {
+                $('.modalImg-content').html(returndata);
+                //$('#modalImg').show();
+            }
+
+        });
+    };
+</script>

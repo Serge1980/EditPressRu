@@ -1,0 +1,86 @@
+﻿@model EditPressRu.Models.LoginModel
+
+@{
+    ViewBag.Title = "Вход в личный кабинет";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="loginForm">
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl}))
+{
+    @Html.AntiForgeryToken()
+    
+    <fieldset>
+        <div style="display:flex;flex-direction:row;padding-top:20px">
+            <div style="flex:1;"></div>
+            <div style="flex:1;">
+                <div class="well" style="width:360px;">
+                    <span style="color:red;">@Html.ValidationSummary()</span>
+                    <legend>
+                        Авторизация на сайте
+                    </legend>
+
+                    <table>
+                        <tr>
+                            <td align="right">
+                                @Html.LabelFor(m => m.UserName)
+                            </td>
+                            <td align="left" style="padding-left:5px;">
+                                @Html.TextBoxFor(m => m.UserName, new { placeholder = "Ваш логин", style = "margin-top:5px; margin-bottom:5px;" })
+                                @Html.ValidationMessageFor(m => m.UserName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">@Html.LabelFor(m => m.Password)</td>
+                            <td align="left" style="padding-left:5px;">
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Ваш пароль", style = "margin-top:5px; margin-bottom:5px;" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label class="checkbox" style="text-align: center;">
+                                    @Html.CheckBoxFor(m => m.RememberMe, new { style = "margin-left: 0px;" })
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <button type="submit" style="background-color:#33B086; border-color:#80BD00;color:white;width:100%;border-radius:5px;padding:7px;font-size:14px;">
+                                    Выполнить вход
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--<div class="well" style="width: 360px; position: absolute; display: block; top: 0px; left: 390px;">
+                    <section class="social" id="socialLoginForm">
+                        Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+                    </section>
+                </div>-->
+            </div>
+            <div style="flex:1;"></div>
+        </div>
+    </fieldset>
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center">
+        <p style="text-align:center;">
+            @Html.ActionLink("Зарегистрируйтесь", "Register", "Account", new {style = "text-decoration:underline;" }), если у вас нет учетной записи.
+        </p>
+        <p style="text-align:center;">
+            @Html.ActionLink("Восстановить/изменить пароль", "ChangePass", "Account", new { style = "text-decoration:underline;" }), если забыли.
+        </p>
+        <p style="text-align:center;">
+            <a href="/politikakonfidencialnosty">Нажимая кнопку выплнит вход, Вы принимаете нашу политику конфиденциальности</a>
+        </p>
+    </div>
+}
+</section>
+
+@section scripts {
+   <script src="~/scripts/jquery.validate-vsdoc.js"></script>
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+
+}

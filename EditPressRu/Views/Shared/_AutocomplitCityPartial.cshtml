@@ -1,0 +1,11 @@
+﻿@model List<SelectListItem>
+    <div>
+        <ul class="dropdownAutocompl">
+            @foreach (var item in Model)
+                {
+                <li>
+                    <p><a class="cw-setCity" href="javascript:void(0);" data-id="@item.Value">@item.Text</a></p>
+                </li>
+            }
+        </ul>
+    </div>

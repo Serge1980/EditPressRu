@@ -1,0 +1,104 @@
+﻿@model EditPressRu.Models.CasesViewModel
+@{
+    ViewBag.Title = "Кейсы";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input type="hidden" id="pageIndex" name="pageIndex" value="@Model.Page" />
+<input type="hidden" id="pages" name="pages" value="@Model.TotalPages" />
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:0px 20px 10px 0px;">
+                <div>
+                    <p>
+                        Где заказать нанесение логотипа на сувенирную продукцию? Как нанести рекламу на сувениры? Где найти надежных поставщиков сувенирной продукции? Какие сувениры лучше подарить в этом году?
+                        Как доставить большую партию сувениров из Китая? Где в Москве есть склад с недорогими сувенирами? Где в Москве оптом заказать визитки, флаеры, рекламные плакаты?
+                    </p>
+                    <p>
+                        - Вас еще мучают эти вопросы?  <a href="/contacts" style="font-weight:500;color:#33B086;">Вам сюда!!!</a>
+                    </p>
+                </div>
+                <div id="lazyContent" class="products">
+                    @{Html.RenderPartial("_LazyContentPartial", Model.ListFiles);}
+                </div>
+                <div id="progress" style="display:none;">
+                    <img src="/Images/Loaders/356.gif" alt="Loading" /> Загрузка...
+                </div>
+                <div id="progressmarker"></div>
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    var pages = $('#pages').val();
+    var pageIndex = $('#pageIndex').val();
+    var _incallback = false;
+
+        $(window).scroll(function () {
+            var hT = $('#progressmarker').offset().top,
+                hH = $('#progressmarker').outerHeight(),
+                wH = $(window).height(),
+                wS = $(window).scrollTop();
+            // don't do it if we have reached last page OR we are still grabbing items
+            //alert("pages=" + pages + " pageIndex=" + pageIndex + " wS=" + wS + " wS> hT + hH - wH=" + hT + hH - wH + " _incallback=" + _incallback);
+            //var tt=hT + hH - wH;
+            //alert("pages=" + pages + " pageIndex=" + pageIndex + " wS=" + wS + " wS> hT + hH - wH=" + tt);
+            //alert(String(_incallback));
+            if (pages >= pageIndex && !_incallback) {
+                if (wS > (hT + hH - wH)) {
+                    GetData();
+                }
+            }
+        });
+
+        function GetData() {
+            _incallback = true;
+            $.ajax({
+                type: 'GET',
+                url: '/ajax/getcasecontent',
+                data: {
+                    //"id": categoryId,
+                    "page": pageIndex
+                    //"sort": sortIndex
+                },
+                dataType: 'html',
+                success: function (data) {
+                    if (data != null) {
+                        $("#lazyContent").append(data);
+                        pageIndex++;
+                    }
+                },
+                beforeSend: function () {
+                    $("#progress").show();
+                },
+                complete: function () {
+                    $("#progress").hide();
+                    _incallback = false;
+                },
+                error: function () {
+                    //alert("Error while retrieving data!");
+                    _incallback = false;
+                }
+            });
+        }
+
+
+
+
+    });
+
+
+</script>
+

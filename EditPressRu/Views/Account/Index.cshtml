@@ -1,0 +1,52 @@
+﻿@{
+    ViewBag.Title = "Личный кабинет пользователя: " + User.Identity.Name;
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+}
+<div style="padding:30px 30px 220px 30px;">
+    <h2>@ViewBag.Title</h2>
+    <h3 style="color:red;">@ViewBag.Msg</h3>
+    <ul class="editList" style="margin-left:40px;margin-top:30px;">
+        <li><a href="/orders" class="liAIndx">Заказы</a></li>
+        <li>
+            <a href="/orders/editorder/@ViewBag.OrderId" class="liAIndx">
+                Корзина покупок
+            </a>
+        </li>
+        <li><a href="/kpstore" class="liAIndx">Мои коммерческие предложения</a></li>
+        <li><a href="/account/accountdetails" class="liAIndx" title="Здесь можно изменить пароль и личную информацию">Профиль пользователя</a></li>
+    </ul>
+    <div style="margin:40px 0px 20px 0px;">
+        @using (Html.BeginForm("LogOff", "Account", "Post"))
+        {
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Завершить работу" style="background-color:#33B086; border-color:#80BD00;color:white;border-radius:5px;padding:7px;font-size:14px;" />
+        }
+    </div>
+
+   @if (User.IsInRole("Administrator") || User.IsInRole("Manager"))
+   {
+    <h2 style="margin-top:30px;">Административная часть сайта</h2>
+        <ul class="editList" style="margin-left:40px;margin-top:30px;">
+            <li><a href="/adminka/productsadmin" class="liAIndx">Все товары</a></li>
+            <li><a href="/adminka/oasisadmin" class="liAIndx">Товары 030, Работа с остатками</a></li>
+            <li><a href="/adminka/giftadmin" class="liAIndx">Товары 575</a></li>
+            <li><a href="/adminka/oceanadmin" class="liAIndx">Товары 150</a></li>
+            <li><a href="/adminka/hgadmin" class="liAIndx">Товары 447</a></li>
+            <li><a href="/adminka/ebazar" class="liAIndx">Товары 404</a></li>
+            <li><a href="/adminka/eklektic" class="liAIndx">Товары 710</a></li>
+            <li><a href="/adminka/xindao" class="liAIndx">Товары 420</a></li>
+            <li><a href="/adminka/cprestige" class="liAIndx">Товары 305</a></li>
+            <li><a href="/adminka/ordersadmin" class="liAIndx">Общий список заказов</a></li>
+            <li><a href="/adminka/barcode" class="liAIndx">Генерация штрихкода</a></li>
+        </ul>
+
+        @*<ul style="margin-left:40px;">
+                <li><a href="/Account/GoodsAdm">Администрирование категорий</a></li>
+                <li><a href="/Adminka/ProductsAdmin/Index">Администрирование товара</a></li>
+                <li><a href="/Discount">Виды скидок</a></li>
+                
+                <li><a href="/Account/UserDiscountList">Скидки пользователей</a></li>
+                <li><a href="/Parser/Index">Запуск Парсера Венира</a></li>
+            </ul>*@
+   }
+</div>

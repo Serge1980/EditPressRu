@@ -1,0 +1,19 @@
+﻿@model List<EditPressRu.Models.DB.Products>
+<p class="topSalesP">ТОП-продаж</p>
+    @foreach (var item in Model)
+    {
+        <div class="slideElement">
+            <div class="slideElement-holder">
+                <div class="product-preview">
+                    <a href="/products/product/@item.Id"><img src="@item.ProdImages.First(x=>x.Main).Big" /></a>
+                </div>
+                <div class="slideElement-info">
+                    <p>@String.Format("{0:0.##}", item.Price)</p>
+                    <p>руб</p>
+                </div>
+            </div>
+            <div>
+                <p class="product-title"><a href="/products/product/@item.Id">@item.ShName</a></p>
+            </div>
+        </div>
+    }

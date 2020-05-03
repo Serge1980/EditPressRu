@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Список скидок пользователей";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<table class="table">
+@foreach (var ud in ViewBag.recs)
+{
+    <tr>
+        <td>@ud.UserName</td>
+        <td>@ud.Percent</td>
+        <td>@Html.ActionLink("Редактировать", "UserDiscountEdit", new { ud.ID})</td>
+    </tr>
+}
+</table>

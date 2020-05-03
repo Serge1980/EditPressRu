@@ -1,0 +1,68 @@
+﻿@model EditPressRu.Areas.Adminka.Models.OrderUserDetailsModel
+@{
+    ViewBag.Title = "Информация о покупателе";
+    Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+}
+<p style="text-align:center;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+<p style="text-align:center;"><a href="/Adminka/Orders" class="navLink"> В общий список заказов</a></p>
+
+<h2 style="text-align:center;padding:10px 0px 10px 0px;color:#828282;">@ViewBag.Title</h2>
+<div style="display:flex;justify-content:center;align-items:center;">
+    <div>
+        <table class="table table-hover table-responsive">
+            <tr>
+                <th style="text-align:left;">Логин на сайте: </th>
+                <td>@Model.OrderUser.UserName</td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">ФИО: </th>
+                <td>@Model.UserInfo.FIO</td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">email: </th>
+                <td>
+                    @if (Model.OrderUser.UserName != Model.UserInfo.email)
+            {
+                        @Model.UserInfo.email
+            }
+            else
+            {
+                        @Model.OrderUser.UserName
+            }
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">Телефон: </th>
+                <td>
+                    @Model.UserInfo.Phone
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">Адрес Доставки: </th>
+                <td>
+                    @Model.UserInfo.ShipmentAddress
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">Организация: </th>
+                <td>
+                    @Model.UserInfo.OrgName
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">ИНН: </th>
+                <td>
+                    @Model.UserInfo.INN
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">Общее количество заказов: </th>
+                <td>@Model.TotalCount</td>
+            </tr>
+            <tr>
+                <th style="text-align:left;">Сумма по всем заказам: </th>
+                <td>@Model.TotalSumm</td>
+            </tr>
+        </table>
+    </div>
+</div>

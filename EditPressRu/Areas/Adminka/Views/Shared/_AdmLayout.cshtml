@@ -1,0 +1,397 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    @*<meta name="keywords" content="@ViewBag.metakeywords" />
+        <meta name="description" content="@ViewBag.metadesc" />*@
+    <meta name="mailru-domain" content="IHQ4WvVSQuq6fAN1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>EditPress</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @*<link href="~/Content/jquery.bxslider.css" rel="stylesheet" />*@
+    <link href="~/Content/PagerCss.css" rel="stylesheet" />
+    @*<link href="~/Content/SliderProduct.css" rel="stylesheet" />*@
+    <link href="~/Content/AdminCss.css" rel="stylesheet" />
+
+    <script src="~/scripts/jquery-3.2.1.min.js"></script>
+    <script src="~/scripts/bxslider/jquery.bxslider.min.js"></script>
+    <script src="~/scripts/modernizr-2.6.2.js"></script>
+
+    @*<link href="~/Content/jquery.range.css" rel="stylesheet" />
+        <link href="~/Content/YaxMap.css" rel="stylesheet" />*@
+    <link href="~/Content/ListCartItemsCSS.css" rel="stylesheet" />
+    <link href="~/Content/table-styles.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+    <script src="~/Content/fancybox/jquery.fancybox.js"></script>
+
+</head>
+
+<body>
+    <div class="conteiner">
+        <div class="header">
+            <div class="row_head">
+                <div class="logoBlok">
+                    <div class="logo">
+                        <a href="/"><img src="~/Images/Logo2.png" /></a>
+                    </div>
+                    <div class="r1">
+                        <span class="r1_item1">
+                            СУВЕНИРЫ ОПТОМ
+                        </span>
+                    </div>
+                    <div class="r1">
+                        <span class="r1_item2">
+                            С ВАШИМ ЛОГОТИПОМ
+                        </span>
+                    </div>
+                </div>
+                <div class="head_tel1">
+                    <div class="r1"><span class="tel">8 (800) 333-50-90</span></div>
+                    <div class="r1"><p>бесплатный звонок по России</p></div>
+                    <div class="r1">
+                        <a href="#" class="backCall">обратный звонок</a>
+                        <div id="BackCallRez" class="msgContact"></div>
+                        <div class="backCallForm">
+                            <h2 style="color:#2DB187;">Мы Вам напишем или перезвоним.</h2>
+                            <p><input class="backCallInput" id="name" name="name" type="text" /> Ваше имя*</p>
+                            <p id="err_name" class="err_msg"></p>
+                            <p><input class="backCallInput" id="email" name="email" type="text" /> E-mail или телефон*</p>
+                            <p id="err_email" class="err_msg"></p>
+                            <p><input class="backCallInput" id="sub" name="sub" type="text" /> Тема (необязательно)</p>
+                            <p>Текст сообщения:<br /><textarea id="msgBody" name="msgBody" cols="1" rows="5" class="backCallInput" style="width:90%" /></textarea></p>
+                            <p id="err_body" class="err_msg"></p>
+                            <div style="display:flex;flex-direction:row;justify-content:space-around;">
+                                <div><input id="backCallSubmit" class="backCallBtn" value="Отправить" type="submit" /></div>
+                                <div><input id="backCallClose" class="backCallBtn" value="Закрыть" type="button" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="head_tel1">
+                    <div class="r1"><span class="tel">8 (499) 705-55-50</span></div>
+                    <div class="r1"><p>Пн - Пт с 10 до 19 часов</p></div>
+                    <div class="r1">
+                        <a href="mailto:info@editpress.ru" class="backEmail">info@editpress.ru</a>
+                    </div>
+                </div>
+                <div class="cart">
+                    <div class="cart-item">
+                        <a href="/cart/listCartItem">
+                            <p id="sum_tovar"> P</p>
+                        </a>
+                    </div>
+                    <div class="cart-item">
+                        <p class="minimalPrice">15 000 P</p>
+                        <p>минимальная <br> сумма заказа</p>
+                    </div>
+                </div>
+            </div>
+          
+        </div>
+        <div class="menu">
+            @if (User.Identity.IsAuthenticated) //for mobile
+            {
+                using (Html.BeginForm("logoff", "account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <a href="#" class="btn-menu">&#9776;</a>
+                    <a href="/account" style="padding-left:35px;background:url(/Images/login.png) 0 0 no-repeat;" class="btn-login">@(User.Identity.Name.Split('@')[0])</a>
+                }
+            }
+            else
+            {
+                <a href="#" class="btn-menu">&#9776;</a>
+                <a href="/account/login" class="btn-login"></a>
+            }
+            <ul>
+                <li class="@((ViewBag.PageName == "Index") ? "current" :"")"><a href="/" class="menu_link">&#9776;&nbsp;&nbsp; КАТАЛОГ</a></li>
+                <li class="@((ViewBag.PageName == "Uslugy") ? "current" :"")"><a href="/uslugy" class="menu_link">ВИДЫ НАНЕСЕНИЯ</a></li>
+                <li class="@((ViewBag.PageName == "Cases") ? "current" :"")"><a href="/cases" class="menu_link">КЕЙСЫ</a></li>
+                <li class="@((ViewBag.PageName == "DeliveryTerms") ? "current" :"")"><a href="/deliveryterms" class="menu_link">ОПЛАТА И ДОСТАВКА</a></li>
+                <li class="@((ViewBag.PageName == "AboutCompany") ? "current" :"")"><a href="/aboutcompany" class="menu_link">О КОМПАНИИ</a></li>
+                <li class="@((ViewBag.PageName == "Contacts") ? "current" :"")" style="border-right:solid 3px #ffffff;"><a href="/contacts" class="menu_link">КОНТАКТЫ</a></li>
+
+                @if (User.Identity.IsAuthenticated)
+            {
+                using (Html.BeginForm("logoff", "account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                {
+                        @Html.AntiForgeryToken()
+                        <li style="border-radius:0px 5px 5px 0px;padding-left:10px;padding-right:10px;">
+                            <a href="/account" style="border:none;" class="menu_link">@(User.Identity.Name.Split('@')[0])</a>
+                            <a href="javascript:document.getElementById('logoutForm').submit()"><img src="~/Images/logout.png" alt="ЭдитПресс выход" style="width:100%;height:auto;" /></a>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li style="border-radius:0px 5px 5px 0px;padding-right:15px;">
+                        <a href="/account/login" style="border:none;" class="menu_link">ВХОД</a>
+                        <a href="/account/register"><img src="~/Images/register.png" style="width:100%;height:auto;" alt="ЭдитПресс регистрация" /></a>
+                    </li>
+                }
+            </ul>
+        </div>
+       
+        <div class="telo">
+            @RenderBody()
+        </div>
+    </div>
+        <div class="footer" style="align-self:flex-end;">
+            <div class="footer-row2">
+                <ul>
+                    <li><a style="" href="/">Каталог</a></li>
+                    <li><a href="/uslugy">Виды нанесения</a></li>
+                    <li><a href="/cases">Кейсы</a></li>
+                    <li><a href="/deliveryterms">Оплата и доставка</a></li>
+                    <li><a href="/aboutcompany">О компании</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+                <div style="align-self:center;padding-left:30px;"><a style="color:#ffffff;" href="/politikakonfidencialnosty">Политика конфиденциальности</a></div>
+                <div class="grid_item copyright"><span>&copy; 2017 EditPress</span></div>
+            </div>
+        </div>
+   
+ 
+
+    <div class="button-up btnBott">
+        @*<text>Наверх</text>*@
+    </div>
+    <div class="button-up btnTop">
+        @*<text>Наверх</text>*@
+    </div>
+
+    @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+
+            //height of body
+            if ($(".telo").height() < 600) {
+                $(".telo").height(600);
+            }
+
+            //$('.slider').bxSlider(); //слайдер на главной
+            //GetCartSumm();
+
+            //---------------*********backCall***********--------------------------
+            //$('.backCall').click(function () {
+            //    $('.backCallForm').show();
+            //});
+
+            //$('#backCallClose').click(function () {
+            //    $('.backCallForm').hide();
+            //});
+
+            //$("#backCallSubmit").click(function () {
+            //    //$("#mess_box2").hide();
+
+            //    var name = $('#name').val();
+            //    var email = $('#email').val();
+            //    var sub = $('#sub').val();
+            //    var msgBody = $('#msgBody').val();
+
+            //    if (name.length < 1) {
+            //        $('#err_name').html('Вы не заполнили имя');
+            //        return false;
+            //    }
+            //    else {
+            //        $('#err_name').html('');
+            //    }
+            //    if (email.length < 5) {
+            //        $('#err_email').html('Проверьте поле почта');
+            //        return false;
+            //    }
+            //    else {
+            //        $('#err_email').html('');
+            //    }
+            //    if (msgBody.length < 7) {
+            //        $('#err_body').html('Слишком маленькое сообщение');
+            //        return false;
+            //    }
+            //    else {
+            //        $('#err_body').html('');
+            //    }
+
+            //    $('.backCallForm').hide();
+            //    $.ajax({
+            //        url: "/ajax/backCall",
+            //        type: "POST",
+            //        data: { name: name, email: email, sub: sub, msgBody: msgBody },
+            //        error: function () {
+            //            alert("ошибка при отправке сообщения");
+            //        },
+            //        success: function (returndata) {
+            //            $("#BackCallRez").show();
+            //            $("#BackCallRez").html(returndata);
+            //            setTimeout(function () { $("#BackCallRez").hide() }, 3000);
+            //        }
+
+            //    });
+            //    return false;
+            //});
+            //-------------------********check in SelectList****************--------------------------
+
+            //selectList show and hide
+            $('#CatSelect').click(function () {
+                $('#CatSelectContainer').show();
+            });
+
+            $('#CatSelectContainer').mouseleave(function () {
+                $('#CatSelectContainer').hide();
+                //$('#SelectRazdelContainer').html();
+                //$('.razdelSelectItem input:checked').each(function () {
+                //        data.CatList.push($(this).data('id'));
+                //    });
+            });
+
+            //click on div with checkbox
+            $('.razdelSelectItem').click(function () {
+                var input = $(this).find(':input');
+                var dat_id = $(this).data('id');
+                if (input.val() === '0') {
+                    $(this).removeClass('razd_item_unchecked');
+                    $(this).addClass('razd_item_checked');
+                    input.val(dat_id);
+                }
+                else {
+                    $(this).removeClass('razd_item_checked');
+                    $(this).addClass('razd_item_unchecked');
+                    input.val(0);
+                }
+
+            });
+
+            //all select deselect
+            var MainChecked = $('#mainChecked').val();
+            $('#select_deselect_cats').click(function () {
+                if ($(this).attr('class') === 'razd_item_unchecked') {
+                    $(this).removeClass('razd_item_unchecked');
+                    $(this).addClass('razd_item_checked');
+                    $('.razdelSelectItem').removeClass('razd_item_unchecked');
+                    $('.razdelSelectItem').addClass('razd_item_checked');
+                    //$(".razdelSelectItem :input").each(function (e) {
+                    //    id = this.id;
+
+                    //});
+                    $('.razdelSelectItem[data-id]').each(function () {
+                        var input = $(this).find(':input');
+                        var dat_id = $(this).data('id');
+                        input.val(dat_id);
+                    });
+                }
+                else {
+                    $(this).removeClass('razd_item_checked');
+                    $(this).addClass('razd_item_unchecked');
+                    $('.razdelSelectItem').removeClass('razd_item_checked');
+                    $('.razdelSelectItem').addClass('razd_item_unchecked');
+                    $(".razdelSelectItem :input").val(0);
+                }
+            });
+
+            //-------------------******** END check in SelectList END****************--------------------------
+
+            //---Autocomplit
+
+            //скрыть форму автокомплита по клику вне формы
+            $(document).mouseup(function (e) {
+                var container = $("#AutoComplitForm");
+                if (container.has(e.target).length === 0) {
+                    container.hide();
+                }
+            });
+
+            //Поиск автокомплит
+            $('#queryString').keyup(function () {
+                //alert('Элемент foo был изменен.');
+                $('#AutoComplitForm').show("slow");
+                var term = $('#queryString').val();
+                //alert('hhhh');
+                if (term.length < 2) {
+                    return false;
+                }
+                $(this).keydown(function (eventObject) {
+                    if (eventObject.which == 27 || eventObject.which == 13)
+                        $('#AutoComplitForm').hide();
+                });
+                //alert(term);
+                $.ajax({
+                    url: "/ajax/autocoplete",
+                    type: "POST",
+                    data: { term: term },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (returndata, textStatus, XMLHttpRequest) {
+
+                        $("#AutoComplitForm").html(returndata);
+                    }
+
+                });
+
+                //function SetData(data) {
+                //    $("#AutoComplResult").html(data); // HTML DOM replace
+                //}
+
+                return false;
+            });
+
+            //Поиск submit by enter
+            $("input").bind("keydown", function (event) {
+                var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
+                if (keycode == 13) {
+                    document.getElementById('SearchSubmit').click();
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            
+           
+          
+            //$('.btn-menu').click(function (eventObject) {
+            //    $(this).toggleClass('active');
+            //    $(".menu").toggleClass("active");
+            //    eventObject.preventDefault();
+            //});
+            //if ($(window).width() < 900) {
+            //    $(".menu li").hover(
+            //        function () { $(this).addClass("current"); },
+            //        function () { $(this).removeClass("current"); }
+            //    );
+            //}
+
+
+
+
+            //Кнопка наверх
+            /**
+ * При прокрутке страницы, показываем или скрываем кнопку
+ */
+            $(window).scroll(function () {
+                // Если отступ сверху больше 100px то показываем кнопку "Наверх"
+                if ($(this).scrollTop() > 700) {
+                    $('.button-up').fadeIn();
+                } else {
+                    $('.button-up').fadeOut();
+                }
+            });
+
+            /** При нажатии на кнопку мы перемещаемся к началу страницы */
+            $('.button-up').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 500);
+                return false;
+            });
+
+           
+
+        });
+    </script>
+
+</body>
+</html>

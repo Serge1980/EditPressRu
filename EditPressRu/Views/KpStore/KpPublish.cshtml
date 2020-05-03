@@ -1,0 +1,16 @@
+﻿@model EditPressRu.Models.EditKPViewModel
+@{
+    Layout = "~/Views/Shared/_KpLayoutPublish.cshtml";
+
+}
+
+<input type="hidden" id="KpId" name="KpId" value="@Model.KpStore.Id" />
+<input type="hidden" id="ImgBtn" value="0" />
+<input type="hidden" id="idImg" value="0" />
+<input type="hidden" id="ImgProdId" value="0" />
+
+
+<div id="kpTelo">
+    @{Html.RenderPartial("_OsnPublishPartial", Model);}
+</div>
+

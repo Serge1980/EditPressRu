@@ -1,0 +1,78 @@
+﻿#PagedDiv {
+    display:block;
+    padding:10px 0 10px 0;
+    flex-basis:100%;
+    position:relative;
+}
+.pager {
+    display:flex;
+    flex-direction:row;
+    align-self:center;
+    align-items: center;
+    justify-content: center;
+}
+
+    .pager a {
+        text-decoration: none;
+        padding:0px 10px 0px 10px;
+         
+    }
+
+    .pager a, span {
+        font-family: Roboto,Arial;
+        font-weight: normal;
+        font-size: 22px;
+    }
+
+.slPager {
+    color: #828282;
+    padding-top:10px;
+}
+.lArrPager {
+    display: flex;
+}
+.lArrPager img{
+    /*background: url(../Images/lArrowPager.jpg) 50% 50% no-repeat;*/
+    /*width:70%;*/
+    align-self: center;
+}
+
+.mainPager,#pagedUl {
+    border: solid 1px #828282;
+    border-radius: 6px;
+    color: #33b086;
+    /*height: 32px;
+    width: 32px;*/
+    padding: 2px 8px 2px 8px;
+    cursor:pointer;
+}
+
+.rArrPager {
+    display: flex;
+}
+.rArrPager img{
+    /*background: url(../Images/rArrowPager.jpg) 50% 50% no-repeat;*/
+     /*width:70%;*/
+    align-self: center;
+}
+
+#inputPage {
+    display: flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right:0;
+    z-index:10;
+}
+
+#pagedUl {
+    width:90px;
+    height:30px;
+    font-size:22px;
+
+}

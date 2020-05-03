@@ -1,0 +1,306 @@
+﻿@model EditPressRu.Models.AccountDetailsViewModel
+@{
+    ViewBag.Title = "Мой профиль";
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+    //String userName=Model.UserName;
+}
+
+<link href="~/Content/AccountDetails.css" rel="stylesheet" />
+<link href="~/Content/LogoUpload.css" rel="stylesheet" />
+
+@section scripts
+    {
+    <script src="~/scripts/upload.js"></script>
+  
+}
+
+    <p style="text-align:center;">Здесь можно сменить логотип или загрузить аватар</p>
+    <div class="UplRez">
+        @Html.Partial("_UplImgPartial", Model.LogoImg)
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar"></div>
+        <div class="progress-value">0 %</div>
+    </div>
+
+
+
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:40px;">
+        <h2 style="padding-bottom:20px;">@ViewBag.Title</h2>
+        <form action="/account/saveaccountdetails" method="post">
+            <input type="hidden" name="UserID" value="@Model.UserID" />
+            <table class="table">
+                <tr>
+                    <td><div class="editor-label"><label>Имя пользователя(email)</label></div></td>
+                    <td>
+                        <input type="text" readonly="readonly" name="UserName" id="UserName" value="@Model.UserName" style="width:100%;background:#f2f2fa;padding:5px;border-radius:5px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.PhoneNumber)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            <input type="text" name="PhoneNumber" id="PhoneNumber" value="@Model.PhoneNumber" style="width:100%;padding:5px;border-radius:5px;" />
+                            <span style="color:red;">@Html.ValidationMessageFor(model => model.PhoneNumber)</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.FIO)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field">
+                            <input type="text" name="FIO" id="FIO" value="@Model.FIO" style="width:100%;padding:5px;border-radius:5px;" />
+                            <span style="color:red;">@Html.ValidationMessageFor(model => model.FIO)</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <h3>Данные для доставки</h3>
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Shipment)
+                        </div>
+                    </td>
+                    <td>
+                        <div class="editor-field" style="position:relative;">
+                            <div id="header">
+                                @*<input autocomplete="on" type="text" id="suggest" class="input" placeholder="Введите адрес">*@
+                                <textarea rows="1" autocomplete="on" placeholder="Введите адрес" id="Shipment" name="Shipment" style="width:100%;padding:5px;border-radius:5px;margin-bottom:10px;">@Model.Shipment</textarea>
+                                <span style="color:red;">@Html.ValidationMessageFor(model => model.Shipment)</span>
+                            </div>
+                            <p id="notice">Адрес не найден</p>
+                            <div id="map"></div>
+                            
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <h3>Дополнительные данные для диллеров и организаций</h3>
+            <table class="table">
+                <tr>
+                    <td><div class="editor-field"><label>Наименование организации: </label></div></td>
+                    <td><input type="text" name="OrgName" value="@Model.OrgName" style="width:100%;padding:5px;border-radius:5px;" /></td>
+                </tr>
+                <tr>
+                    <td><div class="editor-field"><label>ИНН организации: </label></div></td>
+                    <td><input type="text" name="INN" value="@Model.INN" style="width:100%;padding:5px;border-radius:5px;" /></td>
+                </tr>
+                <tr>
+                    <td><div class="editor-field"><label>Вид скидки: </label></div></td>
+                    <td>
+                        <input type="text" readonly="readonly" name="DiscountValue" id="DiscountValue" value="@Model.DiscountValue" style="width:100%;background:#f2f2fa;padding:5px;border-radius:5px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><p style="text-align:center;"><a style="font-weight:500;color:#332718;" href="/account/manage">Сменить пароль</a></p></td>
+                </tr>
+            </table>
+            @*<div class="eCart">
+                    <input class="CartReg" type="submit" value="Готово!" />
+                </div>*@
+            <div style="display:flex;justify-content:center;align-items:center;">
+                <button class="button-cart" style="border-radius:5px;" type="submit">Готово!</button>
+            </div>
+            <p style="text-align:center;">
+                @*@Html.ActionLink("Нажимая кнопку Готово,Вы принимаете политику конфиденциальности", "PolitikaKonfidencialnosty", "Home", new { style = "text-decoration:underline;" })*@
+                <a href="/politikakonfidencialnosty">Нажимая кнопку Готово,Вы принимаете политику конфиденциальности</a>
+            </p>
+
+        </form>
+    </div>
+
+
+
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=d0111455-68d0-4aba-837c-2407e976ccf8" type="text/javascript"></script>
+<script type="text/javascript">
+        ymaps.ready(init);
+        var map;
+        function init() {
+            // Подключаем поисковые подсказки к полю ввода.
+            var suggestView = new ymaps.SuggestView('Shipment'),
+            map = new ymaps.Map('map', {
+                center: [55.753994, 37.622093],
+                zoom: 9},{
+                    searchControlProvider: 'yandex#search'
+                }
+            ),
+                placemark;
+
+            // При клике по кнопке запускаем верификацию введёных данных.
+            $('#Shipment').bind('blur', function (e) {
+               // alert('rkbr');
+                geocode();
+            });
+
+            function geocode() {
+                // Забираем запрос из поля ввода.
+                var request = $('#Shipment').val();
+                // Геокодируем введённые данные.
+                ymaps.geocode(request).then(function (res) {
+                    var obj = res.geoObjects.get(0),
+                        error, hint;
+
+                    if (obj) {
+                        // Об оценке точности ответа геокодера можно прочитать тут: https://tech.yandex.ru/maps/doc/geocoder/desc/reference/precision-docpage/
+                        switch (obj.properties.get('metaDataProperty.GeocoderMetaData.precision')) {
+                            case 'exact':
+                                break;
+                            case 'number':
+                            case 'near':
+                            case 'range':
+                                error = 'Неточный адрес, требуется уточнение';
+                                hint = 'Уточните номер дома';
+                                break;
+                            case 'street':
+                                error = 'Неполный адрес, требуется уточнение';
+                                hint = 'Уточните номер дома';
+                                break;
+                            case 'other':
+                            default:
+                                error = 'Неточный адрес, требуется уточнение';
+                                hint = 'Уточните адрес';
+                        }
+                    } else {
+                        error = 'Адрес не найден';
+                        hint = 'Уточните адрес';
+                    }
+
+                    // Если геокодер возвращает пустой массив или неточный результат, то показываем ошибку.
+                    if (error) {
+                        showError(error);
+                        showMessage(hint);
+                    } else {
+                        showResult(obj);
+                    }
+                }, function (e) {
+                    console.log(e)
+                })
+
+            }
+            function showResult(obj) {
+                // Удаляем сообщение об ошибке, если найденный адрес совпадает с поисковым запросом.
+                $('#Shipment').removeClass('input_error');
+                $('#notice').css('display', 'none');
+
+                var mapContainer = $('#map'),
+                    bounds = obj.properties.get('boundedBy'),
+                // Рассчитываем видимую область для текущего положения пользователя.
+                    mapState = ymaps.util.bounds.getCenterAndZoom(
+                        bounds,
+                        [mapContainer.width(), mapContainer.height()]
+                    ),
+                // Сохраняем полный адрес для сообщения под картой.
+                    address = [obj.getCountry(), obj.getAddressLine()].join(', '),
+                // Сохраняем укороченный адрес для подписи метки.
+                    shortAddress = [obj.getThoroughfare(), obj.getPremiseNumber(), obj.getPremise()].join(' ');
+                // Убираем контролы с карты.
+                mapState.controls = [];
+                // Создаём карту.
+                createMap(mapState, shortAddress);
+                // Выводим сообщение под картой.
+                showMessage(address);
+            }
+
+            function showError(message) {
+                $('#notice').text(message);
+                $('#Shipment').addClass('input_error');
+                $('#notice').css('display', 'block');
+                // Удаляем карту.
+                if (map) {
+                    map.destroy();
+                    map = null;
+                }
+            }
+
+            function createMap(state, caption) {
+                // Если карта еще не была создана, то создадим ее и добавим метку с адресом.
+                if (!map) {
+                    map = new ymaps.Map('map', state);
+                    placemark = new ymaps.Placemark(
+                        map.getCenter(), {
+                            iconCaption: caption,
+                            balloonContent: caption
+                        }, {
+                            preset: 'islands#redDotIconWithCaption'
+                        });
+                    map.geoObjects.add(placemark);
+                    // Если карта есть, то выставляем новый центр карты и меняем данные и позицию метки в соответствии с найденным адресом.
+                } else {
+                    map.setCenter(state.center, state.zoom);
+                    placemark.geometry.setCoordinates(state.center);
+                    placemark.properties.set({ iconCaption: caption, balloonContent: caption });
+                }
+            }
+
+            function showMessage(message) {
+                $('#messageHeader').text('Данные получены:');
+                $('#Shipment').text(message);
+            }
+
+            // Слушаем клик на карте.
+            map.events.add('click', function (e) {
+                var coords = e.get('coords');
+
+                // Если метка уже создана – просто передвигаем ее.
+                if (placemark) {
+                    placemark.geometry.setCoordinates(coords);
+                }
+                    // Если нет – создаем.
+                else {
+                    placemark = createPlacemark(coords);
+                    map.geoObjects.add(placemark);
+                    // Слушаем событие окончания перетаскивания на метке.
+                    placemark.events.add('dragend', function () {
+                        getAddress(placemark.geometry.getCoordinates());
+                    });
+                }
+                getAddress(coords);
+            });
+
+            // Создание метки.
+            function createPlacemark(coords) {
+                return new ymaps.Placemark(coords, {
+                    iconCaption: 'поиск...'
+                }, {
+                    preset: 'islands#violetDotIconWithCaption',
+                    draggable: true
+                });
+            }
+
+            // Определяем адрес по координатам (обратное геокодирование).
+            function getAddress(coords) {
+                placemark.properties.set('iconCaption', 'поиск...');
+                ymaps.geocode(coords).then(function (res) {
+                    var firstGeoObject = res.geoObjects.get(0);
+
+                    placemark.properties
+                        .set({
+                            // Формируем строку с данными об объекте.
+                            iconCaption: [
+                                // Название населенного пункта или вышестоящее административно-территориальное образование.
+                                firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                                // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                                firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                            ].filter(Boolean).join(', '),
+                            // В качестве контента балуна задаем строку с адресом объекта.
+                            balloonContent: firstGeoObject.getAddressLine()
+                        });
+                    var adres = firstGeoObject.getAddressLine();
+                    alert(adres);
+                    $('#Shipment').val(adres);
+                });
+            }
+        }
+
+</script>

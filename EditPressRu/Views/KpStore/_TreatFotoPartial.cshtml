@@ -1,0 +1,29 @@
+﻿@model List<EditPressRu.Models.DopImgList>
+
+<a href="#" class="wrap1">
+    <span data-id="@Model.FirstOrDefault(x=>x.Selected).ProdId" class="imgTxt">
+        <img src="~/Images/zoom.png" />
+    </span>
+    <img src="@Model.FirstOrDefault(x=>x.Selected).Image" class="prodImg" />
+</a>
+@if (Model != null && Model.Count() > 1)
+{
+    <div class="batton1Cont">
+        <div class="buttons1">
+            <a href="#" class="prev1"
+               data-text="@Model.FirstOrDefault(x=>x.Selected).ProdId"
+               data-id="@Model.FirstOrDefault(x=>x.Selected).ImgId">
+                <i class="fa fa-chevron-circle-left"></i>
+            </a>
+        </div>
+        <div class="buttons1">
+            <span>@Model.FirstOrDefault(x => x.Selected).NumberImg</span>/<span>@Model.Count()</span>
+        </div>
+        <div class="buttons1">
+            <a href="#" class="next1" data-text="@Model.FirstOrDefault(x=>x.Selected).ProdId" data-id="@Model.FirstOrDefault(x=>x.Selected).ImgId"><i class="fa fa-chevron-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="modal1_loader" data-id="@Model.FirstOrDefault(x=>x.Selected).ProdId">
+        <img src="/images/loaders/spinner1.gif" />
+    </div>
+}

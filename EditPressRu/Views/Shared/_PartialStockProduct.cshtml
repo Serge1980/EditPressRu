@@ -1,0 +1,58 @@
+﻿@model EditPressRu.Models.DB.Products
+
+<table class="table table-hover table-responsive">
+    <tr>
+        <td>
+            <p style="font-weight:600;font-size:12px;">Цена</p>
+        </td>
+        <td>
+            <p style="font-weight:600;font-size:12px;">Цена опт</p>
+        </td>
+        <td>
+            <p style="font-weight:600;font-size:12px;">Резервы</p>
+        </td>
+    </tr>
+    @if (Model != null)
+    {
+        <tr>
+            <td>@Model.Price</td>
+            <td>@String.Format("{0:0.##}",Model.Price_opt)</td>
+            <td>@String.Format("{0:0.##}", Model.Reserve)</td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>нет данных</td>
+            <td>нет данных</td>
+            <td>нет данных</td>
+        </tr>
+    }
+    <tr>
+        <td>
+            <p style="font-weight:600;font-size:12px;">Остаток в Москве</p>
+        </td>
+        <td>
+            <p style="font-weight:600;font-size:12px;">Остаток на удаленном складе</p>
+        </td>
+        <td></td>
+    </tr>
+    @if (Model != null)
+    {
+        <tr>
+            <td>@Model.Stock</td>
+            <td>@Model.Stock_remote</td>
+            <td></td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <td>нет данных</td>
+            <td>нет данных</td>
+            <td>нет данных</td>
+        </tr>
+    }
+
+</table>
+

@@ -1,0 +1,279 @@
+﻿@model EditPress.Ru.Models.Item
+
+@{
+    ViewBag.Title = "Редактировать товар";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Edit", "Items", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@ViewBag.Title</legend>
+
+        @Html.HiddenFor(model => model.ItemID)
+
+        <div class="editor-label">
+            <strong>Категория</strong>
+        </div>
+
+        <script>
+            function GetCategories(CurrenID) {
+
+                    var cat = $("#CategoryList option:selected").val();
+                    event.preventDefault();
+                    $.ajax({
+                        url: "/Items/GetSubCategories",
+                        type: "Post",
+                        processData: false,
+                        mimeType: "text/html",
+                        data: "CategoryIndex=" + cat,
+                        dataType: "json",
+                        success: function (returndata) {
+                            var objSel = document.getElementById("SubCategoryList");
+                            objSel.options.length = 0;
+                            returndata.lst.forEach(function (Entry) {
+                                var oOption = document.createElement("option");
+                                oOption.appendChild(document.createTextNode(Entry.naim));
+                                oOption.setAttribute("value", Entry.id);
+                                if (Entry.id == CurrenID)
+                                {
+                                    oOption.setAttribute("selected", true);
+                                }
+                                objSel.appendChild(oOption);
+                            })
+
+                        }
+                    });
+                }
+
+            $(document).ready(function () {
+                    GetCategories(@ViewBag.CurrentSubCatID);
+            });
+        </script>
+        <div class="editor-label">
+            @{
+    List<SelectListItem> list = new List<SelectListItem>();//Список значений для DDL
+    list.Add(new SelectListItem() { Text = "", Value = "0" });
+    foreach (var Cat in ViewBag.CatList)
+    {
+        if (ViewBag.CatID == Cat.CategoryID)
+        {
+            list.Add(new SelectListItem() { Text = Cat.Naim, Value = Cat.CategoryID.ToString(), Selected = true });
+        }
+        else
+        {
+            list.Add(new SelectListItem() { Text = Cat.Naim, Value = Cat.CategoryID.ToString(), Selected = false });
+        }
+    }
+            }
+            @Html.DropDownList("Category", list, new { id = "CategoryList", onchange = "javascript:GetCategories(0);" })
+        </div>
+        <br />
+
+        <div class="editor-label">
+            <strong>Подкатегория</strong>
+        </div>
+
+        <select id="SubCategoryList" name="Sel_SubCategory"></select>
+        <br />
+        <br />
+
+
+
+        @Html.HiddenFor(model => model.SubCategoryId)
+ 
+ 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemName)
+            @Html.ValidationMessageFor(model => model.ItemName)
+        </div>
+
+        <div class="editor-label">
+            <b>Артикул</b>
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemAlias)
+            @Html.ValidationMessageFor(model => model.ItemAlias)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemDesc)
+        </div>
+        <div class="editor-field">
+          @Html.TextAreaFor(model => model.ItemDesc, new { id = "desc", style = "width:100%;" })
+          @Html.ValidationMessageFor(model => model.ItemDesc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemPreservative)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ItemPreservative, new { id = "pres", style = "width:100%;" })
+            @Html.ValidationMessageFor(model => model.ItemPreservative)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemAttributes)
+        </div>
+        <div class="editor-field">
+            @Html.TextAreaFor(model => model.ItemAttributes, new { id = "attr", style = "width:100%;" })
+            @Html.ValidationMessageFor(model => model.ItemAttributes)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemPrice)
+        </div>
+        <div class="editor-field">
+            <input class="text-box single-line input-validation-error" data-val="true" data-val-number="Значением поля Цена должно быть число." data-val-required="Требуется поле Цена." id="ItemPrice" name="ItemPrice" type="text" value="@Model.ItemPrice.ToString().Replace(",", ".")" aria-required="true" aria-invalid="true" aria-describedby="ItemPrice-error">
+              @Html.ValidationMessageFor(model => model.ItemPrice)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemMetaDesc)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemMetaDesc)
+            @Html.ValidationMessageFor(model => model.ItemMetaDesc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemMetaKeywords)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemMetaKeywords)
+            @Html.ValidationMessageFor(model => model.ItemMetaKeywords)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ItemAricleTitle)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ItemAricleTitle)
+            @Html.ValidationMessageFor(model => model.ItemAricleTitle)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.newitem)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.newitem)
+            @Html.ValidationMessageFor(model => model.newitem)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.hit)
+        </div>
+       
+         <div class="editor-field">
+            @Html.EditorFor(model => model.hit)
+            @Html.ValidationMessageFor(model => model.hit)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.china)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.china)
+            @Html.ValidationMessageFor(model => model.china)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Publish)
+        </div>
+
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Publish)
+            @Html.ValidationMessageFor(model => model.Publish)
+        </div>
+
+        <div class="editor-label">
+            <strong>Рисунок</strong>
+        </div>
+        <script>
+            function readURL(input, pic_id) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $(pic_id).attr('value', e.target.result);
+                        $(pic_id + "_show").attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            $(document).ready(function () {
+                $("#pic").change(function () {
+                    readURL(this, "#pic_img_data");
+                });
+            });
+        </script>
+        <div class="editor-field">
+            <input id="pic" type="file" name="pic">
+            <input id="pic_img_data" name="pic_img" type="hidden">
+            <img id="pic_img_data_show" src="@ViewBag.pic" alt="@Model.ItemAlias" />
+        </div>
+
+        <script>
+            function SetMainPic(obj)
+            {
+                if (obj.checked) {
+                    $(".cb_mainpic").attr("checked",false);
+                    obj.checked = true;
+                    $("#main-pic-id").val($(obj).attr("data_pic_id"));
+                }
+            }
+        </script>
+        <table class="table">
+            <tr>
+                <td>Наименование</td>
+                <td>Картинка</td>
+                <td>Основная</td>
+            </tr>
+            @foreach (var file in ViewBag.files)
+            {
+                <tr>
+                    <td>@file.Naim</td>
+                    <td><img src="/Home/GetPicture?id=@String.Format("{0}.jpg",file.ID.ToString())" alt="@file.Naim" /></td>
+                    <td>
+                        @if (file.isMain==true)
+                        { 
+                            <input type="checkbox" checked value="" class="cb_mainpic" onclick="SetMainPic(this);" data_pic_id="@file.ID.ToString()" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="" class="cb_mainpic" onclick="SetMainPic(this);" data_pic_id="@file.ID.ToString()" />
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+
+        <input type="hidden" name="main-pic-id" value="@ViewBag.MainPicId" id="main-pic-id" />
+        <input type="hidden" name="LastPage" value="@ViewBag.page" />
+        <p style="margin-top:5px;">
+            <input type="submit" value="Записать" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("В список товара", "Index", new { page = ViewBag.page })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+@*<input id='SetMainPic' type='checkbox' value='true' name='SetMainPic' />
+<input type="hidden" value="false" name="SetMainPic" />*@

@@ -1,0 +1,10 @@
+﻿@model EditPressRu.Models.SaveCloseOrderViewModel
+@{
+    ViewBag.Title = "Сохранение заказа";
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+}
+
+<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;margin-top:40px;color:#586A74;">
+    <h1><a style="color:#586A74;" href="/orders/orderdetails/@Model.OrderId">Заказ <b style="color:#33B086;">@Model.OrderId</b> закрыт.</a></h1>
+   <p> Вы всегда можете к нему вернуться: найдите в <a href="/orders" style="color:#33B086;">списке заказов</a> или воспользуйтесь поиском (по номеру, артикулу), затем нажмите «<i class="fa fa-edit"></i> Редактировать»</p>
+</div>

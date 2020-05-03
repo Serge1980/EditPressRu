@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Консультация по выбору подарка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#close-message").click(function () {
+            $("#message").fadeOut("slow");
+        });
+        //$("#send-button").click(function () {
+
+        //    event.preventDefault();
+        //    var formData = new FormData($(this)[0]);
+        //    $.ajax({
+        //        url: "/Home/SendConsultEmail",
+        //        type: "POST",
+        //        data: formData,
+        //        async: false,
+        //        cache: false,
+        //        contentType: false,
+        //        processData: false,
+        //        success: function (returndata) {
+        //            $("#message").fadeIn("slow");
+        //        }
+        //    });
+        //});
+
+
+        $("#send-button").click(function () {
+            var name = $("#fio").val();
+            var phone = $("#phone").val();
+            var email = $("#email").val();
+            var btn = this;
+            $(btn).append("&nbsp;&nbsp;&nbsp;<img src='/images/small-trans.gif' class='loader' /><span>...отправка</span>");
+
+            $.ajax({
+                //путь куда отправлять данные(в нашем случае метод контроллера)
+                url: "/ajax/sendconsultemail",
+                type: "post",
+                //это отправка данных на сервер
+                data: { name: name, phone: phone, email: email },
+                //ответ сервера в случае неудачи  (код сервера 500)
+                error: function () { alert("нет связи по вызову"); },
+                //это ответ сервера. в случае успеха эта функция выполнится(код 200),dataout--это данные с сервера
+                success: function (dataout) {
+                    alert(name + ", " + "мы Благодарим Вас за интерес к нашим услугам!");
+                    $(btn).html("заявка отправлена");
+                    $("#message").show();
+                    //$('#responsiblePerson').html(dataout); //--заполнили дропдавн
+                }
+            });
+
+
+            return false;
+        });
+
+
+    });
+</script>
+
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;">
+                <div id="message" class="message" style="display:none;">
+                    Запрос на консультацию отправлен
+                    <div id="close-message" class="button-cross-close">X</div>
+                </div>
+                <p style="color:#33B086; font-size:large;text-align:center;">
+                    Обратитесь за консультацией к профессионалу
+                </p>
+                <br />
+                <p style="text-align:center;line-height:60%;">Потому что консультант:</p>
+                <br />
+                <div style="display:flex;padding:0px 15px 100px 35px;">
+                    <ul style="list-style-image: url(../images/thumb_up.png);">
+                        <li class="large top" type="none"><span class="green">ПЕРЕЗВОНИТ</span>&nbsp;в ближайшее время и бесплатно ответит на все Ваши вопросы – услуга доступна в будний день с 10-00 до 18-00 </li>
+                        <li class="large top" type="none"><span class="green">ПОДБЕРЕТ</span>&nbsp; конкретные сувениры, подходящие для Вашей компании, – Вам не придется тратить время на изучение всего ассортимента сувениров</li>
+                        <li class="large top" type="none"><span class="green">ПОРЕКОМЕНДУЕТ</span>&nbsp; самый «популярный», «оригинальный», «дешевый», «эксклюзивный» сувенир, исходя из Ваших потребностей и желаний – Вы не останетесь наедине со списком из 50 000 товаров </li>
+                        <li class="large top" type="none"><span class="green">ПОДСКАЖЕТ</span>&nbsp; идею для корпоративного подарка </li>
+                        <li class="large top" type="none">
+                            <span class="green">ПОСОВЕТУЕТ</span>&nbsp; как эффектно оформить и преподнести бизнес-сувениры
+                        </li>
+                    </ul>
+                </div>
+
+                <table style="margin: auto; /* Выравниваем таблицу по центру окна  */">
+                    <tr>
+                        <td>
+                            <h2 style="color:#2DB187;">Мы Вам напишем или перезвоним.</h2>
+                            <p><input class="backCallInput" name="fio" id="fio" type="text" style="width:50%;"/> Ваше имя*</p>
+                            <p id="err_name" class="err_msg"></p>
+                            <p><input class="backCallInput" name="phone" id="phone" type="text" style="width:50%;"/> E-mail или телефон*</p>
+                            <p id="err_email" class="err_msg"></p>
+                            <p><input class="backCallInput" id="sub" name="sub" type="text" style="width:50%;" /> Тема (необязательно)</p>
+                            <p>Текст сообщения:<br /><textarea id="msgBody" name="msgBody" cols="1" rows="5" class="backCallInput" style="width:90%" /></textarea></p>
+                            <p id="err_body" class="err_msg"></p>
+                            <div style="display:flex;flex-direction:row;justify-content:space-around;">
+                                <div><input id="send-button" class="backCallBtn" value="Отправить" type="submit" /></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+

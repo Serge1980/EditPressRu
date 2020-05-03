@@ -1,0 +1,241 @@
+﻿@model EditPressRu.Models.EditKPViewModel
+@{  int i = 0;
+    int count = Model.ProdList.Count;
+    //decimal priceKoef = 1;
+    //if (Model.KpStore.MarkUp.HasValue)
+    //{
+    //    priceKoef = 1 + Model.KpStore.MarkUp.Value / 100;
+
+    //}
+}
+<div style="display:flex;flex-direction:row;justify-content:flex-end;width:100%;">
+    <div style="align-self:flex-start; flex:1;">@Model.DateKp</div>
+
+    @if (String.IsNullOrEmpty(Model.KpStore.Publish))
+    {
+        <div id="mod1_nopublish" style="flex:1;color:#D95355;"><i class="fa fa-exclamation-circle" style="border:none;"></i> КП НЕ опубликовано</div>
+    }
+    else
+    {
+        <div id="mod1_publish" style="flex:1;"><i class="fa fa-eye"></i> Идут просмотры</div>
+    }
+
+    <div style="flex:1;"><i class="fa fa-tv"></i> Презентация</div>
+    <div style="flex:1;"><i class="fa fa-print"></i><a href="/kpstore/printkp/@Model.KpStore.Id" class="pdfMaintHref"> Распечатать</a></div>
+</div>
+@if (Model.KpStore.UserP)
+{
+    <div class="idOtpravitel">
+        <div id="UplRez" style="flex:1;">
+            @Html.Partial("_UplImgKpPartial", Model.ImageLogo)
+        </div>
+        <div style="flex:1;padding:5px;margin-top:20px;" contenteditable="true" class="KpContacts editable" title="можно редактировать">
+            @if (String.IsNullOrEmpty(Model.KpStore.AlternateContacts))
+            {
+                @Html.Raw("<p>" + Model.UserInfo.FIO + "</p><p>email: " + Model.UserInfo.email + "</p >")
+
+            }
+            else
+            {
+                <div>@Html.Raw(Model.KpStore.AlternateContacts)</div>
+            }
+
+        </div>
+    </div>
+}
+
+<h1 contenteditable="true" class="pdfH1 editable" title="можно редактировать">
+    @Model.KpStore.Title
+</h1>
+<p data-text="--комментарий к коммерческому предложению--" contenteditable="true" id="descr" class="kpDescrpt editable" title="можно редактировать">@Html.Raw(Model.KpStore.Description)</p>
+<div style="display:flex;flex-direction:column;">
+    @foreach (var item in Model.ProdList)
+    {
+        <div class="prodImgCont">
+            <div style="padding:15px 50px 10px 40px;">
+                <a href="#" class="wrap1">
+                    <span data-id="@item.DopImgList.FirstOrDefault(x=>x.Selected).ProdId" class="imgTxt">
+                        <img src="~/Images/zoom.png"/>
+                    </span>
+                    <img src="@item.DopImgList.FirstOrDefault(x=>x.Selected).Image"  class="prodImg" />
+                </a>
+                @*<img src="@item.DopImgList.FirstOrDefault(x=>x.Selected).Image" class="prodImg" />*@
+                @if (item.DopImgList!=null && item.DopImgList.Count() > 1)
+                {
+                    <div class="batton1Cont">
+                        <div class="buttons1">
+                            <a href="#" class="prev1" 
+                               data-text="@item.ProdId" 
+                               data-id="@item.DopImgList.FirstOrDefault(x=>x.Selected).ImgId">
+                            <i class="fa fa-chevron-circle-left"></i></a>
+                        </div>
+                        <div class="buttons1">
+                            <span >@item.DopImgList.FirstOrDefault(x => x.Selected).NumberImg</span>/<span>@item.DopImgList.Count()</span>
+                        </div>
+                        <div class="buttons1">
+                            <a href="#" class="next1" data-text="@item.ProdId" data-id="@item.DopImgList.FirstOrDefault(x=>x.Selected).ImgId"><i class="fa fa-chevron-circle-right"></i></a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div style="display:flex;flex-direction:column;">
+                <h2 style="font-size:18px;font-family:Roboto;font-weight:500;padding:25px;">@item.Name</h2>
+                <div class="FlexRowRound">
+                    <div style="flex:0 1 auto;">
+                        <p>Цена</p>
+                        <p contenteditable="true" class="price editable" title="можно редактировать" data-id="@item.ProdId">@String.Format("{0:0.00}", item.Price)</p>
+                    </div>
+                    <div class="FlexRowRound idTirag">
+                        <div style="flex:0 1 auto;">
+                            <p>Тираж</p>
+                            <p contenteditable="true" class="tirage editable" title="можно редактировать" data-id="@item.ProdId">@item.Cnt</p>
+                        </div>
+                        @if (item.Price * item.Cnt == 0)
+                        {
+                            <div style="flex:0 3 auto;align-self:flex-end;">
+                                = цена договорная
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="flex:0 3 auto;align-self:flex-end;">
+                                = @String.Format("{0:0.00}", item.Price * item.Cnt)
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="FlexColumn">
+                    @if (Model.KpStore.ArticleP)
+                    {
+                        <div class="idArticl">Артикул: @item.Article;</div>
+                    }
+                    @if (Model.KpStore.CharacterP)
+                    {
+                        <div class="FlexColumn idCaractP">
+                            @if (!String.IsNullOrEmpty(item.Size))
+                            {
+                                <div style="flex:0 1 auto;">Размер: <i>@item.Size</i></div>
+                            }
+
+                            @if (item.Material != null && item.Material.Count > 0)
+                            {
+                                <div style="flex:0 1 auto;">
+                                    Материал:
+                                    @foreach (var item2 in item.Material)
+                                    {
+                                        <i>@item2.Name</i>;
+                                    }
+                                </div>
+                            }
+
+                            @if (!String.IsNullOrEmpty(item.Weight))
+                            {
+                                <div style="flex:0 1 auto;">Вес: <i>@item.Weight</i></div>
+                            }
+
+                            @if (item.Nanesenie != null && item.Nanesenie.Count > 0)
+                            {
+                                <div style="flex:0 1 auto;">
+                                    Нанесение:
+                                    @foreach (var item2 in item.Nanesenie)
+                                    {
+                                        <i>@item2.Name</i>;
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+                @if (Model.KpStore.DescrP)
+                {
+                    <div contenteditable="true" title="можно редактировать" class="idDescrpt editable" data-id="@item.ProdId">
+                        @Html.Raw(item.Description)
+                    </div>
+                }
+            </div>
+        </div>
+        {
+            i++;
+        }
+
+        if (count - i != 0)
+        {
+
+            <hr style="color:#EEEEEE;margin-top:40px;margin-bottom:40px;" />
+        }
+    }
+
+    <div class="idTotalP">
+        @if (Model.KpStore.SumTirageP)
+        {
+            <div id="itogId">
+                <div class="modalR1">
+                    <p>Сумма</p><p>@Model.Cost.ToString("0.00")</p>
+                </div>
+                @if (Model.KpStore.Sale.HasValue && Model.KpStore.Sale.Value > 0)
+                {
+                    <div class="modalR1">
+                        <p>Скидка</p><p>- @Model.CostSale.ToString("0.00")</p>
+                    </div>
+                }
+                @if (Model.KpStore.MarkUp.HasValue && Model.KpStore.MarkUp.Value > 0)
+                {
+                    <div class="modalR1">
+                        <p>Наценка</p><p>@Model.CostMark.ToString("0.00")</p>
+                    </div>
+                }
+
+                @if (Model.KpStoreDopList != null && Model.KpStoreDopList.Count > 0)
+                {
+                    foreach (var item in Model.KpStoreDopList)
+                    { <div class="modalR1">
+                    <p>@item.Service </p><p>@item.Price.ToString("0.00")</p>
+                </div>
+                    }
+
+                }
+            </div>
+        }
+        <hr style="color:#EEEEEE;margin-top:40px;margin-bottom:40px;" />
+        @if (Model.KpStore.TotalP)
+        {
+            <p id="idItogP">
+                Итого: @Model.TotalSumm.ToString("0.00")  <span style="font-size:14px;font-weight:300;color:#808080;">руб</span>
+            </p>
+        }
+    </div>
+</div>
+
+
+<script>
+    //Просмотр списка фотографий вбольшом модальном окне
+        $(document).ready(function () {
+
+            $('.closeModalImg').click(function () {
+                $('#modalImg').hide();
+            });
+
+        $('.imgTxt').click(function () {
+
+            var prodId = $(this).data('id');
+            var kpId = $('#KpId').val();
+            $.ajax({
+                url: "/kpstore/getpictureviewer",
+                type: "POST",
+                data: { kpId: kpId, prodId: prodId },
+                error: function () {
+                    //alert("ошибка в автокомплите");
+                },
+                success: function (returndata, textStatus, XMLHttpRequest) {
+                    $('.modalImg-content').html(returndata);
+                    $('#modalImg').show();
+                }
+
+            });
+            return false;
+        });
+
+
+    });
+</script>

@@ -1,0 +1,35 @@
+﻿@model EditPressRu.Models.KPlistViewModel
+@{
+    ViewBag.Title = "Мой список Коммерческих предложений";
+    Layout = "~/Views/Shared/_KpLayout.cshtml";
+}
+
+@*<h2 style="text-align:center;">Список коммерческих предложений</h2>*@
+
+@if (Model.Availability)
+{
+    <div style="display:flex;justify-content:center;align-items:center;flex-direction:row;flex-wrap:wrap;padding:40px;">
+        @foreach (var item in Model.KPstoreList)
+        {
+            <a href="/kpstore/editkp/@item.KpId">
+                <div class="kpItem">
+                    <div title="всего @item.TotalItem шт." style="align-self:flex-end;border:solid 1px silver;border-radius:50px;width:30px;height:30px;overflow:hidden;padding:5px;display:flex;justify-content:center;align-items:center;">
+                        <div>@item.TotalItem</div>
+                    </div>
+                    <div><img src="@item.KpImg" /></div>
+                    <div>@item.DateDoc.ToString("dd-MM-yyyy")</div>
+                    <div>@item.KpNumber</div>
+                </div>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <div style="padding:20px 20px 300px 20px;">
+    <p>
+        У вас пока не сформировано ни одно настраевоемое коммерческое предложение.Его можно создать и настроить в разделе
+        <b><a href="/сart/orderlist" class="liAIndx">Заказы</a></b> - <b style="font-style:italic;">просмотр/редактирование</b> заказа.
+    </p>
+</div>
+}

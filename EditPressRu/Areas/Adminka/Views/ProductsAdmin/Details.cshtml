@@ -1,0 +1,187 @@
+﻿@model EditPressRu.Models.DB.Products
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Products</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorId_int)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorId_int)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorId_str)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorId_str)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Publish)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Publish)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descript)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descript)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaDescript)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaDescript)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaKeyWords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaKeyWords)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Article)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Article)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OldArticle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OldArticle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NewItem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NewItem)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.China)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.China)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DusheUgodno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DusheUgodno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rank)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rank)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sort)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sort)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nalichie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nalichie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TopSales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TopSales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attributes.Size)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attributes.Size)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,571 @@
+﻿@model EditPressRu.Models.OrderDetailsView
+@{
+    int render = 1;
+    int i = 0;
+    decimal total_summ = 0;
+    int cntCart = 0;
+    decimal cartSumm = 0;
+    int cartCnt = 0;
+
+    if (Model.ModelIsEmpty)
+    {
+        render = 0;
+    }
+    else
+    {
+        cntCart = Model.OrderDetail.Count;
+        cartSumm = Model.OrderDetail.FirstOrDefault().TotalSummOrder;
+        cartCnt = Model.TotalItems;
+    }
+
+}
+
+<input type="hidden" id="cartSumm" value="@cartSumm" />
+<input type="hidden" id="mosk_shmt" value="0" />
+
+<input type="hidden" id="ModelIsEmpty" value="@render" />
+
+@if (render == 1)
+{
+    <div class="TeloPartCont">
+        <div style="display:flex;flex-direction:row;align-self:center;font-family: 'Open Sans',Arial,sans-serif;font-weight:200;margin-top:70px;">
+            <div style="display:flex;font-size:33px;height:48px;padding-right:5px;color:#5d5d5d;">
+                @Model.OrderDetail.FirstOrDefault().DateOrder.ToString("dd")
+            </div>
+            <div style="display:flex;flex-direction:column;height:48px;padding-right:5px;">
+                <div style="display:flex;font-size:19px;justify-content:center;padding:0px;color:#5d5d5d;">@Model.OrderDetail.FirstOrDefault().DateOrder.ToString("MMMM").Substring(0, 3).ToLower()</div>
+                <div style="display:flex;font-size:11px;justify-content:center;padding:0px;color:#5d5d5d;">@Model.OrderDetail.FirstOrDefault().DateOrder.ToString("yyyy")</div>
+            </div>
+            <div style="display:flex;font-size:20px;height:45px;padding-left:5px;color:#5d5d5d;border-left:solid 1px #B2B2B2;">
+                <div class="ico_logo_order">
+                    <i class="fa fa-user-o"></i>
+                    <div class="lKabPopup">
+                        <p>@User.Identity.Name</p>
+                        <hr />
+                        <ul>
+                            <li><a class="aKabPop" href="/orders"><i class="fa fa-cube"></i> Заказы</a></li>
+                            <li><a class="aKabPop" href="/orders/index/1"><i class="fa fa-gift" aria-hidden="true"></i> Оформленные</a></li>
+                            <li><a class="aKabPop" href="/orders/index/4"><i class="fa fa-cart-plus"></i> Корзины</a></li>
+                            <li><a class="aKabPop" href="/orders/index/3"><i class="fa fa-eyedropper"></i> Образцы</a></li>
+                            <li><a class="aKabPop" href="/orders/index/2"><i class="fa fa-file-archive-o"></i> Макеты</a></li>
+                            <li><a class="aKabPop" href="/kpstore"><i class="fa fa-tags"></i> КП</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="pHeader" style="align-self:center;margin-bottom:40px;"><a href="/orders/orderdetails/@Model.OrderDetail.FirstOrDefault().OrderId">Заказ №@Model.OrderDetail.FirstOrDefault().OrderId</a></p>
+        <div style="position:relative;">
+            <div class="cartAlert">
+                <p>@Model.Message</p>
+            </div>
+        </div>
+        <div class="cartRowHeader">
+            <div class="cartColumn2"></div>
+            <div class="cartColumn1">Артикул</div>
+            <div class="cartColumn2">Цена за шт.</div>
+            <div class="cartColumn3">Тираж</div>
+            <div class="cartColumn4">Сумма</div>
+            <div class="cartColumn5"></div>
+        </div>
+        @foreach (var item in Model.OrderDetail.OrderByDescending(x => x.ProductId))
+        {
+            <div class="cartItRow" data-id="@item.OrderDetailsId">
+                <div class="cartColumn1">
+                    <div style="float:right;padding:10px;"><button class="DeleteButt onlyMobile" data-id="@item.OrderDetailsId" title="Удалить"><img src="/images/filter_no.png" /></button></div>
+                    @if (item.ProductId == 0)
+                    {
+                        <div class="p2-modal11-unsubmit" style="float:right;padding:10px;"><button class="modal11-unsubmit onlyMobile" data-id="@item.OrderId" title="Удалить"><img src="/images/filter_no.png" /></button></div>
+                        <p class="deliverSrvButn"><a style="color:#33b086;font-size:21px;font-weight:300;cursor:pointer;">@item.Articul</a></p>
+                    }
+                    else
+                    {
+                        <p><a style="color:#33b086;font-size:21px;font-weight:300;" href="/products/product/@item.ProductId">@item.Articul</a></p>
+                    }
+                    <p>@item.ProdName</p>
+                </div>
+                <div class="cartColumn2">
+                    @if (item.ProductId == 0)
+                    {
+                        <a href="/deliveryterms" target="_blank"><img src="@item.Img" style="height:100px;width:auto;" /></a>
+                    }
+                    else
+                    {
+                        <a href="/products/product/@item.ProductId"><img src="@item.Img" style="height:100px;width:auto;" /></a>
+                        <input type="hidden" id="ID_@i" value="@item.OrderDetailsId" />
+                    }
+                </div>
+                <div class="cartColumn2">
+                    @if (item.ProductId != 0)
+                    {
+                        <p>@Html.DisplayFor(modelItem => item.ItemPrice)</p>
+                    }
+                </div>
+                @if (item.StatusId == 6)
+                {
+                    <div class="cartColumn3">
+                        <p class="cartInput">1 шт.</p>
+                    </div>
+                }
+                else if (item.ProductId == 0)
+                {
+                    <div class="cartColumn3">
+                        <p class="cartInput">1</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="cartColumn3">
+                        <input type="text" id="Count_@i" maxlength="6" inputmode="numeric" pattern="[0-9]+" class="cartInput" value="@item.Cnt" min="1" onkeyup="" onblur="ParseCount(@i, @item.ItemPrice.ToString().Replace(",", "."))" onchange="ParseCount(@i, @item.ItemPrice.ToString().Replace(",", "."))" />
+                    </div>
+                }
+
+                <div id="Summa_@i" class="cartColumn4">
+                    <p>@Html.DisplayFor(modelItem => item.ItemSumm)</p>
+                </div>
+                <div class="cartColumn5">
+                    @if (item.ProductId == 0)
+                    {<div class="p2-modal11-unsubmit">
+                        <div class="modal11-unsubmit onlyDesc" data-id="@item.OrderId"></div>
+                    </div>
+                    }
+                    else
+                    {
+                        <div class="DeleteButt onlyDesc" data-id="@item.OrderDetailsId"></div>
+                    }
+                </div>
+            </div>
+            {
+                i++;
+                total_summ = total_summ + item.ItemSumm;
+            }
+        }
+
+        <div class="bot-itog-wrap">
+            <div class="bot-itog">
+                @*<div class="bot-item">
+                        <h6>Вес(кг)</h6>
+                        <p></p>
+                    </div>
+                    <div class="bot-item">
+                        <h6>Объем(м<sup><small>3</small></sup>)</h6>
+                        <p></p>
+                    </div>*@
+                @if (Model.OrderDetail.FirstOrDefault().MoskShipmnt == 1 && Model.OrderDetail.FirstOrDefault(x => x.ProductId == 0)!=null && Model.OrderDetail.FirstOrDefault(x=>x.ProductId==0).ItemPrice>0)
+                {
+                    <div class="bot-item">
+                        <h6>Доставка</h6>
+                        <p>@Model.OrderDetail.FirstOrDefault(x=>x.ProductId==0).ItemPrice</p>
+                    </div>
+                }
+                <div class="bot-item">
+                    <h6>Общий тираж</h6>
+                    <p>@cartCnt шт.</p>
+                </div>
+                <div class="bot-item">
+                    <h6>Сумма заказа</h6>
+                    <p>@cartSumm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="BtnPartContstyle" style="background-color:#EEEEEE;padding:50px;">
+        <div style="position:sticky;background-color:#EEEEEE;min-height:150px;top:55px;display:flex;flex-direction:column;">
+            <p style="text-align:center;color:#435159;font-size: 15px;">Сумма заказа</p>
+            <p style="font-size: 33px;text-align:center;color:#435159;">@cartSumm.ToString("0.##")</p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form class="cartForm" action="/orders/savedruftorder" method="post">
+                    <input type="hidden" id="statusId" name="statusId" value="@Model.OrderDetail.FirstOrDefault().StatusId" />
+                    <input type="hidden" id="orderId" name="orderId" value="@Model.OrderDetail.FirstOrDefault().OrderId" />
+                    <button class="button-cart" type="submit">&nbsp;&nbsp; Оформить заказ &nbsp;&nbsp;</button>
+                </form>
+            }
+            else
+            {
+                <form class="cartForm" action="/account/savedruftorderregister" method="get">
+                    <input type="hidden" id="orderId" name="orderId" value="@ViewBag.OrderId" />
+                    <input type="hidden" id="statusId" name="statusId" value="@Model.OrderDetail.FirstOrDefault().StatusId" />
+                    <button class="button-cart" style="border-radius:5px;" type="submit">&nbsp;&nbsp; Оформить заказ &nbsp;&nbsp;</button>
+                </form>
+
+            }
+            @if (Model.OrderDetail.FirstOrDefault().StatusId == 7)
+            {
+                <div class="maint-cart-item">
+                    <i class="fa fa-eye"></i><a href="/orders/newprototype/@Model.OrderDetail.FirstOrDefault().OrderId">Заказать образцы</a>
+                </div>
+            }
+            <form action="/kpstore/createkp" method="post">
+                <input type="hidden" id="orderId" name="orderId" value="@Model.OrderDetail.FirstOrDefault().OrderId" />
+                <button class="btnScorePrint" type="submit" title="сформировать коммерческое предложение"><i class="fa fa-tag"></i>Коммерческое пред...</button>
+            </form>
+            @if (Model.OrderDetail.FirstOrDefault().StatusId == 1)
+            {
+                <form action="/kpstore/printschet" method="post">
+                    <input type="hidden" name="id" id="id" value="@Model.OrderDetail.FirstOrDefault().OrderId" />
+                    <button class="btnScorePrint" type="submit" title="Сформировать счет на оплату"><i class="fa fa-file-pdf-o"></i>Счет на оплату</button>
+                </form>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="maint-cart-item">
+                    <p class="deliverSrvButn">
+                        <i class="fa fa-truck"></i>
+                        Услуга доставки
+                    </p>
+                </div>
+            }
+            <div class="maint-cart-item">
+                <p id="save-close">
+                    <i class="fa fa-close"></i>
+                    <a href="/orders/savecloseorder/@Model.OrderDetail.FirstOrDefault().OrderId">Сохранить и закрыть</a>
+                </p>
+            </div>
+            <div class="maint-cart-item">
+                <p id="delAllFromCart"><i class="fa fa-trash-o"></i><a href="/orders/orderdelete/@Model.OrderDetail.FirstOrDefault().OrderId" onclick="return confirm('Удалить заказ?');">Удалить заказ</a></p>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Modal Form Delaevery-->
+    <div class="overlay11">
+        <div class="modal11">
+            <div class="modal11-header">
+                <div style="float:right;"><a href="#" id="modal11_close"><i class="fa fa-times"></i></a></div>
+                <h1>Услуга доставки</h1>
+            </div>
+            <div class="modal11-content">
+                <div style="display:flex;flex-direction:row;">
+                    <div class="deliveryDiv">
+                        <a href="/deliveryterms" target="_blank"><img src="/images/deliveryRussia.png" /></a>
+                    </div>
+                    <div style="padding-top:10px;">
+                        <div style="color:#332718;font-family:'a_futuraroundregular';">При заказе от 30 000 рублей доставка бесплатна!!!</div>
+                    </div>
+                </div>
+                <p style="text-align:center;margin-top:15px;color:#33b086;">Введите адрес доставки</p>
+                <p style="text-align:center; font-size:14px;color:#E5E5E5;">Можно определить адрес щелчком мыши по карте</p>
+                <div style="display:flex;flex-direction:row;">
+                    <div style="width:80%">
+                        <input id="modal11_adress" type="text" name="shipaddress" value="@Model.OrderDetail.FirstOrDefault().AdrShipmnt" placeholder="введите адрес">
+                    </div>
+                    <div style="width:20%;margin-left:10px;">
+                        <a href="#" id="modal11_show_map" style="color:#33b086;border-bottom:dashed 1px #33b086;">На карте</a>
+                    </div>
+                </div>
+                <div id="modal11-map">
+                    <div id="map"></div>
+                </div>
+                <div>
+                    @if (Model.OrderDetail.FirstOrDefault().MoskShipmnt == 0)
+                    {
+                        <p style="padding:20px;text-align:center;">
+                            <button id="modal11-submit" data-id="@Model.OrderDetail.FirstOrDefault().OrderId"><i class="fa fa-save"></i> Добавить услугу</button>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="p1-modal11-unsubmit">
+                            <button id="modal11-submit" data-id="@Model.OrderDetail.FirstOrDefault().OrderId"><i class="fa fa-save"></i> Изменить услугу</button>
+                            <button class="modal11-unsubmit" data-id="@Model.OrderDetail.FirstOrDefault().OrderId"><i class="fa fa-save"></i> Удалить услугу</button>
+                        </p>
+                    }
+                </div>
+            </div>
+            <div id="modal11_loader">
+                <img src="/images/loaders/spinner1.gif" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var cartSum = $('#cartSumm').val();
+        cartSum = parseFloat(cartSum.replace(',', '.').replace(' ', ''));
+        if (cartSum < 15000) {
+            $('.cartAlert').show();
+            $('.cartAlert').delay(6000).hide(0);
+        }
+
+
+        // Delaiery Form ******************************************
+
+        $(document).on('click', '.deliverSrvButn', function () {
+            $('.modal11').show();
+            $('.overlay11').show();
+        });
+
+        $(document).on('click', '#modal11_close', function () {
+            $('.modal11').hide();
+            $('.overlay11').hide();
+        });
+
+
+        $(document).on('click', '#modal11_show_map', function () {
+
+            $("#modal11-map").show();
+            return false;
+
+        });
+
+        $(document).on('click', '#modal11-submit', function () {
+
+            var guid = $(this).data("id");
+            var adres=$('#modal11_adress').val();
+
+            if( adres.length === 0 ) {
+                //$('#modal11_adress').addClass('modal11-warning');
+                alert('не заполнен адрес доставки');
+                return false;
+            }
+
+            $.ajax({
+                url: "/orders/ordersetdelivery",
+                type: "POST",
+                data: { id: guid,adress: adres},
+                error: function () {
+                    alert("ошибка при заказе услуги доставки");
+                },
+                success: function (returndata, textStatus, XMLHttpRequest) {
+
+                    $('#CartForm').html(returndata);
+
+                    var render = $('#ModelIsEmpty').val();
+
+                    if (render == 0) {
+                        window.location.href = "/orders";
+                    }
+
+                    var cartSum = $('#cartSumm').val();
+                    $('#sum_tovar').html(cartSum + ' Р');
+                }
+
+            });
+            return false;
+
+        });
+
+        $(document).on('click', '.modal11-unsubmit', function () {
+
+            var guid = $(this).data("id");
+
+            $.ajax({
+                url: "/orders/orderresdelivery",
+                type: "POST",
+                data: { id: guid},
+                error: function () {
+                    alert("ошибка при удалении услуги доставки");
+                },
+                success: function (returndata, textStatus, XMLHttpRequest) {
+
+                    $('#CartForm').html(returndata);
+
+                    var render = $('#ModelIsEmpty').val();
+
+                    if (render == 0) {
+                        window.location.href = "/orders";
+                    }
+
+                    var cartSum = $('#cartSumm').val();
+                    $('#sum_tovar').html(cartSum + ' Р');
+                }
+
+            });
+            return false;
+
+        });
+
+        //----------------------------------------------------------------------
+
+        $(document).on('click', '.DeleteButt', function () {
+            //$("#mess_box").hide();
+            var returnVal = confirm("Вы точно хотите удалить?");
+            if (returnVal) {
+                var guid = $(this).data("id");
+                $.ajax({
+                    url: "/orders/delorderdetails",
+                    type: "POST",
+                    data: { id: guid },
+                    error: function () {
+                        alert("ошибка при удалении записи из таблицы");
+                    },
+                    success: function (returndata, textStatus, XMLHttpRequest) {
+
+                        $('#CartForm').html(returndata);
+
+                        var render = $('#ModelIsEmpty').val();
+
+                        if (render == 0) {
+                            window.location.href = "/orders";
+                        }
+
+                        var cartSum = $('#cartSumm').val();
+                        $('#sum_tovar').html(cartSum + ' Р');
+                    }
+
+                });
+                return false;
+            }
+        });
+
+
+
+
+
+    });
+
+
+
+    function EditCartItem(odId, ProdCount) {
+        $.ajax({
+            url: "/orders/editorder",
+            type: "POST",
+            data: { OrderDetId: odId, Count: ProdCount }, //"ProductId=" + id + "&Count=" + new String(count),
+            error: function () {
+                alert("ошибка подсчета");
+            },
+
+            //dataType: "json",
+            success: function (returndata, textStatus, XMLHttpRequest) {
+
+                $('#CartForm').html(returndata);
+
+                var cartSum = $('#cartSumm').val();
+                $('#sum_tovar').html(cartSum + ' Р');
+
+                //$('.modalImg-content').html(returndata);
+
+                //$("#sum_tovar").html(returndata.total + "P");
+                //var iSum = parseFloat(returndata.total);
+                //if (iSum >= 30000)
+                //{ $("#cartShipment").hide(); }
+                //alert('dfdf');
+            }
+        });
+
+    }
+
+    function ParseCount(str_num, Price) {
+
+        var count = parseInt($("#Count_" + new String(str_num)).val());
+        var id = $("#ID_" + new String(str_num)).val();
+
+        if (isNaN(count)) {
+            $("#Count_" + new String(str_num)).val();
+            $("#Summa_" + new String(str_num)).text("0,00");
+        }
+        //else {
+
+        //    $("#Summa_" + new String(str_num)).text(new String(count * Price));
+
+        //}
+        EditCartItem(id, count);
+    }
+
+
+
+</script>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=d0111455-68d0-4aba-837c-2407e976ccf8" type="text/javascript"></script>
+<script type="text/javascript">
+    ymaps.ready(init);
+    function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [55.76, 37.64],
+            zoom: 10
+        }, {
+            searchControlProvider: 'yandex#search'
+        });
+
+        /* Начальный адрес метки */
+        var address = 'Россия, Москва, Тверская, д. 7';
+
+        ymaps.geocode(address).then(function (res) {
+            var coord = res.geoObjects.get(0).geometry.getCoordinates();
+
+            var myPlacemark = new ymaps.Placemark(coord, null, {
+                preset: 'islands#blueDotIcon',
+                draggable: true
+            });
+
+            /* Событие dragend - получение нового адреса */
+            myPlacemark.events.add('dragend', function (e) {
+                var cord = e.get('target').geometry.getCoordinates();
+               // $('#ypoint').val(cord);
+                ymaps.geocode(cord).then(function (res) {
+                    var data = res.geoObjects.get(0).properties.getAll();
+                    var ttt = $('#modal11_adress').val();
+                   // alert(ttt);
+                    $('#modal11_adress').val(data.text);
+                });
+            });
+            myMap.geoObjects.removeAll();
+            myMap.geoObjects.add(myPlacemark);
+            myMap.setCenter(coord, 15);
+        });
+
+        // Слушаем клик на карте.
+        myMap.events.add('click', function (e) {
+            var coords = e.get('coords');
+
+
+            ////// Если метка уже создана – просто передвигаем ее.
+            ////if (myPlacemark) {
+            ////    myPlacemark.geometry.setCoordinates(coords);
+
+            ////}
+            ////    // Если нет – создаем.
+            ////else {
+            ////    alert(coords);
+            ////    myPlacemark = createPlacemark(coords);
+            ////    myMap.geoObjects.add(myPlacemark);
+            ////    // Слушаем событие окончания перетаскивания на метке.
+            ////    myPlacemark.events.add('dragend', function () {
+            ////        getAddress(myPlacemark.geometry.getCoordinates());
+            ////    });
+            ////}
+
+            getAddress(coords);
+        });
+
+        // Определяем адрес по координатам (обратное геокодирование).
+        function getAddress(coords) {
+
+            var myPlacemark = new ymaps.Placemark(coords, null, {
+                preset: 'islands#blueDotIcon',
+                draggable: true
+            });
+
+
+
+            myPlacemark.properties.set('iconCaption', 'поиск...');
+
+            ymaps.geocode(coords).then(function (res) {
+                var firstGeoObject = res.geoObjects.get(0);
+
+                myPlacemark.properties
+                    .set({
+                        // Формируем строку с данными об объекте.
+                        iconCaption: [
+                            // Название населенного пункта или вышестоящее административно-территориальное образование.
+                            firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                            // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                            firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                        ].filter(Boolean).join(', '),
+                        // В качестве контента балуна задаем строку с адресом объекта.
+                        balloonContent: firstGeoObject.getAddressLine()
+                    });
+                myMap.geoObjects.removeAll();
+                myMap.geoObjects.add(myPlacemark);
+                myMap.setCenter(coords, 15);
+                $('#modal11_adress').val(firstGeoObject.getAddressLine());
+            });
+        }
+
+    }
+</script>

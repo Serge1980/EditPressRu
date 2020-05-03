@@ -1,0 +1,107 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="@ViewBag.metakeywords" />
+    <meta name="description" content="@ViewBag.metadesc" />
+    <meta name="mailru-domain" content="IHQ4WvVSQuq6fAN1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>EditPress</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @*<link href="~/Content/jquery.bxslider.css" rel="stylesheet" />*@
+    <link href="~/Content/PagerCss.css" rel="stylesheet" />
+    @*<link href="~/Content/SliderProduct.css" rel="stylesheet" />*@
+    <link href="~/Content/AdminCss.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/table-styles.css" rel="stylesheet" />
+    <link href="~/Content/kpStyles.css" rel="stylesheet" />
+
+    <script src="~/scripts/jquery-3.2.1.min.js"></script>
+    @*<script src="~/scripts/bxslider/jquery.bxslider.min.js"></script>*@
+    <script src="~/scripts/modernizr-2.6.2.js"></script>
+    <script src="~/scripts/bootstrap.min.js"></script>
+    @*<link href="~/Content/jquery.range.css" rel="stylesheet" />*@
+    @*<link href="~/Content/YaxMap.css" rel="stylesheet" />*@
+
+
+</head>
+<body style="position:relative;background:url(@ViewBag.KpForeColor) no-repeat center center fixed;background-size:cover;">
+    <div class="pdfconteiner">
+        <div style="display:flex;flex-direction:row;justify-content:center;margin-top:30px;">
+            <div></div>
+            <div class="pdfTelo" style="box-shadow: 8px 8px 8px 3px #F2F2F2,-8px -8px 8px 3px #F2F2F2;">
+                @RenderBody()
+            </div>
+            <div></div>
+        </div>
+    </div>
+
+
+    <div class="button-up btnBott">
+        @*<text>Наверх</text>*@
+    </div>
+    <div class="button-up btnTop">
+        @*<text>Наверх</text>*@
+    </div>
+
+    <!--Модальное окно просмотр картинок-->
+    <div id="modalImg">
+        <div class="closeModalImg"></div>
+        <div class="modalImg-content">
+            nen gjrf xnj [eq]
+        </div>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+
+    
+
+    <script>
+        $(document).ready(function () {
+            //$(".overlay").hide();
+            //height of body
+            if ($(".telo").height() < 700) {
+                $(".telo").height(700);
+            }
+
+
+            //Кнопка наверх
+            /**
+ * При прокрутке страницы, показываем или скрываем кнопку
+ */
+            $(window).scroll(function () {
+                // Если отступ сверху больше 100px то показываем кнопку "Наверх"
+                if ($(this).scrollTop() > 700) {
+                    $('.button-up').fadeIn();
+                } else {
+                    $('.button-up').fadeOut();
+                }
+            });
+
+          
+
+            /** При нажатии на кнопку мы перемещаемся к началу страницы */
+            $('.button-up').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 500);
+                return false;
+            });
+
+           
+
+        });
+    </script>
+
+   
+
+    
+
+
+
+</body>
+</html>

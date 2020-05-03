@@ -1,0 +1,176 @@
+﻿@model EditPressRu.Areas.Adminka.Models.OrdersViewModel
+@using EditPressRu.Helpers
+
+@{
+    ViewBag.Title = "Список Заказов";
+    Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+}
+
+<p style="text-align:center;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+<h2 style="text-align:center;margin:20px;">@ViewBag.Title</h2>
+<div style="display:flex;flex-direction:column;justify-content:center;align-items:center;">
+    <div style="display:flex;flex-direction:row;">
+        <div class="@(Model.Pr==""?"fltrDivActive":"fltrDiv")">
+            <a href="/adminka/ordersadmin" class="@(Model.Pr==""? "aFltrAdmActiv" : "aFltrAdm")">
+            Все заказы (и макеты и образцы)
+            </a>
+        </div>
+        <div class="@(Model.Pr=="C"?"fltrDivActive":"fltrDiv")">
+            <a href="/adminka/ordersadmin?pr=C&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=@Model.PrSort" class="@(Model.Pr=="C"? "aFltrAdmActiv" : "aFltrAdm")">
+                Только товары
+            </a>
+        </div>
+        <div class="@(Model.Pr=="P"?"fltrDivActive":"fltrDiv")">
+            <a href="/adminka/ordersadmin?pr=P&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=@Model.PrSort" class="@(Model.Pr=="P"? "aFltrAdmActiv" : "aFltrAdm")">
+                Только образцы
+            </a>
+        </div>
+        <div class="@(Model.Pr=="M"?"fltrDivActive":"fltrDiv")">
+            <a href="/adminka/ordersadmin?pr=M&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=@Model.PrSort" class="@(Model.Pr=="M"? "aFltrAdmActiv" : "aFltrAdm")">
+                Только макеты
+            </a>
+        </div>
+    </div>
+    <div>
+        <table class="table table-hover table-responsive">
+            <tr>
+                <th>
+                    @if (Model.PrSort=="numDesc")
+                    {
+                       <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=num">
+                             Номер заказа <img src="~/Images/filter_arrow1.png" />
+                       </a>
+                    }
+                    else
+                    {
+                        if (Model.PrSort == "num")
+                        {
+                            <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=numDesc">
+                                Номер заказа <img src="~/Images/arrow_up.png" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=numDesc">
+                                Номер заказа
+                            </a>
+                        }
+
+                    }
+                    
+                </th>
+                <th>
+                    @if (Model.PrSort == "userDesc")
+                    {
+                        <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=user">
+                            Пользователь <img src="~/Images/filter_arrow1.png" />
+                        </a>
+                    }
+                    else
+                    {
+                        if (Model.PrSort == "user")
+                        {
+                            <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=userDesc">
+                                Пользователь <img src="~/Images/arrow_up.png" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=userDesc">
+                                Пользователь
+                            </a>
+                        }
+
+                    }
+                    
+                </th>
+                <th>
+                    @if (Model.PrSort == "datDesc")
+                    {
+                        <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=dat">
+                            Дата Заказа <img src="~/Images/filter_arrow1.png" />
+                        </a>
+                    }
+                    else
+                    {
+                        if (Model.PrSort == "dat")
+                        {
+                            <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=datDesc">
+                                Дата Заказа <img src="~/Images/arrow_up.png" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=datDesc">
+                                Дата Заказа
+                            </a>
+                        }
+
+                    }
+                </th>
+                <th>
+                    <a href="/adminka/ordersadmin?page=@Model.Pager.page&pr=@Model.Pr&user=@Model.User&number=@Model.Number&dat=@Model.Dat&sortPar=datDesc">
+                        Статус заказа
+                    </a>
+                </th>
+            </tr>
+            <tr>
+                <th colspan="4">
+                    <form style="display:flex;flex-direction:row;justify-content:space-between;align-items:stretch;" method="get" action="/adminka/ordersadmin">
+                       
+                        <input type="hidden" id="pr" name="pr" value="@Model.Pr" />
+                        <input type="hidden" id="page" name="page" value="@Model.Pager.page" />
+                        <input type="hidden" id="sortPar" name="sortPar" value="@Model.PrSort" />
+                        
+                        <div>
+                            <input type="text" id="number" name="number" value="@Model.Number" />
+                        </div>
+                        <div>
+                            <input type="text" id="user" name="user" value="@Model.User" />
+                        </div>
+                        <div>
+                            <input type="date" id="dat" name="dat" value="@Model.Dat" />
+                        </div>
+                        <div>
+                            <input type="submit" value="применить" />
+                        </div>
+                    </form>
+                </th>
+            </tr>
+
+            @foreach (var item in Model.OrderUserList)
+            {
+                <tr>
+                    <td>
+                        <a href="/adminka/ordersadmin/Details/@item.OrderId" title="Просмотр заказа" style="cursor:pointer;">@item.OrderId</a>
+                    </td>
+                    @if (@item.UserId>0)
+                    {
+                        <td>
+                            <a href="/adminka/ordersadmin/OrderUser/@item.UserId" title="Просмотр заказа" style="cursor:pointer;">@item.UserName</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a href="#" title="Просмотр заказа" style="cursor:pointer;">Незарегистрированный пользователь</a>
+                        </td>
+                    }
+                    <td>
+                        @item.OrderDate  @*.ToString("dd-MM-yyyy", new System.Globalization.CultureInfo("ru-RU"))*@
+                    </td>
+                    <td>
+                        @item.StatusDescr
+                    </td>
+                </tr>
+            }
+        </table>
+        <div style="margin:8px 0px 25px 0px;">
+            @Html.PageLinks(Model.Pager, x => Url.Action(null, "ordersadmin", new { page = x }))
+        </div>
+    </div>
+</div>
+
+
+<p style="text-align:center;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+

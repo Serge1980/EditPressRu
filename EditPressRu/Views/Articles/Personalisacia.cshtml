@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Персонализация ежедневников";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Content/fancybox/jquery.fancybox.pack.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+	    $('.fancybox').fancybox();
+    });
+</script>
+
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;">
+                <table>
+                    <tr>
+                        <td style="vertical-align:top;padding:20px 10px 40px 40px;">
+                            <article itemscope itemtype="http://schema.org/Article">
+                                <h1 itemprop="name" style="text-align:center;">Персонализация ежедневников -  от компании “ЭдитПресс”</h1>
+                                <meta itemprop="inLanguage" content="ru" />
+                                <section itemprop="articleBody">
+                                    <p>
+                                        <strong>Персонализация ежедневников</strong>  в современном деловом мире стал уже неотъемлемым стандартом  и атрибутом успешной компании.
+                                        <a href="/Home/SubCategory?id=561&actName=cat" class="artikle_link">Ежедневник</a> с логотипом Вашей компании
+                                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Artikles/Personalizacia/personalization_DateBook_2017.jpg"
+                                           style=" max-width:350px;float:left;margin:20px;">
+                                            <img src="~/Images/Artikles/Personalizacia/personalization_DateBook_2017.jpg" alt="Персонализация ежедневника" style="max-height:230px; max-width:250px;" />
+                                        </a> подчеркнет ее солидность на рынке и серьезность намерений.
+                                        К тому же в наши дни расцвета цифровых <a href="/Home/SubCategory?id=575&actName=cat" class="artikle_link">гаджетов</a>,
+                                        обычный <a href="/Home/SubCategory?id=1560&actName=subcategory" class="artikle_link">блокнот</a> остается незаменимым помощником  делового человека,
+                                        будь то простой трудяга среднего звена или  топ менеджер.  Но согласитесь, чем солиднее представитель  - тем стильнее
+                                        должны быть его атрибуты. Ежедневник  с логотипом компании – будет отличным и необходимым аксессуаром.
+                                        </p>
+                                    <p style="padding-top:30px;">
+                                        Компания ЭдитПресс предлагает купить по оптовым ценам
+                                        <a class="fancybox" id="main-pic-a" rel="group" href="~/Images/Artikles/Personalizacia/ejednevnik_2017.jpg" style="float:left;margin:10px;">
+                                            <img src="~/Images/Artikles/Personalizacia/ejednevnik_2017.jpg" alt="Ежедневники, планинги, записные книжки" style="max-height:230px;max-width:250px;" />
+                                        </a>
+                                        ежедневники, блокноты, <a href="/Home/SubCategory?id=1557&actName=subcategory" class="artikle_link">планинги</a>,
+                                        записные книжки от дешевых до
+                                        <a href="/Home/SubCategory?id=563&actName=cat" class="artikle_link">VIP моделей известных брендов</a>  в своем Интернет-магазине.
+                                        Так же мы осуществляем различные <a href="/Home/LogoApplication" class="artikle_link">виды нанесения</a> логотипа.
+                                        Это и всевозможные <a href="/Home/Stamping" class="artikle_link">виды тиснения</a> и другие методы нанесения.
+                                        В нашей компании действует <a href="/bonus" class="artikle_link">бонусная программа,</a>
+                                        поэтому быть нашим постоянным клиентом не просто удобно, но и выгодно!
+
+                                    </p>
+                                    <p class="article_item_nav">
+                                        <<< <a href="/articles">К списку статей</a> | <a href="/" >Каталог продукции</a> |
+                                        <a href="/Home/SubCategory?id=561&actName=cat">Ежедневники</a>  | <a href="/contacts">Реквизиты</a>>>>
+                                    </p>
+                                </section>
+                            </article>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+

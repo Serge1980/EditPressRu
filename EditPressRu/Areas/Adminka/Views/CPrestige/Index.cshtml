@@ -1,0 +1,232 @@
+﻿@model EditPressRu.Areas.Adminka.Models.CPrestigeViewModel
+@using EditPressRu.Helpers
+
+
+@{
+    ViewBag.Title = "Товары 305";
+    Layout = "~/Areas/Adminka/Views/Shared/_AdmLayout.cshtml";
+
+}
+
+<h2 style="text-align:center;">Товары 305</h2>
+<p style="text-align:center;">
+    <a href="/adminka/cprestige/GetStockCprestige" rel="nofollow">Обновить Цены и количество</a>
+</p>
+<p style="text-align:center;">
+    <a href="#" rel="nofollow">Добавить из парсера новый товар</a>
+    <a href="/adminka/cprestige/parsetobase" rel="nofollow">Добавить из парсера новый товар-может занять пару часов, запускать не чаще раза в неделю</a>
+</p>
+<p style="text-align:center;">
+    Дата последнего обновления-@Model.LastDatUpdate
+</p>
+<p style="text-align:center;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+@if (Model.ListCategories != null)
+{
+    <div style="display:flex;flex-direction:row;flex-wrap:nowrap;">
+        <div style="padding:10px;display:flex;flex-direction:column;flex:2 1 auto;">
+            <h3>Категории</h3>
+
+            @foreach (var item in Model.ListCategories.Where(x => x.ParentId == 0))
+            {<div class="mainCatVendor  @(Model.CatId==item.Id || Model.ListCategories.Where(x => x.ParentId == item.Id).Select(x=>x.Id).Contains(Model.CatId)?"activeCat":"")">
+                <h5><a class="aCatAdm" href="/Adminka/cprestige/index?cat=@item.Id">@item.Name</a></h5>
+                <div class="contCatVendor">
+                    @foreach (var subitem in Model.ListCategories.Where(x => x.ParentId == item.Id))
+                    {
+                        <h5 class="@(Model.CatId==subitem.Id?"activeCat":"")"><a href="/Adminka/cprestige/index?cat=@subitem.Id">@subitem.Name</a></h5>
+                    }
+                </div>
+            </div>
+            }
+
+        </div>
+
+        <div style="padding:10px;flex:9 1 auto;">
+            <form action="/Adminka/cprestige/index" method="get" style="background:#33B086;padding-left:100px;">
+                <span>Артикул </span><input type="text" id="Artikle" name="Artikle" value="@Model.Artikle" style="padding:3px 4px 3px 5px" />
+                <span>Наименование </span><input type="text" id="Name" name="Name" value="@Model.Name" style="padding:3px 4px 3px 5px" />
+                <input type="submit" value="Найти" />
+            </form>
+            <table class="table table-hover">
+                <tr>
+                    <th>Ссылка</th>
+                    <th>
+                        Фото
+                    </th>
+                    <th>
+                        Артикул
+                    </th>
+                    <th>
+                        Название
+                    </th>
+                    <th>
+                        Цена на сайте
+                    </th>
+                    <th>
+                        Резервы
+                    </th>
+                    <th>
+                        Остатки в Москве
+                    </th>
+                    <th>
+                        Остатки на удаленном складе
+                    </th>
+                    <th>
+                        Цена поставщика 575
+                    </th>
+                    <th>
+                        Цена поставщика оптовая
+                    </th>
+                    <th>
+                        Файлы макетов
+                    </th>
+                </tr>
+                @foreach (var item in Model.ProdForPaging.Items)
+                {
+                    <tr>
+                        <td>
+
+                            @if (item.Product != null)
+                            {<div>
+                                @if (item.Product.Rating != null && item.Product.Rating == 0)
+                                {
+                                    <div style="top:0px;right:0px;color:white;background:#33B086;padding:2px;border-radius:3px;align-self:flex-start;font-size:15px;">NEW</div>
+                                }
+                                @if (item.Product.Rating != null && item.Product.Rating == 2)
+                                {
+                                    <div style="top:0px;right:0px;color:white;background:#828282;padding:2px;border-radius:3px;align-self:flex-start;font-size:15px;">Last</div>
+                                }
+                                @if (item.Product.Rating != null && item.Product.Rating == 3)
+                                {
+                                    <div style="top:0px;right:0px;color:white;background:#EA2C3E;padding:2px;border-radius:3px;align-self:flex-start;font-size:15px;">@item.Product.SaleSize</div>
+                                }
+                            </div>
+                            }
+                            <a target="_blank" href="/products/product/@item.ProdId">@item.ProdId</a>
+                        </td>
+                        <td>
+                            <img src="@item.ImgPth" style="max-height:100px;" />
+                        </td>
+                        <td>
+                            @item.Product.Article
+                        </td>
+                        <td>
+                            @item.Product.Name
+                        </td>
+                        <td style="color:green">
+                            @item.Product.Price
+                        </td>
+                        <td>
+                            @item.Product.Reserve
+                        </td>
+                        <td>
+                            @if (item.Product != null)
+                            {
+                                <b>@item.Product.Stock</b>
+                            }
+                            else
+                            {
+                                <span>
+                                    Данные отсутствуют
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Product != null)
+                            {
+                                <b>@item.Product.Stock_remote</b>
+                            }
+                            else
+                            {
+                                <span>
+                                    Данные отсутствуют
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Product != null)
+                            {
+                                <span style="color:green;font-size:15px;">
+                                    @item.Product.Price
+                                </span>
+                            }
+                            else
+                            {
+                                <span>
+                                    Данные отсутствуют
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Product != null)
+                            {
+                                switch (item.Product.Discount_group_id)
+                                {
+                                    case "000000003": //red
+                                        <b style="color:#DC0A1E;">@item.Product.Price_opt</b>
+                                        break;
+                                    case "000000001":
+                                        <b style="color:#0253B7;">@item.Product.Price_opt</b>
+                                        break;
+                                    case "000000002":
+                                        <b style="color:#000000;border:solid 1px #D9D9D9;">@item.Product.Price_opt</b>
+                                        break;
+                                    case "1-0000001":
+                                        <b style="color:#4C108F;">@item.Product.Price_opt</b>
+                                        break;
+                                    case "1-0000003":
+                                        <b style="color:#FFFF00;">@item.Product.Price_opt</b>
+                                        break;
+                                    case "1-0000006":
+                                        <b style="color:#4C1C24;">@item.Product.Price_opt</b>
+                                        break;
+                                    default:
+                                        <b>@item.Product.Price_opt</b>
+                                        break;
+                                }
+
+                            }
+                            else
+                            {
+                                <span>
+                                    Данные отсутствуют
+                                </span>
+                            }
+
+                        </td>
+                        <td>
+                            @if ((item.PdfFiles != null && item.PdfFiles.Count > 0) || (item.CdrFiles != null && item.CdrFiles.Count > 0))
+                            {
+                                if (item.CdrFiles != null && item.CdrFiles.Count > 0)
+                                {
+                                    foreach (var subitem in item.CdrFiles)
+                                    {
+                                        <a href="@subitem">скачать CDR</a>
+                                    }
+                                }
+
+                                if (item.PdfFiles != null && item.PdfFiles.Count > 0)
+                                {
+                                    foreach (var subitem in item.PdfFiles)
+                                    {
+                                        <a href="@subitem">скачать PDF</a>
+                                    }
+                                }
+
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <div id="PagedDiv">
+                @Html.PageLinks(Model.PagInfo, x => Url.Action("index", new { page = x, cat = Model.CatId }))
+                <div id="inputPage" style="display:none;">
+                    <input id="pagedUl" name="pagedUl" value="" type="text" />
+                </div>
+            </div>
+            <p style="text-align:center;"><a href="/Account" style="color:green;font-weight:500;padding:10px 10px 50px 10px;"> В личный кабинет</a></p>
+
+        </div>
+    </div>
+}
+

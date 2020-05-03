@@ -1,0 +1,48 @@
+﻿@model EditPressRu.Models.LoginModel
+<form action="/account/login" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="returnUrl" name="returnUrl" value="@ViewBag.ReturnUrl" />
+    <div style="display:flex;flex-direction:row;padding-top:20px">
+
+        <div style="flex:1;">
+            <div class="well" style="width:360px;">
+                <span style="color:red;">@Html.ValidationSummary()</span>
+                <table>
+                    <tr>
+                        <td align="right">
+                            @Html.LabelFor(m => m.UserName)
+
+                        </td>
+                        <td align="left" style="padding-left:5px;">
+                            @Html.TextBoxFor(m => m.UserName, new { placeholder = "Ваш логин", style = "margin-top:5px; margin-bottom:5px;" })
+                            @Html.ValidationMessageFor(m => m.UserName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">@Html.LabelFor(m => m.Password)</td>
+                        <td align="left" style="padding-left:5px;">
+                            @Html.PasswordFor(m => m.Password, new { placeholder = "Ваш пароль", style = "margin-top:5px; margin-bottom:5px;" })
+                            @Html.ValidationMessageFor(m => m.Password)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label class="checkbox" style="text-align: center;">
+                                @Html.CheckBoxFor(m => m.RememberMe, new { style = "margin-left: 0px;" })
+                                @Html.LabelFor(m => m.RememberMe)
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button type="submit" style="background-color:#33B086; border-color:#80BD00;color:white;width:100%;border-radius:5px;padding:7px;font-size:14px;">
+                                Выполнить вход
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</form>

@@ -1,0 +1,119 @@
+﻿@model List<EditPressRu.Models.OrderDetailsView>
+
+@{
+    ViewBag.Title = "Заказы";
+    Layout = "~/Views/Shared/_OrderLayout.cshtml";
+}
+
+<h1 class="cartH1">Заказы продукции</h1>
+<div class="order-filter-container">
+    <div class="order-filter-item">
+        <a href="/orders">Все заказы</a>
+    </div>
+    <div class="order-filter-item"><a href="/orders/index/1">Оформленные</a></div>
+    <div class="order-filter-item"><a href="/orders/index/4">Корзины</a></div>
+    <div class="order-filter-item"><a href="/orders/index/3">Образцы</a></div>
+    <div class="order-filter-item"><a href="/orders/index/2">Макеты</a></div>
+    <div id="order-interval" class="order-filter-item">
+        @if (Model.Count == 0)
+        {
+            <p>Весь период</p><i style="padding-right:8px;" class="fa fa-chevron-down"></i>
+        }
+        else
+        {
+            <p>@Model.FirstOrDefault().DayCnt</p><i style="padding-right:8px;" class="fa fa-chevron-down"></i>
+        }
+        <div id="order-interval-list">
+            <a href="/orders/index?dayCnt=Сегодня">Сегодня</a>
+            <a href="/orders/index?dayCnt=Вчера">Вчера</a>
+            <a href="/orders/index?dayCnt=Неделя">Неделя</a>
+            <a href="/orders/index?dayCnt=Две недели">Две недели</a>
+            <a href="/orders/index?dayCnt=30 дней">30 дней</a>
+            <a href="/orders/index?dayCnt=90 дней">90 дней</a>
+            <a href="/orders/index?dayCnt=180 дней">180 дней</a>
+            <a href="/orders/index?dayCnt=365 дней">365 дней</a>
+            <a href="/orders/index?dayCnt=Текущий месяц">Текущий месяц</a>
+            <a href="/orders/index?dayCnt=Прошлый месяц">Прошлый месяц</a>
+            <a href="/orders/index?dayCnt=Текущий год">Текущий год</a>
+            <a href="/orders/index?dayCnt=Прошлый год">Прошлый год</a>
+        </div>
+    </div>
+    <div class="order-filter-searh" title="по номеру заказа">
+        <div class="search-order-text" contenteditable="true" data-text="поиск заказов" style="width:100%;"></div>
+        <div class="btn-search-order" style="display:flex;cursor:pointer;"><i class="fa fa-search"></i></div>
+    </div>
+</div>
+@if (Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="CartForm" id="CartForm" style="border-bottom:solid 1px #808080;">
+            <div class="TeloPartCont">
+                @{Html.RenderPartial("_TeloPartial", item); }
+            </div>
+            <div class="BtnPartCont">
+                @{Html.RenderPartial("_ButtonsPartial", item); }
+            </div>
+        </div>
+                    }
+
+                    <p style="text-align:center;margin:50px 0px 50px 0px;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+                    }
+                    else
+                    {
+                        <h1 class="cartH1">Заказы не найдены</h1>
+                        <p style="text-align:center;margin:50px 0px 50px 0px;">Попробуйте изменить параметры поиска или фильтров</p>
+                        <p style="text-align:center;margin:50px 0px 50px 0px;"><a href="/Account" class="navLink"> В личный кабинет</a></p>
+                    }
+
+
+<script>
+    $(document).ready(function () {
+
+        //PopupMenu Order index orderDetails OrderEdit
+        $('#order-interval').hover(
+       function () {
+           $(this).children('#order-interval-list').show();
+       },
+       function () {
+           $(this).children('#order-interval-list').hide();
+       });
+
+        //Поиск submit by enter
+        $(".search-order-text").bind("keydown", function (event) {
+            var keycode = (event.keyCode ? event.keyCode : (event.which ? event.which : event.charCode));
+
+            if (keycode == 13) {
+
+                //document.getElementById('SearchSubmit').click();
+                $(".btn-search-order").click();
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $(".btn-search-order").click(function () {
+            var text = $('.search-order-text').html();
+            ParseCount(text);
+        });
+
+
+    });
+
+    function ParseCount(str_num) {
+
+        var orderNumber = parseInt(str_num);
+        if (isNaN(orderNumber)) {
+            $('.search-order-text').html('');
+            alert("Поиск только по номеру заказа!");
+            return false;
+        }
+        else {
+
+            window.location = "/orders/index?ordNumber=" + orderNumber;
+        }
+
+    }
+
+</script>

@@ -1,0 +1,50 @@
+﻿@model EditPressRu.Models.OrderDetailsView
+
+
+@if (!ViewBag.IsMobile)
+{
+    @Html.Raw("<div style='position:sticky;background-color:#EEEEEE;min-height:150px;top:105px;display:flex;flex-direction:column;padding:25px;border-radius:5px;'>")
+}
+
+<p style="font-size: 33px;text-align:center;color:#435159;">@Model.OrderDetail.FirstOrDefault().TotalSummOrder.ToString("0.##") <i class="fa fa-rouble"></i></p>
+@if (Model.PriznakZakaz == "Корзина")
+{
+    <p class="pPriznakZakaz_k">@Model.PriznakZakaz</p>
+}
+
+@if (Model.PriznakZakaz == "Корзина edit")
+{
+    <p class="pPriznakZakaz_k" style="border-bottom:solid 1px red;" title="Эта корзина открыта">Корзина</p>
+}
+
+@if (Model.PriznakZakaz == "Оформленный")
+{
+    <p class="pPriznakZakaz_o">@Model.PriznakZakaz</p>
+}
+@if (Model.PriznakZakaz.Contains("Образ"))
+{
+    <p class="pPriznakZakaz_p">@Model.PriznakZakaz</p>
+}
+@if (Model.PriznakZakaz.Contains("Макет"))
+{
+    <p class="pPriznakZakaz_m">@Model.PriznakZakaz</p>
+}
+<p class="pMaintol"><i class="fa fa-edit"></i><a href="/orders/editorder/@Model.OrderDetail.FirstOrDefault().OrderId">Редактировать</a></p>
+<form action="/kpstore/createkp" method="post">
+    <input type="hidden" id="orderId" name="orderId" value="@Model.OrderDetail.FirstOrDefault().OrderId" />
+    <button class="btnScorePrint" type="submit" title="сформировать коммерческое предложение"><i class="fa fa-tag"></i>Коммерческое пред...</button>
+</form>
+@if (Model.PriznakZakaz == "Оформленный")
+{
+    <form action="/kpstore/printschet" method="post">
+        <input type="hidden" name="id" id="id" value="@Model.OrderDetail.FirstOrDefault().OrderId" />
+        <button class="btnScorePrint" type="submit" title="Сформировать счет на оплату"><i class="fa fa-file-pdf-o"></i>Счет на оплату</button>
+    </form>
+}
+<p class="pMaintol" title="Скопировать товар в новую корзину"><i class="fa fa-copy"></i><a href="/orders/copyorder/@Model.OrderDetail.FirstOrDefault().OrderId">Копировать</a></p>
+@if (!ViewBag.IsMobile)
+{
+    @Html.Raw("</div>")
+}
+
+

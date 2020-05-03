@@ -1,0 +1,523 @@
+﻿@model EditPressRu.Models.ProductViewModel
+@{
+    //ViewBag.Title = String.Format("Купить {0} под нанесение печати", Model.Product.ShName.ToLower());
+    ViewBag.Title = Model.Product.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ViewPiker = "Product";
+    string mainImg = Model.ListPictures.First(x => x.Main).Big;
+    string socSetImage = String.Format("https://editpress.ru{0}", mainImg);
+}
+
+<link href="~/Content/fancybox/jquery.fancybox.css" rel="stylesheet" />
+<script src="~/Content/fancybox/jquery.fancybox.pack.js"></script>
+
+<div class="main">
+    <input type="hidden" id="Product_Id" value="@Model.Product.Id" />
+    <input type="hidden" id="Product_Price" value="@Model.Product.Price" />
+
+    <div class="product-container">
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @Html.Partial("_TopSalesPartial", Model.ListTopSales)
+            </div>
+        </div>
+        <div class="product-holder" itemscope itemtype="http://schema.org/Product">
+            <div class="breadCrambs">
+                <ul class="bc_ul_row" itemscope itemtype="http://schema.org/BreadcrumbList">
+                    @if (Model.BreadCrambs.Count > 0)
+                    {
+                        <li itemprop="itemListElement" itemscope
+                            itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="/">
+                                <text itemprop="name">Главная</text>
+                            </a>
+                            <meta itemprop="position" content="1" />
+                        </li>
+                        <li>&gt;</li>
+                        <li itemprop="itemListElement" itemscope
+                            itemtype="http://schema.org/ListItem">
+                            <a itemprop="item" href="@Model.BreadCrambs[0].HrefItem">
+                                <text itemprop="name"> @Model.BreadCrambs[0].NameItem</text>
+                            </a>
+                            <meta itemprop="position" content="2" />
+                        </li>
+                        <li>&gt;</li>
+                    }
+
+                    @if (Model.BreadCrambs.Count > 1)
+                    {
+                        if (Model.BreadCrambs.Count == 2)
+                        {
+                            <li itemprop="itemListElement" itemscope
+                                itemtype="http://schema.org/ListItem">
+                                <a itemprop="item" href="#" class="lastBrdcrmbA">
+                                    <text itemprop="name">@Model.BreadCrambs[1].NameItem</text>
+                                </a>
+                                <meta itemprop="position" content="3" />
+                            </li>
+                        }
+                        else
+                        {
+                            <li itemprop="itemListElement" itemscope
+                                itemtype="http://schema.org/ListItem">
+                                <a itemprop="item" href="@Model.BreadCrambs[1].HrefItem">
+                                    <text itemprop="name">@Model.BreadCrambs[1].NameItem</text>
+                                </a>
+                                <meta itemprop="position" content="3" />
+                            </li>
+                            <li>&gt;</li>
+                        }
+
+                    }
+
+                    @if (Model.BreadCrambs.Count > 2)
+                    {
+                        <li itemprop="itemListElement" itemscope
+                            itemtype="http://schema.org/ListItem">
+                            <a href="#" itemprop="item" class="lastBrdcrmbA">
+                                <text itemprop="name">@Model.BreadCrambs[2].NameItem</text>
+                            </a>
+                            <meta itemprop="position" content="4" />
+                        </li>
+                    }
+
+                </ul>
+            </div>
+            <h1 class="main-title-product" style="font-size:20px;text-align:center;color:#808080;" itemprop="name">
+                @Model.Product.ShName
+            </h1>
+            <div class="tovarKart">
+                <div class="tovarfoto">
+                    @if (Model.Product.Nalichie.Value)
+                    {
+                        <div class="nalich">
+                            <div style="background-image:url(/images/check_nalich.png);background-position:center;background-size:cover;width:30px;height:30px;"></div>
+                            <div>
+                                <p>В наличии</p>
+                                <p>на складе!</p>
+                            </div>
+                        </div>
+                    }
+                    <div class="tovarfoto-preview">
+                        <a class="fancybox" data-fancybox-group="gallery" title="@Model.Product.ShName" href="@mainImg"><img itemprop="image" class="cover" src="@mainImg" alt="@Model.Product.ShName" /></a>
+                    </div>
+                    <div class="list_img_prod">
+                        @foreach (var item in Model.ListPictures.Where(x => x.Main != true))
+                        {
+                            <div class="item_img_prod">
+                                <a class="fancybox" data-fancybox-group="gallery" title="@Model.Product.ShName" href="@item.Big">
+                                    <img style="width:70px; height:70px;position:relative;" src="@item.Big" alt="@item.Products.ShName.Split(' ')[0]" />
+                                </a>
+                            </div>
+                        }
+                        @foreach (var item in Model.ListVideos)
+                        {
+                            <div class="div_video">
+                                <img src="@item.ImgPrev" alt="смотрите видео" class='img_video' />
+                                <span onclick='show_video(@item.VideoPath);' class="play">видео</span>
+                            </div>
+                        }
+
+                    </div>
+                    <div style="padding:10px 0px 10px 0px;">
+                        <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+                        <script src="//yastatic.net/share2/share.js"></script>
+                        <div class="ya-share2" data-services="collections,vkontakte,facebook,odnoklassniki,moimir,gplus,whatsapp,telegram" data-size="s" data-image="@socSetImage"></div>
+                    </div>
+
+                </div>
+                <div class="tovarDesc">
+                    <div class="product-info">
+                        @if (Model.ColorListProducts != null && Model.ColorListProducts.Count > 0)
+                        {
+                            <h2 class="ph2">Цвета</h2>
+                            <ul class="color-list">
+                                @foreach (var item in Model.ColorListProducts)
+                                {
+                                    <li style="background-image:url(@item.Img);background-repeat:no-repeat;background-size:cover;" class="@((item.ProdId == Model.Product.Id) ? "active" :"")"><a href="@item.ProdLink"></a></li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="article">
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("Manager") || User.IsInRole("Administrator")))
+                        {
+                            <div style="border:solid 1px #828282;border-radius:5px;padding:15px 30px 15px 15px;box-shadow:2px 2px 10px #808080;">
+                                <p>Артикул:@Model.Product.OldArticle</p>
+                                <input type="hidden" id="vendorId" value="@Model.Product.VendorId_str" />
+                                @if (Model.Product.Stock != null || Model.Product.Reserve != null)
+                                {
+                                    <div id="updStokProdContainer">
+                                        @{ Html.RenderPartial("_PartialStockProduct", Model.Product);  }
+                                    </div>
+                                            if (Model.Product.VendorId == 1)
+                                            {
+                                                <p style="text-align:center;">
+                                                    <button id="updStokProd" style="padding:5px;border-radius:3px;box-shadow:2px 2px 5px #808080;cursor:pointer;color:#78787B;">Обновить</button>
+                                                    <span class='loader'>&nbsp;&nbsp;<img src='/images/loaders/216.gif' style='width:20px;height:22px;' />...загрузка</span>
+                                                </p>
+                                                }
+
+                                            }
+
+                            </div>
+                                            }
+                                            else
+                                            {<p>Артикул:@Model.Product.Article</p>}
+                    </div>
+                    <div class="product-price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                        <meta itemprop="price" content="@Model.Product.Price">
+                        <meta itemprop="priceCurrency" content="RUB">
+                        <meta itemprop="sku" content="@Model.Product.Article">
+                        <meta itemprop="url" content="https://editpress.ru/products/product/@Model.Product.Id">
+                        @if (Model.Product.Nalichie.Value)
+                        {
+                            <meta itemprop="availability" content="http://schema.org/InStock">
+                        }
+                        else
+                        {
+                            <meta itemprop="availability" content="http://schema.org/SoldOut">
+                        }
+
+                        <div style="display:flex;flex-direction:row;flex-wrap:nowrap;">
+                            @if (Model.Product.Nalichie.Value)
+                            {
+                                if (Model.Product.Price > 0)
+                                {
+                                    <div class="product-price-nam">Цена: </div>
+                                    <div class="product-price-count">@String.Format("{0:0.##}", Model.Product.Price)</div>
+                                    <div class="product-price-rub">рублей</div>
+                                }
+                                else
+                                {
+                                    <div class="product-price-count" style="font-size:13px;">Цена по запросу</div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="product-price-count" style="font-size:13px;">Цена по запросу</div>
+                            }
+
+                        </div>
+                        <div class="product-price-dop">
+                            <div class="product-price-dop-holder">
+                                <div class="product-price-dop-frame">
+                                    <img src="~/Images/tirag.png" style="width:100%;height:auto;" />
+                                    <p style="color:#828282;font-size:10px;font-family:Roboto;text-align:center;">больше</p>
+                                    <p style="color:#828282;font-size:10px;font-family:Roboto;text-align:center;">тираж</p>
+                                </div>
+                                <div class="product-price-dop-frame">
+                                    <img src="~/Images/cena.png" style="width:100%;height:auto;" />
+                                    <p style="color:#828282;font-size:10px;font-family:Roboto;text-align:center;">меньше</p>
+                                    <p style="color:#828282;font-size:10px;font-family:Roboto;text-align:center;">цена</p>
+                                </div>
+                            </div>
+                            <div class="product-price-read-more">
+                                <a href="/uslugi/consult" target="_blank">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-price-bez">Цена без нанесения</div>
+                    <div class="product-buy">
+                        <div class="product-buy-input">
+                            <input id="count" placeholder="Тираж" title="введите необходимое количество" type="text" />
+                        </div>
+                        <div class="product-buy-btn">
+                            <a id="AddToCart" href="#">Купить</a>
+                        </div>
+                    </div>
+                    <div id="GoToCart1" style="display:none;">
+                        <a href="/orders/editorder/@ViewBag.OrderId" style="color:#33b086;text-decoration:underline;text-decoration-color:#ea2c3e;"> перейти в корзину</a>
+                    </div>
+                    <div id="GoToCart" style="display:none;">
+                        <p style="color:#33b086;">Товар добавлен в корзину</p>
+                        <a href="/orders/editorder/@ViewBag.OrderId" style="color:#33b086;text-decoration:underline;text-decoration-color:#ea2c3e;"> перейти в корзину</a>
+                    </div>
+                    <div style="padding-bottom:35px;">
+                        <div class="divInfProd">
+                            <a href="#" class="aModel">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Заказать образец &nbsp;&nbsp;
+                            </a>
+                        </div>
+                        <div id="messeageModel" style="display:none;">
+                            <p><a href="/orders/editorder/@ViewBag.OrderId#prot" style="color:#33b086;text-decoration:underline;text-decoration-color:#ea2c3e;"> перейти в список образцов</a></p>
+                            <p style="font-size:10px;">(доступны в личном кабинете)</p>
+                        </div>
+                        <div class="divInfProd">
+                            <a href="#" class="aMaket">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Макет БЕСПЛАТНО!
+                            </a>
+                        </div>
+                        <div id="messeageMaket" style="display:none;">
+                            <a href="/orders/editorder/@ViewBag.OrderId" style="color:#33b086;text-decoration:underline;text-decoration-color:#ea2c3e;"> перейти в список макетов</a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        @if ((Model.PdfFiles != null && Model.PdfFiles.Count > 0) || (Model.CdrFiles != null && Model.CdrFiles.Count > 0))
+                        { <h2 class="ph2">Файлы макетов для нанесения</h2>
+                            if (Model.CdrFiles != null && Model.CdrFiles.Count > 0)
+                            {
+                                foreach (var item in Model.CdrFiles)
+                                {
+                                    <a href="@item">скачать CDR</a>
+                                }
+                            }
+
+                            if (Model.PdfFiles != null && Model.PdfFiles.Count > 0)
+                            {
+                                foreach (var item in Model.PdfFiles)
+                                {
+                                    <a href="@item">скачать PDF</a>
+                                }
+                            }
+
+                        }
+                        <p class="ordPech">
+                            <a href="/deliveryterms">
+                                Как заказать печать?
+                            </a>
+                        </p>
+                        <h2 class="ph2">Характеристики</h2>
+                        @if (!String.IsNullOrEmpty(Model.Color))
+                        {
+                            <p itemprop="color">Цвет: @Model.Color</p>
+                        }
+
+                        @if (!String.IsNullOrEmpty(Model.Product.Size))
+                        {
+                            <p itemprop="width">Размер: @Model.Product.Size</p>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Product.Weight))
+                        {
+                            <p itemprop="weight">Вес: @Model.Product.Weight</p>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Product.Volume))
+                        {
+                            <p>Объем: @Model.Product.Volume</p>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Material))
+                        {
+                            <p itemprop="material">Материал: @Model.Material</p>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Product.Preservative))
+                        {
+                            <p>Наличие упаковки: @Model.Product.Preservative</p>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.Brand))
+                        {
+                            <p itemprop="brand">Бренд: @Model.Brand</p>
+                        }
+
+                    </div>
+                    <div class="product-info">
+                        <h2 class="ph2">Виды нанесения</h2>
+                        <p>@Model.Nanesenie</p>
+                    </div>
+                    @*<div class="product-info">
+                            <p class="ph2">Цвета</p>
+                            @if (Model.ColorListProducts != null && Model.ColorListProducts.Count > 0)
+                            {
+                                <ul class="color-list">
+                                    @foreach (var item in Model.ColorListProducts)
+                                    {
+                                        <li style="background:@item.RGB;" class="@((item.ProdId == Model.Product.Id) ? "active" :"")"><a href="@item.ProdLink"></a></li>
+                                    }
+                                </ul>
+                            }
+                        </div>*@
+                </div>
+            </div>
+            <div class="product-text" itemprop="description">
+                <div>@Html.Raw(Model.Product.Descript)</div>
+            </div>
+            <div class="someTovar">
+                <h3>Так же с этим берут</h3>
+            </div>
+            @if (Model.SomeProducts != null && Model.SomeProducts.Count > 0)
+            {
+                <div class="someTovar-gllery">
+                    @foreach (var item in Model.SomeProducts)
+                {
+                        <div class="slide">
+                            <div class="slideElement">
+                                <div class="slideElement-holder">
+                                    <div class="product-preview wth-htg80">
+                                        <a href="/products/product/@item.Id"><img src="@item.ProdImages.First(x => x.Main).ThumbNail"></a>
+                                    </div>
+                                    <div class="slideElement-info">
+                                        <p>@String.Format("{0:0.##}", item.Price)</p>
+                                        <p>руб</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="product-title"><a href="/products/product/@item.Id">@item.ShName</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <!--Такой же  товар-->
+    <link rel="stylesheet" type="text/css" href="~/Content/slick.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/slick-theme.css" />
+    @*<script type="text/javascript" src="~/scripts/jquery-migrate-1.2.1.min.js"></script>*@
+    @*@section scripts
+        {}*@
+    <script type="text/javascript" src="~/scripts/slick.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.someTovar-gllery').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                responsive: [
+                    {
+                        breakpoint: 1200,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 480,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+
+            $('.fancybox').fancybox();
+
+
+
+            $('#updStokProd').click(function () {
+                var id = $('#vendorId').val();
+                var $this = $(this);
+                $this.next('span.loader').show();
+                $.ajax({
+                    url: "/adminka/oasisadmin/getstokforprod",
+                    type: "POST",
+                    data: { id: id },
+                    error: function () {
+                        alert("ошибка загрузка");
+                    },
+                    success: function (returndata) {
+                        alert("Данные загружены");
+                        $this.next('span.loader').hide();
+                        $("#updStokProdContainer").html(returndata);
+
+                    }
+
+                });
+                return false;
+            });
+
+
+            $(".aModel").click(function () {
+
+                //$("#mess_box2").hide();
+                var itemCount = 1
+
+                var priznak = "prot";
+                var prodId = $('#Product_Id').val();
+
+                $.ajax({
+                    url: "/cart/addtocart",
+                    type: "POST",
+                    data: { ProductId: prodId, Count: itemCount, priznak: priznak },
+                    error: function () {
+                        alert("ошибка при добавлении образца");
+                    },
+                    success: function (returndata) {
+                        $("#messeageModel").show();
+                        //GetCartSumm();
+                    }
+
+                });
+                return false;
+            });
+
+
+            $(".aMaket").click(function () {
+
+                //$("#mess_box2").hide();
+                var itemCount = 1
+
+                var priznak = "maket";
+                var prodId = $('#Product_Id').val();
+
+                $.ajax({
+                    url: "/cart/addtocart",
+                    type: "POST",
+                    data: { ProductId: prodId, Count: itemCount, priznak: priznak },
+                    error: function () {
+                        alert("ошибка при добавлении макета");
+                    },
+                    success: function (returndata) {
+                        $("#messeageMaket").show();
+                        //GetCartSumm();
+                    }
+
+                });
+                return false;
+            });
+
+        });
+
+        function show_video(video_path) {
+
+            $('#frm_video').attr('src', video_path);
+
+            $('#overlay').fadeIn(400, // снaчaлa плaвнo пoкaзывaем темную пoдлoжку
+                    function () { // пoсле выпoлнения предъидущей aнимaции
+
+                        $('#modal_form')
+                            .css('display', 'block') // убирaем у мoдaльнoгo oкнa display: none;
+                            .animate({ opacity: 1, top: '50%' }, 200); // плaвнo прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
+
+                    });
+
+
+            /* Зaкрытие мoдaльнoгo oкнa, тут делaем тo же сaмoе нo в oбрaтнoм пoрядке */
+            $('.modal_close, #overlay').click(function () { // лoвим клик пo крестику или пoдлoжке
+
+                $('#modal_form')
+                .animate({ opacity: 0, top: '45%' }, 200,  // плaвнo меняем прoзрaчнoсть нa 0 и oднoвременнo двигaем oкнo вверх
+                    function () { // пoсле aнимaции
+                        $(this).css('display', 'none'); // делaем ему display: none;
+                        $('#overlay').fadeOut(400); // скрывaем пoдлoжку
+                    }
+                );
+
+            });
+        }
+
+    </script>
+
+    <div id="modal_form">
+        <!-- Сaмo oкнo -->
+        <p class="modal_close">x</p> <!-- Кнoпкa зaкрыть -->
+        <!-- Тут любoе сoдержимoе -->
+        <center>
+            <iframe id="frm_video" src="" width="650" height="488" frameborder="1" allow="fullscreen"></iframe>
+        </center>
+    </div>
+
+    <div id="overlay">
+    </div><!-- Пoдлoжкa -->
+
+
+</div>

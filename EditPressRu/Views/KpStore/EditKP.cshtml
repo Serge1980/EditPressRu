@@ -1,0 +1,862 @@
+﻿@model EditPressRu.Models.EditKPViewModel
+@{
+    Layout = "~/Views/Shared/_KpLayout.cshtml";
+
+}
+
+@section colorsPdf {
+    <div class="kpColorSelect">
+        <div class="divColorSelect" data-text="whitefone.jpg" style="background-color:#F3F3F4;"></div>
+        <div class="divColorSelect" data-text="2-bridge.jpg" style="background-color:#E1E1E1;"></div>
+        <div class="divColorSelect" data-text="30-goldenleaf-dark.jpg" style="background-color:#99918E;"></div>
+        <div class="divColorSelect" data-text="40-bluehour-dark.jpg" style="background-color:#9A9FA3;"></div>
+        <div class="divColorSelect" data-text="47-ios-dark.jpg" style="background-color:#869199;"></div>
+        <div class="divColorSelect" data-text="50-horizont-dark.jpg" style="background-color:#424244;"></div>
+        <div class="divColorSelect" data-text="3-bridge.jpg" style="background-color:#D3A87B;"></div>
+        <div class="divColorUpl">
+            <i class="fa fa-plus" data-id="bgUpload"></i>
+            <input id="bgUpload" type="file" multiple="multiple" accept="image/x-png,image/jpeg">
+        </div>
+    </div>
+}
+
+@section MantainentsPdf {
+    <div class="kpMaint">
+        <p class="btnSafe">
+            <i class="fa fa-spinner fa-spin" style="display:none;"></i>
+            <span>сохранено</span>
+        </p>
+        <p style="padding-top:10px;padding-bottom:10px;">
+            @Model.DateKp
+        </p>
+        <hr />
+        <div class="kpMaintContain1">
+            <div class="cont1Item"><i class="fa fa-shopping-cart" style="color:#33B086;"></i>&nbsp;&nbsp;&nbsp;Заказ @Model.KpStore.OrderId</div>
+            <div class="cont1Item"><i class="fa fa-rub" data-id="dopuslHref" style="@((Model.KpStoreDopList!=null && Model.KpStoreDopList.Count>0) || (Model.KpStore.MarkUp.HasValue && Model.KpStore.MarkUp.Value>0) || (Model.KpStore.Sale.HasValue && Model.KpStore.Sale.Value>0) || Model.KpStore.СurrencyValue!=1?"color:#33B086;":"")"></i>&nbsp;&nbsp;&nbsp;<a href="#" class="pdfMaintHref" id="dopuslHref">Цены и услуги</a></div>
+            <div class="cont1Item"><i class="fa fa-paper-plane" data-id="sendLinkKp" style="@(!String.IsNullOrEmpty(Model.KpStore.Publish)?"color:#33B086;":"")"></i>&nbsp;&nbsp;&nbsp;<a href="#" id="sendLinkKp" class="pdfMaintHref" title="Управление публикацией КП">Послать ссылку</a></div>
+            <div class="cont1Item"><i class="fa fa-download"></i>&nbsp;&nbsp;&nbsp;<a href="/kpstore/downloadkp/@Model.KpStore.Id" class="pdfMaintHref">Скачать PDF</a></div>
+            <div class="cont1Item"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;&nbsp;<a href="#" id="delKpHref">Удалить</a></div>
+        </div>
+        <div class="kpMaintContain2">
+            <div>
+                <input class="switcher__input" type="checkbox" name="UserP" id="UserP" value="@Model.KpStore.UserP.ToString()">
+                <label class="switcher__label" for="UserP">
+                    <span class="switcher__text">Отправитель</span>
+                </label>
+            </div>
+            <div>
+                <input class="switcher__input" type="checkbox" name="ArticleP" id="ArticleP" value="@Model.KpStore.ArticleP.ToString()">
+                <label class="switcher__label" for="ArticleP">
+                    <span class="switcher__text">Код артикула</span>
+                </label>
+            </div>
+            <div>
+                <input class="switcher__input" type="checkbox" name="CharacterP" id="CharacterP" value="@Model.KpStore.CharacterP.ToString()">
+                <label class="switcher__label" for="CharacterP">
+                    <span class="switcher__text">Характеристики</span>
+                </label>
+            </div>
+            <div>
+                <input class="switcher__input" type="checkbox" name="DescrP" id="DescrP" value="@Model.KpStore.DescrP.ToString()">
+                <label class="switcher__label" for="DescrP">
+                    <span class="switcher__text">Описание</span>
+                </label>
+            </div>
+            <div>
+                <input class="switcher__input" type="checkbox" name="SumTirageP" id="SumTirageP" value="@Model.KpStore.SumTirageP.ToString()">
+                <label class="switcher__label" for="SumTirageP">
+                    <span class="switcher__text">Тираж и сумма</span>
+                </label>
+            </div>
+            <div>
+                <input class="switcher__input" type="checkbox" name="TotalP" id="TotalP" value="@Model.KpStore.TotalP.ToString()">
+                <label class="switcher__label" for="TotalP">
+                    <span class="switcher__text">Итого</span>
+                </label>
+            </div>
+        </div>
+    </div>
+}
+
+<input type="hidden" id="KpId" name="KpId" value="@Model.KpStore.Id" />
+<input type="hidden" id="Logo" name="Logo" value="@Model.UserInfo.LogoImg" />
+<input type="hidden" id="FoneColor" value="@Model.KpStore.KpForeColor" />
+<input type="hidden" id="hiddTotalSumm" value="@Model.TotalSumm" />
+
+@*<input type="hidden" id="nbrImgP" value="0" />*@
+
+<input type="hidden" id="ImgBtn" value="0" />
+<input type="hidden" id="idImg" value="0" />
+<input type="hidden" id="ImgProdId" value="0" />
+
+
+<div id="kpTelo">
+    @{Html.RenderPartial("_OsnPartial", Model);}
+</div>
+
+
+<!--Модальное окно допуслуги-->
+<div class="overlay2">
+    <div id="modal">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<!--Модальное окно послать ссылку-->
+<div class="overlay1">
+    <div class="modal1">
+        <div class="modal1-header">
+            <div style="float:right;"><a href="#" id="modal1_close"><i class="fa fa-times"></i></a></div>
+            <div class="modal1_h2"><i class="fa fa-paper-plane"></i>&nbsp;&nbsp;&nbsp;&nbsp;<div style="display:flex;">Послать ссылку</div></div>
+        </div>
+        <div class="modal1-content">
+            <p class="lead">Готовое коммерческое предложение можно сделать публичным документом. Ваши клиенты смогут открыть его по ссылке, которую вы им вышлете. Чтобы получить ссылку, нажмите кнопку «Опубликовать». Закрыть доступ к документу вы сможете в любой момент после публикации.</p><br><br>
+            <div class="lgnc">
+                @if (String.IsNullOrEmpty(Model.KpStore.Publish))
+                {
+                    <div style="display:flex;flex-direction:column;min-height:100px;justify-content:space-around;align-items:center;">
+                        <p><a id="modal1_publish" href="#">Опубликовать</a></p>
+                    </div>
+                }
+                else
+                {
+                    <div style="display:flex;flex-direction:column;min-height:100px;justify-content:space-around;align-items:center;">
+                        <p><a class="modal1_publish" href="@Model.KpStore.Publish" target="_blank">@("https://editpress.ru" + Model.KpStore.Publish)</a></p>
+                        <p><a id="modal1_unpublish" href="#">Закрыть доступ</a></p>
+                    </div>
+                }
+            </div>
+            <div id="modal1_loader">
+                <img src="/images/loaders/spinner1.gif" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            //set initial fonecolor(body background)
+            var fonecolor = $('#FoneColor').val();
+            $('body').css({ 'background-image': 'url(' + fonecolor + ')', 'background-size': 'cover' });
+            $('.switcher__input:checked + .switcher__label').css({ 'color': '#ffffff' });
+
+            //border around foneSelect
+            var txt = fonecolor.replace('/images/kpfone/', '');
+            $("div[data-text='" + txt + "']").css({ 'border': 'solid 6px #ffffff' });
+
+            // если выбран первый фон, то сделать тень вокруг рамки
+            if (txt == 'whitefone.jpg') {
+                $('#kpTelo').css({ 'box-shadow': '8px 8px 8px 3px #F2F2F2,-8px -8px 8px 3px #F2F2F2' });
+            }
+
+            // если выбран предпоследний фон, то дивку с регулировками подсветить белым,предварительно сбросив все подсветки
+            $('.kpMaint').css({ 'background-color': '' });
+            if (txt == '50-horizont-dark.jpg') {
+                $('.kpMaint').css({ 'background-color': 'white' });
+            }
+
+            //var img = $(this).data("text");
+
+            //$('.divColorSelect').css({ 'border': 'none' });
+            //$(this).css({ 'border': 'solid 6px #ffffff' });
+
+            // /images/kpfone/whitefone.jpg
+            // /images/kpfone/2-bridge.jpg
+            // /images/kpfone/30-goldenleaf-dark.jpg
+            // /images/kpfone/40-bluehour-dark.jpg
+            // /images/kpfone/47-ios-dark.jpg
+            // /images/kpfone/50-horizont-dark.jpg
+            //
+
+            //alert(fonecolor);
+
+            ////***************Чекбоксы начало******************////
+            //set initial for article
+
+            if ($('#ArticleP').val() == 'True') {
+                $('#ArticleP').prop('checked', true);
+                $('.idArticl').show();
+            }
+            else {
+                $('#ArticleP').prop('checked', false);
+                $('.idArticl').hide();
+            }
+
+            // logic working of article checkbox
+            $('#ArticleP').change(function () {
+
+                if ($('#ArticleP').prop("checked") == true) {
+                    //alert("Checkbox is checked.");
+
+                    $('.idArticl').show();
+                    $('#ArticleP').prop('checked', true);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                }
+                else if ($('#ArticleP').prop("checked") == false) {
+                    //alert("Checkbox is unchecked.");
+
+                    $('#ArticleP').prop('checked', false);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                    $('.idArticl').hide();
+                }
+                SaveChanges();
+            });
+
+            //set initial for Postavshik(UserP)
+
+            if ($('#UserP').val() == 'True') {
+                $('#UserP').prop('checked', true);
+                $('.idOtpravitel').show();
+            }
+            else {
+                $('#UserP').prop('checked', false);
+                $('.idOtpravitel').hide();
+            }
+
+            // logic working of Postavshik(UserP) checkbox
+            $('#UserP').change(function () {
+
+                if ($('#UserP').prop("checked") == true) {
+                    //alert("Checkbox is checked.");
+
+                    $('.idOtpravitel').show();
+                    $('#UserP').prop('checked', true);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                }
+                else if ($('#UserP').prop("checked") == false) {
+                    //alert("Checkbox is unchecked.");
+
+                    $('#UserP').prop('checked', false);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                    $('.idOtpravitel').hide();
+                }
+                SaveChanges();
+            });
+
+
+            //set initial for CharacterP
+            if ($('#CharacterP').val() == 'True') {
+                $('#CharacterP').prop('checked', true);
+                $('.idCaractP').show();
+            }
+            else {
+                $('#CharacterP').prop('checked', false);
+                $('.idCaractP').hide();
+            }
+
+            // logic working of CharacterP checkbox
+            $('#CharacterP').change(function () {
+
+                if ($('#CharacterP').prop("checked") == true) {
+                    //alert("Checkbox is checked.");
+
+                    $('.idCaractP').show();
+                    $('#CharacterP').prop('checked', true);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                }
+                else if ($('#CharacterP').prop("checked") == false) {
+                    //alert("Checkbox is unchecked.");
+
+                    $('#CharacterP').prop('checked', false);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                    $('.idCaractP').hide();
+                }
+                SaveChanges();
+            });
+
+
+
+            //set initial for Описание
+            if ($('#DescrP').val() == 'True') {
+                $('#DescrP').prop('checked', true);
+                $('.idDescrpt').show();
+            }
+            else {
+                $('#DescrP').prop('checked', false);
+                $('.idDescrpt').hide();
+            }
+
+            // logic working of CharacterP checkbox
+            $('#DescrP').change(function () {
+
+                if ($('#DescrP').prop("checked") == true) {
+                    //alert("Checkbox is checked.");
+
+                    $('.idDescrpt').show();
+                    $('#DescrP').prop('checked', true);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                }
+                else if ($('#DescrP').prop("checked") == false) {
+                    //alert("Checkbox is unchecked.");
+
+                    $('#DescrP').prop('checked', false);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                    $('.idDescrpt').hide();
+                }
+                SaveChanges();
+            });
+
+            //set initial for Тираж-цена
+            if ($('#SumTirageP').val() == 'True') {
+                $('#SumTirageP').prop('checked', true);
+                $('.idTirag').show();
+                $(".FlexRowRound").css({ 'justify-content': 'space-around' });
+            }
+            else {
+                $('#SumTirageP').prop('checked', false);
+                $('.idTirag').hide();
+                $(".FlexRowRound").css({ 'justify-content': 'flex-start' });
+            }
+
+            // logic working of Тираж-цена checkbox
+            $('#SumTirageP').change(function () {
+
+                if ($('#SumTirageP').prop("checked") == true) {
+                    //alert("Checkbox is checked.");
+
+                    $('.idTirag').show();
+                    $(".FlexRowRound").css({ 'justify-content': 'space-around' });
+                    $('#SumTirageP').prop('checked', true);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                }
+                else if ($('#SumTirageP').prop("checked") == false) {
+                    //alert("Checkbox is unchecked.");
+
+                    $('#SumTirageP').prop('checked', false);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                    $('.idTirag').hide();
+                    $(".FlexRowRound").css({ 'justify-content': 'flex-start' });
+                }
+                SaveChanges();
+            });
+
+            //set initial for Итого
+            if ($('#TotalP').val() == 'True') {
+                $('#TotalP').prop('checked', true);
+                $('.idTotalP').show();
+            }
+            else {
+                $('#TotalP').prop('checked', false);
+                $('.idTotalP').hide();
+            }
+
+            // logic working  for Итого
+            $('#TotalP').change(function () {
+
+                if ($('#TotalP').prop("checked") == true) {
+                    //alert("Checkbox is checked.");
+
+                    $('.idTotalP').show();
+                    $('#TotalP').prop('checked', true);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                }
+                else if ($('#TotalP').prop("checked") == false) {
+                    //alert("Checkbox is unchecked.");
+
+                    $('#TotalP').prop('checked', false);
+                    cb = $(this);
+                    cb.val(cb.prop('checked'));
+                    $('.idTotalP').hide();
+                }
+                SaveChanges();
+            });
+
+            ////***************Чекбоксы конец******************////
+
+            ////***************Удаление начало******************////
+            $("#delKpHref").click(function () {
+
+                var returnVal = confirm("Вы точно хотите удалить?");
+                if (returnVal) {
+                    var KpId = $('#KpId').val();
+
+                    $.ajax({
+                        url: "/kpstore/deletekp",
+                        type: "POST",
+                        data: { KpId: KpId },
+                        error: function () {
+                            //alert("ошибка в автокомплите");
+                        },
+                        success: function (data) {
+
+                            window.location.href = data;
+                        }
+
+                    });
+                    return false;
+                }
+
+            });
+            ////***************Удаление конец******************////
+
+            ////***************Послать ссылку начало******************////
+
+            $("#sendLinkKp").click(function () {
+                $('.modal1').show();
+                $('.overlay1').show();
+            });
+
+            $('#modal1_close').click(function () {
+                $('.modal1').hide();
+                $('.overlay1').hide();
+            });
+
+            $(document).on('click', '#modal1_publish', function () {
+                var KpId = $('#KpId').val();
+                var Verb = 1;
+
+                $('#modal1_loader').show();
+
+                $.ajax({
+                    url: "/kpstore/sendkplink",
+                    type: "POST",
+                    data: { KpId: KpId, Verb: Verb },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (returndata, textStatus, XMLHttpRequest) {
+
+                        $('#mod1_unpublish').hide();
+                        $('.lgnc').html(returndata);
+
+                        $('.fa-paper-plane[data-id=sendLinkKp]').css({ 'color': '#33B086' });
+
+                        $('#modal1_loader').hide();
+                    }
+
+                });
+                return false;
+
+            });
+
+            $(document).on('click', '#modal1_unpublish', function () {
+                var KpId = $('#KpId').val();
+                var Verb = 0;
+
+                $('#modal1_loader').show();
+                $.ajax({
+                    url: "/kpstore/sendkplink",
+                    type: "POST",
+                    data: { KpId: KpId, Verb: Verb },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (returndata, textStatus, XMLHttpRequest) {
+
+                        $('#mod1_publish').hide();
+                        $('.lgnc').html(returndata);
+
+                        $('.fa-paper-plane[data-id=sendLinkKp]').css({ 'color': '#000000' });
+
+                        $('#modal1_loader').hide();
+                    }
+
+                });
+                return false;
+
+            });
+
+
+            ////***************Послать ссылку конец******************////
+
+            ////***************Логика изменения фона начало******************////
+
+
+            $(".divColorSelect").click(function () {
+                //write funtion that generates random color and sticks it to the background per click;
+                var img = $(this).data("text");
+                $('body').css({ 'background-image': 'url(/images/kpfone/' + img + ')', 'background-size': 'cover' });
+                $('.divColorSelect').css({ 'border': 'none' });
+                $(this).css({ 'border': 'solid 6px #ffffff' });
+
+                $('#kpTelo').css({ 'box-shadow': '' });
+                if (img == 'whitefone.jpg') {
+                    $('#kpTelo').css({ 'box-shadow': '8px 8px 8px 3px #F2F2F2,-8px -8px 8px 3px #F2F2F2' });
+                }
+
+                $('.kpMaint').css({ 'background-color': '' });
+                if (img == '50-horizont-dark.jpg') {
+                    $('.kpMaint').css({ 'background-color': 'white' });
+                }
+
+                SaveChanges();
+
+            });
+            ////***************Логика изменения фона конец******************////
+
+            //Работа ***************с картинками начало  *******************
+            $(document).on('click', '.prev1', function () {
+                var imgId = $(this).data('id');
+                var imgProdId = $(this).data('text');
+                //var nbr = $("span[data-id='" + imgId + "']").text();
+                $("#idImg").val(imgId);
+                $("#ImgProdId").val(imgProdId);
+                $('#ImgBtn').val("prev");
+                SaveChanges();
+                return false;
+            });
+
+            $(document).on('click', '.next1', function () {
+                var imgId = $(this).data('id');
+                var imgProdId = $(this).data('text');
+                //var nbr = $("span[data-id='" + imgId + "']").text();
+                $("#idImg").val(imgId);
+                $("#ImgProdId").val(imgProdId);
+                $('#ImgBtn').val("next");
+                SaveChanges();
+                return false;
+            });
+
+            //Работа ***************с картинками кщнец  *******************
+            //-----------------------------------------------------------//
+
+
+
+            //var content = $('.editable').html();
+            //$('.editable').blur(function () {
+            //    if (content != $(this).html()) {
+            //        //content = $(this).html();
+            //        SaveChanges();
+            //    }
+            //});
+
+            var content = $('.editable').html();
+            $(document).on('blur',
+                  '.editable', function () {
+                      if (content != $(this).html()) {
+                          //content = $(this).html();
+                          SaveChanges();
+                      }
+                  });
+
+
+            function SaveChanges() {
+                $('.fa-spinner').show('slow');
+
+                var KpId = $('#KpId').val();
+                var Logo = $('#Logo').val();
+                var KpTitle = $(".pdfH1").text();
+                var KpDescript = $(".kpDescrpt").html();
+                var KpContacts = $('.KpContacts').html();
+
+                //bool elements for show/hide section kp offers
+                var ArticleP = $('#ArticleP').val();
+                var UserP = $('#UserP').val();
+                var CharacterP = $('#CharacterP').val();
+                var DescrP = $('#DescrP').val();
+                var SumTirageP = $('#SumTirageP').val();
+                var TotalP = $('#TotalP').val();
+
+                //alert(ArticleP);
+
+                //alert(KpDescript);
+
+                var FoneColor = $('.bodyStyle').css('background-image');
+                FoneColor = FoneColor.replace('url(', '').replace(')', '').replace(/\"/gi, "").split('/').pop();
+
+                //Собираем цены товаров в массив для отправки
+                var PriceArr = [];
+                var mapPriceArr = $("p.price").map(function (i, e) {
+
+                    var text = $(e).text();
+                    var vle = $(e).data("id");
+
+                    if (!text.trim()) {
+                        text = 0;
+                    }
+
+                    //alert(text + ' ' + vle);
+                    PriceArr.push({
+                        Text: text,
+                        Value: vle
+                    });
+                });
+
+                //Собираем количество товаров в массив для отправки
+                var CntArr = [];
+                var mapCntArr = $("p.tirage").map(function (i, e) {
+
+                    var text = $(e).text();
+                    var vle = $(e).data("id");
+
+                    if (!text.trim()) {
+                        text = 0;
+                    }
+
+                    //alert(text + ' ' + vle);
+                    CntArr.push({
+                        Text: text,
+                        Value: vle
+                    });
+                });
+
+                //Собираем описание товаров в массив для отправки
+                var DescrArr = [];
+                var mapDescrArr = $("div.idDescrpt").map(function (i, e) {
+
+                    var text = $(e).text();
+                    var vle = $(e).data("id");
+
+                    if (!text.trim()) {
+                        text = 0;
+                    }
+
+                    //alert(text + ' ' + vle);
+                    DescrArr.push({
+                        Text: text,
+                        Value: vle
+                    });
+                });
+
+                //смена номера картинки
+                //var NbrImgP = $("#nbrImgP").val();
+                //var NbrImgM = $("#nbrImgM").val();
+                var IdImg = $("#idImg").val();
+                var ImgProdId = $("#ImgProdId").val();
+                var ImgBtn = $("#ImgBtn").val();
+
+                $.ajax({
+                    url: "/kpstore/editkp",
+                    type: "POST",
+                    data: {
+                        KpId: KpId, Logo: Logo, KpTitle: KpTitle, KpDescript: KpDescript,
+                        FoneColor: FoneColor, ArticleP: ArticleP, UserP: UserP, CharacterP: CharacterP,
+                        DescrP: DescrP, SumTirageP: SumTirageP, TotalP: TotalP, KpContacts: KpContacts,
+                        PriceArr: PriceArr, CntArr: CntArr, DescrArr: DescrArr, IdImg: IdImg, ImgProdId: ImgProdId, ImgBtn: ImgBtn
+                    },
+                    error: function () {
+                        //alert("ошибка в автокомплите");
+                    },
+                    success: function (returndata, textStatus, XMLHttpRequest) {
+
+                        //сброс картиок в ноль
+                        $("#idImg").val();
+                        $("#ImgProdId").val();
+                        $("#ImgBtn").val();
+
+
+                        //Обновление партиал
+                        $('.fa-spinner').hide('slow');
+                        $('#kpTelo').html(returndata);
+                        //$('#idItogP').text('Итого: ' + data.totalSumm);
+
+                    }
+
+                });
+            }
+
+
+            $(function () {
+                // Программное открытие окна выбора файла по щелчку
+                $('html').on('click', 'figure', function () {
+                    //alert('vvv');
+                    $('#fileUpload').trigger('click');
+                    // alert('eee');
+                    //return false;
+                })
+
+                // При перетаскивании файлов в форму, подсветить
+                $('html').on('dragover', 'section', function (e) {
+                    $(this).addClass('dd');
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                // Предотвратить действие по умолчанию для события dragenter
+                $('html').on('dragenter', 'section', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+
+                $('html').on('dragleave', 'section', function (e) {
+                    $(this).removeClass('dd');
+                });
+
+                $('html').on('drop', 'section', function (e) {
+                    if (e.originalEvent.dataTransfer) {
+                        if (e.originalEvent.dataTransfer.files.length) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            // Вызвать функцию загрузки. Перетаскиваемые файлы содержатся
+                            // в свойстве e.originalEvent.dataTransfer.files
+                            upload(e.originalEvent.dataTransfer.files);
+                        }
+                    }
+                });
+
+                // Загрузка файлов классическим образом - через модальное окно
+                $('html').on('change', '#fileUpload', function () {
+                    upload($(this).prop('files'));
+                });
+            });
+
+
+
+        });
+    </script>
+
+
+    <script>
+        //File Upload
+        $(document).ready(function () {
+            // Программное открытие окна выбора файла по щелчку
+            $('html').on('click', 'figure', function () {
+                //alert('vvv');
+                $('#fileUpload').trigger('click');
+                // alert('eee');
+                //return false;
+            })
+
+            // При перетаскивании файлов в форму, подсветить
+            $('html').on('dragover', 'section', function (e) {
+                $(this).addClass('dd');
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            // Предотвратить действие по умолчанию для события dragenter
+            $('html').on('dragenter', 'section', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            $('html').on('dragleave', 'section', function (e) {
+                $(this).removeClass('dd');
+            });
+
+            $('html').on('drop', 'section', function (e) {
+                if (e.originalEvent.dataTransfer) {
+                    if (e.originalEvent.dataTransfer.files.length) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        // Вызвать функцию загрузки. Перетаскиваемые файлы содержатся
+                        // в свойстве e.originalEvent.dataTransfer.files
+                        upload(e.originalEvent.dataTransfer.files);
+                    }
+                }
+            });
+
+            // Загрузка файлов классическим образом - через модальное окно
+            $('html').on('change', '#fileUpload', function () {
+                upload($(this).prop('files'));
+                //location.reload();
+            });
+
+
+
+
+        });
+
+        function upload(files) {
+            // Создаем объект FormData
+            var formData = new FormData();
+
+            // Пройти в цикле по всем файлам
+            for (var i = 0; i < files.length; i++) {
+                // С помощью метода append() добавляем файлы в объект FormData
+                formData.append('file_' + i, files[i]);
+            }
+
+            // Ajax-запрос на сервер
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/uploadlogokp', // URL на метод действия Upload контроллера HomeController
+                data: formData,
+                processData: false,
+                contentType: false,
+                error: function () {
+                    alert("ошибка в загрузке фотографии");
+                },
+                success: function (data, textStatus, XMLHttpRequest) {
+                    //alert(',,,,');
+                    $('#UplRez').html(data);
+                }
+
+            });
+        }
+
+    </script>
+
+    <script>
+        //File Upload
+        $(document).ready(function () {
+            // Программное открытие окна выбора файла по щелчку
+            $('html').on('click', '.divColorUpl', function () {
+                //alert('vvv');
+                $('#bgUpload')[0].click();
+
+                //$('#bgUpload').trigger('click');
+                // alert('eee');
+                //return false;
+            })
+
+            // Загрузка файлов классическим образом - через модальное окно
+            $('html').on('change', '#bgUpload', function () {
+               
+                var KpId = $('#KpId').val();
+                uploadbg($(this).prop('files'), KpId);
+                //location.reload();
+            });
+
+        });
+
+        function uploadbg(files, KpId) {
+            // Создаем объект FormData
+            var formData = new FormData();
+
+            // Пройти в цикле по всем файлам
+            for (var i = 0; i < files.length; i++) {
+                // С помощью метода append() добавляем файлы в объект FormData
+                formData.append('file_' + i, files[i]);
+            }
+
+            //добавим id коммерческого
+            formData.append('KpId', KpId);
+
+            // Ajax-запрос на сервер
+            $.ajax({
+                type: 'POST',
+                url: '/ajax/uploadbgkp', // URL на метод действия Upload контроллера HomeController
+                data: formData,
+                processData: false,
+                contentType: false,
+                error: function () {
+                    alert("ошибка в загрузке фона");
+                },
+                success: function (data) {
+                    if (data.err === "") {
+                        //alert(data.srcBg);
+                        $('body').css({ 'background-image': 'url(' + data.srcBg + ')', 'background-size': 'cover' });
+                        
+                    }
+                    else
+                    {
+                        alert(data.err);
+                    }
+                    
+                }
+
+            });
+        }
+
+    </script>
+
+}

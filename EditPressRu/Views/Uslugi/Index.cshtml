@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Виды нанесения логотипа";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1 class="zagolovok">@ViewBag.Title</h1>
+<div class="main" style="color:#808080;">
+    <div class="product-container">
+        <div class="product-holder">
+            <div style="padding:5px 15px 20px 15px;">
+                <p>
+                    Компания <strong class="artikle_link">ЭдитПресс</strong> выполняет все современные виды нанесения логотипа и других элементов
+                    фирменного стиля на сувенирную продукцию с любой поверхностью — это и текстильные изделия,
+                    различные гаджеты, изделия из кожи, металла, керамическая посуда, изделия из пластика, дерева и т.д.
+                    В зависимости от пожеланий клиента, а также от поверхности изделия, логотип можно нанести различными
+                    способами.
+                </p>
+                <p>
+                    Среди самых распространенных <strong class="artikle_link">
+                        видов нанесения логотипа
+                    </strong> и другой персональной информации на сувениры
+                    можно выделить следующие - шелкография, тампопечать, тиснение, лазерная гравировка, уф-печать,
+                    термотрансфер, сублимация, деколь, вышивка. В отдельных случаях мы используем такие виды
+                    персонализации как - индивидуальный шильд, металлостикер, наклейки с заливкой смолой.
+                </p>
+                <p>
+                    Современное оборудование, прекрасная организация работы и опытные кадры в совокупности создают
+                    прекрасный результат - высокое качество исполнения и сжатые сроки.
+                </p>
+                <p>
+                    Из-за огромного выбора методов и видов нанесения персональной информации на сувениры клиентам
+                    бывает непросто в этом разобраться, но наши специалисты с радостью помогут вам сделать выбор.
+                    Мы делаем все, чтобы Вы остались довольны.
+                </p>
+                <h3 style="padding-left:30%;margin-top:20px;margin-bottom:10px;color:#332718;">Перечень наших услуг</h3>
+                <p>
+                    <ul class="editList" style="margin-left:30%;">
+                        <li align="justify"><a href="/uslugi/ofsetprint" class="artikle_link">Офсетная печать.</a></li>
+                        <li align="justify"><a href="/uslugi/digitprint" class="artikle_link">Цифровая печать.</a></li>
+                        <li align="justify"><a href="/uslugi/logoapplication" class="artikle_link">Нанесение логотипа.</a></li>
+                        <li align="justify"><a href="/uslugi/serigraphy" class="artikle_link">Шелкография.</a></li>
+                        <li align="justify"><a href="/uslugi/flex" class="artikle_link">Флекс.</a></li>
+                        <li align="justify"><a href="/uslugi/fancywork" class="artikle_link">Вышивка.</a></li>
+                        <li align="justify"><a href="/uslugi/padprinting" class="artikle_link">Тампопечать.</a></li>
+                        <li align="justify"><a href="/uslugi/ufprinting" class="artikle_link">УФ-печать.</a></li>
+                        <li align="justify"><a href="/uslugi/decal" class="artikle_link">Надглазурная деколь.</a></li>
+                        <li align="justify"><a href="/uslugi/laserenrgaving" class="artikle_link">Лазерная гравировка.</a></li>
+                        <li align="justify"><a href="/uslugi/stamping" class="artikle_link">Тиснение.</a></li>
+                        <li align="justify"><a href="/uslugi/sublimationonmugs" class="artikle_link">Сублимация на кружках.</a></li>
+                        <li align="justify"><a href="/uslugi/volumelabel" class="artikle_link">Объемная наклейка.</a></li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <div class="sideBar1">
+            <div class="section1">
+                @Html.Partial("_PartialMenuSection")
+            </div>
+            <div class="sidebarHits">
+                @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+            </div>
+        </div>
+    </div>
+</div>

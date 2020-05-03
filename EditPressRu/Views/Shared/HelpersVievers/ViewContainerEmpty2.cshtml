@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Услуги Офсетной Печати В Москве: Типография, Прайс";
+    ViewBag.metadesc = "Вам нужна офсетная печать? Мы рады предложить свои услуги печати на деловой и рекламно полиграфической продукции! Профессионально, быстро и качественно!";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div itemscope itemtype="http://schema.org/Article" class="row">
+    <meta itemprop="datePublished" content="2018-11-21" />
+    <h1 itemprop="name" class="zagolovok">Офсетная печать</h1>
+    <div class="main" style="color:#808080;">
+        <div class="product-container">
+            <div class="product-holder">
+                <div class="viewText">
+                    <article itemprop="articleBody">
+                        
+                    </article>
+                </div>
+            </div>
+            <div class="sideBar1">
+                <div class="section1">
+                    @Html.Partial("_PartialMenuSection")
+                </div>
+                <div class="sidebarHits">
+                    @{ Html.RenderPartial("_TopSalesPartial", LstProd); }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

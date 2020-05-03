@@ -1,0 +1,21 @@
+﻿@model String
+    @{
+
+        String link = String.Format("https://editpress.ru{0}", Model);
+     }
+ @if (String.IsNullOrEmpty(Model))
+ {
+    <div style="display:flex;flex-direction:column;min-height:100px;justify-content:space-around;align-items:center;">
+        <p><a id="modal1_publish" href="#">Опубликовать</a></p>
+    </div>
+
+ }
+ else
+ {
+    <div style="display:flex;flex-direction:column;min-height:100px;justify-content:space-around;align-items:center;">
+        <p><a class="modal1_publish" href="@Model" target="_blank">@link</a></p>
+        <p><a id="modal1_unpublish" href="#">Закрыть доступ</a></p>
+    </div>
+ }
+
+

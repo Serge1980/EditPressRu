@@ -1,0 +1,10 @@
+﻿@model EditPressRu.Models.LocalPasswordModel
+@{
+    ViewBag.Title = "Смена пароля";
+}
+    <h1 style="text-align:center;color:#808080;font-size:18px;margin:30px;">@ViewBag.Title.</h1>
+<p style="text-align:center;color:#808080;">Вы вошли как <strong>@User.Identity.Name</strong>.</p>
+    @Html.Partial("_SetPasswordPartial")
+
+<p style="text-align:center;"><a href="/account">Назад в профиль</a></p>
+<p style="text-align:center;"><a href="/">Каталог продукции</a></p>

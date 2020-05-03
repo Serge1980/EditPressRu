@@ -1,0 +1,96 @@
+﻿#map,#map2 {
+    width:1070px;
+    height:600px;
+}
+
+.ballon {
+    padding:5px;
+    width:240px;
+    height:79px;
+    float:left;
+    text-align:left;
+    color:#fff;
+    position:absolute;
+}
+
+.manFromMap {
+    width:25px;
+    height:37px;
+}
+/*.ballon img.ll {
+    float: left;
+    width: 60px;
+    height: 60px;
+    margin: 0 5px 5px 0;
+    border-radius: 60px;
+}*/
+.ballon span {
+    font-size:14px;
+    font-weight:bold;
+}
+
+.ballon p {
+    font-size:12px;
+}
+
+/*.ballon .close {
+    position: absolute;
+    float: left;
+    font-size: 15px;
+    font-weight: bold;
+    top: 0;
+    right: 0px;
+    cursor: pointer;
+}
+
+.ballon .close:hover {
+    color: #ccc;
+}*/
+
+
+/*.balloon {
+    display: block;
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    width: 200px;
+    height: auto;
+    background: #fff;
+    padding: 10px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    moz-box-shadow: 0 0 7px #bbb;
+    -webkit-box-shadow: 0 0 7px #bbb;
+    box-shadow: 0 0 7px #bbb;
+}
+
+    .balloon:before {
+        content: " ";
+        position: absolute;
+        left: -10px;
+        top: 50%;
+        margin-top: -10px;
+        z-index: 1;
+        display: block;
+        width: 0px;
+        height: 0px;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right: 11px solid #fff; /* увеличено на единицу для сокрытия тени от подложки */
+    /*}
+    
+    .balloon:after {
+    content: " ";
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    margin-top: -2px-;
+    z-index: 0;
+    display: block;
+    width: 4px;
+    height: 4px;
+    moz-box-shadow: -8px 0 7px #555;
+    -webkit-box-shadow: -8px 0 7px #555;
+    box-shadow: -8px 0 7px #555;
+}*/

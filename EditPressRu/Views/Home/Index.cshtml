@@ -1,0 +1,958 @@
+﻿@model EditPressRu.Models.IndexProductsViewModel
+@{
+    ViewBag.Title = "Полиграфическая Продукция С Нанесением Логотипа В Москве";
+    ViewBag.metadesc = "Мы рады вам предложить полный цикл работ по изготовлению рекламно-сувенирной и полиграфической продукции! Профессионально, быстро и качественно!";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.ViewPiker = "Index";
+}
+
+<div class="main">
+    <aside class="sidebar">
+        @Html.Partial("_PartialMenuSection")
+    </aside>
+    <div class="main-slider">
+        <div class="slider">
+            @for (int i = 1; i < 5; i++)
+            {
+                <div>
+                    <div class="partOfElement">
+                        <a href="#">
+                            <img src="/imagesedit/maski/maska@(i).png" />
+                        </a>
+                    </div>
+                </div>
+            }
+            @foreach (var item in Model.ListSaleProducts)
+            {
+                @*<div>
+                <div><p class="pHeaderSlider">Товары со скидкой более 50%</p></div>
+                <div class="mainPart">
+                    <div><p class="pSale_mobile">Скидка @item.SaleSize </p></div>
+                    <div class="divPriceSlider_mobile">
+                        <p><span>Цена: </span><span class="spanSliderPrice">@String.Format("{0:0.##}", item.Price) руб.</span><span class="spanSliderPriceOld">@String.Format("{0:0.##}", item.PriceOld) руб.</span></p>
+                    </div>
+                    <div class="partOfElement"><a href="/products/product/@item.Id"><img src="@item.ImgPath" /></a></div>
+                    <div class="partOfElement">
+                        <a href="/products/product/@item.Id">
+                            <div>
+                                <div><p class="pSale">Скидка @item.SaleSize </p></div>
+                                <div class="divPriceSlider">
+                                    <p><span>Цена: </span><span class="spanSliderPrice">@String.Format("{0:0.##}", item.Price) руб.</span><span class="spanSliderPriceOld">@String.Format("{0:0.##}", item.PriceOld) руб.</span></p>
+                                </div>
+                                <div class="desc-descr-slider">
+                                    <p class="pDescrSliderTitle">@item.Name</p>
+                                    <p class="pDescrSlider">
+                                        @item.Description
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="min-desc-descr-slider">
+                    <a href="/products/product/@item.Id">
+                        <p class="pDescrSliderTitle">@item.Name</p>
+                        <p class="pDescrSlider">
+                            @item.Description
+                        </p>
+                    </a>
+                </div>
+            </div>*@
+                <div>
+                    <div><p class="pHeaderSlider">Хит сезона, необычные календари!</p></div>
+                    <div class="mainPart">
+                        <div><p class="pSale_mobile">Попробуйте новинку!</p></div>
+                        <div class="divPriceSlider_mobile">
+                            <p><span>Цена: </span><span class="spanSliderPrice">договорная от тиража, уточняйте у менеджеров</span></p>
+                        </div>
+                        <div class="partOfElement"><a href="/products/product/@item.Id"><img src="@item.ImgPath" /></a></div>
+                        <div class="partOfElement">
+                            <a href="/products/product/@item.Id">
+                                <div>
+                                    <div><p class="pSale">Попробуйте новинку!</p></div>
+                                    <div class="divPriceSlider">
+                                        <p><span>Цена: </span><span class="spanSliderPrice">договорная от тиража, уточняйте у менеджеров</span></p>
+                                    </div>
+                                    <div class="desc-descr-slider">
+                                        <p class="pDescrSliderTitle">@item.Name</p>
+                                        <p class="pDescrSlider">
+                                            @Html.Raw(item.Description)
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="min-desc-descr-slider">
+                        <a href="/products/product/@item.Id">
+                            <p class="pDescrSliderTitle">@item.Name</p>
+                            <p class="pDescrSlider">
+                                @item.Description
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <aside class="sidebar">
+        <div class="sidebar-item">
+            <a href="/products/poligrafiya">
+                <span>ПОЛИГРАФИЯ</span>
+                <img src="../Images/poligraf_bg.jpg" alt="Полиграфия от компании ЭдитПресс">
+            </a>
+        </div>
+        <div class="sidebar-item">
+            <a href="/products/suвeniry-iz-kitaya">
+                <span>ИЗ  КИТАЯ</span>
+                <img src="../Images/fromChinaBg.jpg" alt="Сувениры из Китая">
+            </a>
+        </div>
+    </aside>
+</div>
+<div itemscope itemtype="http://schema.org/ItemList" class="items">
+    <div class="items-row">
+        <div class="item item-horizontal">
+            <div class="holder">
+                <div class="item">
+                    <div class="holder">
+                        <span class="title"><a itemprop="url" href="/products/ruchki">Ручки</a></span>
+                        <img itemprop="image" src="../Images/categories/ruchki2.jpg" alt="Ручики в подарок">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Ruchki)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/egednevniki">Ежедневники</a></span>
+                        <img itemprop="image" src="../Images/categories/bloknot2.jpg" alt="Ежедневники оптом">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Egednevnik)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span class="title title-red"><a href="/products/fleshki">Флешки</a></span>
+                <img itemprop="image" src="../Images/categories/fleshki1.jpg" alt="Флешки купить оптом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Fleshki)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span class="title title-red"><a href="/products/gadgety">Гаджеты</a></span>
+                <img itemprop="image" src="../Images/categories/gadgety.jpg" alt="Гаджеты и аксессуары оптом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Gadgety)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item item-horizontal">
+            <div class="holder">
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/umbrellas">Зонты</a></span>
+                        <img itemprop="image" src="../Images/categories/umbrellas.jpg" alt="Зонты по оптовым ценам">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Umbrellas)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/tematicheskie">Тематические</a></span>
+                        <img itemprop="image" src="../Images/categories/item6.jpg" alt="Тематические сувениры">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Tematich)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/buisnes-suveniry">Сувениры</a></span>
+                <img itemprop="image" src="../Images/categories/item7.jpg" alt="Сувенирная продукция оптом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Gifts)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/office">В офис</a></span>
+                <img itemprop="image" src="../Images/categories/item8.jpg" alt="Офисные сувениры оптом в Москве">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Office)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/breloki">Брелоки</a></span>
+                <img itemprop="image" src="../Images/categories/brelok.jpg" alt="Брелоки оптом с логотипом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Brelok)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/podarki-k-prazdnikam">На праздник</a></span>
+                <img itemprop="image" src="../Images/categories/item10.jpg" alt="Сувениры к праздникам оптом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Prazdnik)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item item-vertical">
+            <div class="holder">
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/sladkie-podarki">Сладости</a></span>
+                        <img itemprop="image" src="../Images/categories/item11.jpg" alt="Сладости сувенирные оптом">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Sladosty)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/kuhnya-i-posuda">Посуда</a></span>
+                        <img itemprop="image" src="../Images/categories/item12.jpg" alt="Посуда под флексопечать">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Posuda)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item item-horizontal">
+            <div class="holder">
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/promo-suveniry">Промо</a></span>
+                        <img itemprop="image" src="../Images/categories/item13.jpg" alt="Промо сувениры оптом">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Promo)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="holder">
+                        <span class="title title-red"><a href="/products/vip-podarki">VIP</a></span>
+                        <img itemprop="image" src="../Images/categories/item14.jpg" alt="ВИП подарки по нормальной цене">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Vip)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item item-horizontal">
+            <div class="holder">
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/game-toys">Игры</a></span>
+                        <img itemprop="image" src="../Images/categories/item15.jpg" alt="Игры для взрослых">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Games)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/clock">Часы</a></span>
+                        <img itemprop="image" src="../Images/categories/item16.jpg" alt="Часы оптом">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Chasy)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item item-vertical">
+            <div class="holder">
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/odegda-textil">Одежда</a></span>
+                        <img itemprop="image" src="../Images/categories/item17.jpg" alt="Одежда под логотип">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Odegda)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="holder">
+                        <span itemprop="name" class="title"><a itemprop="url" href="/products/sezonnye-podarki">Сезонные</a></span>
+                        <img itemprop="image" src="../Images/categories/item18.jpg" alt="Сезонные сувениры">
+                        <div class="IndexPopup">
+                            @foreach (var item in Model.Sezonnie)
+                            {
+                                <div class="divIndxPop">
+                                    <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/dom-uyut">Дом и уют</a></span>
+                <img itemprop="image" src="../Images/categories/dom.jpg" alt="Сувениры для дома">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Dom)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/sad-instrumenty">Сад и инструменты</a></span>
+                <img itemprop="image" src="../Images/categories/sad.jpg" alt="Сувениры для дачи, подарочный инструмент">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Sad)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/potfeli-sumki-rukzaki">Сумки, портфели, рюкзаки</a></span>
+                <img itemprop="image" src="../Images/categories/sumky.jpg" alt="Сумки,портфели, рюкзаки с логотипом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Sumky)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="holder">
+                <span itemprop="name" class="title"><a itemprop="url" href="/products/turism-sport">Туризм и спорт</a></span>
+                <img itemprop="image" src="../Images/categories/sport.jpg" alt="Флешки купить оптом">
+                <div class="IndexPopup">
+                    @foreach (var item in Model.Turizm)
+                    {
+                        <div class="divIndxPop">
+                            <a href="/products/@item.CpuPath" class="aIndxPop">@item.Name</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p class="ph3">Акционные товары</p>
+<div>
+    <div id="carousel2">
+        <div class="buttons2">
+            <a href="#" id="prev2"><i class="fa fa-chevron-circle-left"></i></a>
+        </div>
+        <div id="slides2">
+            <ul class="slides2ul1">
+                @foreach (var item in Model.ListProdCarusel.Where(x => x.ParentId == 0))
+                {
+                    <li>
+                        <div class="slLiCont">
+                            @if (Model.ListProdCarusel.Where(x => x.ParentId == item.ProdId).Count() > 0)
+                            {
+                                <div class="slCont1">
+                                    @foreach (var subitem in Model.ListProdCarusel.Where(x => x.ParentId == item.ProdId))
+                                    {
+                                        <div>
+                                            <a href="@subitem.Link"><img src="@subitem.Img" width="50" height="50" alt="@item.Name" /></a>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            <div class="slCont2">
+                                <a href="/products/product/@item.ProdId"><img src="@item.ImagePath" alt="@item.Name" /></a>
+                            </div>
+                        </div>
+                        <div class="sl2DivInfo">
+                            <a href="/products/product/@item.ProdId">
+                                <p class="slPprice">@item.Price</p>
+                                <p class="slPinfo">@item.Name</p>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="buttons2">
+            <a href="#" id="next2"><i class="fa fa-chevron-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+<p class="ph3">Популярные категории</p>
+<div>
+    <div id="carousel1">
+        <div class="buttons1">
+            <a href="#" id="prev1"><i class="fa fa-chevron-circle-left"></i></a>
+        </div>
+        <div id="slides1">
+            <ul>
+                <li>
+                    <a href="/uslugi/logoapplication">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="~/images/cases/28153181_221581461734544_3674044157485121536_n.jpg" alt="Печать на футболках" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Печать на футболках</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/uslugi/sublimationonmugs">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="~/images/cases/28153318_2484982915061232_4628256779644436480_n.jpg" alt="Печать на кружках" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Печать на кружках</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/uslugi/stamping">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="~/images/cases/23507346_1924413637808890_6293021197751812096_n.jpg" alt="Тиснение на ежедневниках" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Тиснение на ежедневниках</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/products/egednevnik-nedatirovanniy">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="~/imagesebazar/105902/7/33a8c5cb9074fe422e765412101ca99c.jpg" alt="Персонализация ежедневнков" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Персонализация ежедневнков</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/products/ruchki-s-indiвidualnym-klipom">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="~/images/cases/27891917_567469860276844_6927302418996658176_n.jpg" alt="Ручки с индивидуальным клипом" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Ручки с индивидуальным клипом</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/uslugi/padprinting">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="/images/padprinting/22.jpg" alt="Тампопечать" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Тампопечать</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/uslugi/serigraphy">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="/images/serigraphy/5.jpg" alt="Шелкография" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Шелкография</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/products/promo-suveniry">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="~/images/suveniry.jpg" alt="Сувенирная продукция" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Сувенирная продукция</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/products/fleshki-promo">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="/images/cases/27893828_183145568960019_7477734999471423488_n.jpg" alt="Флешки оптом, нанесение" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Флешки оптом, нанесение</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/products/podarki-k-prazdnikam">
+                        <div class="sl1div">
+                            <div class="sl1divImg">
+                                <img src="/images/prasdnik.jpg" alt="Подарки к праздникам" />
+                            </div>
+                            <div class="sl1DivInfo">
+                                <div class="arrBot"><i class="fa fa-caret-down"></i></div>
+                                <p>Подарки к праздникам</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="buttons1">
+            <a href="#" id="next1"><i class="fa fa-chevron-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+<div class="grid_row growFlexRow">
+    <div class="grid_item growFlex">
+        <div><img src="../Images/index_auto.jpg" alt="ЭдитПресс доставка продукции" /></div>
+        <div><span class="growH1">Круглосуточная <br /> и бесплатная доставка</span></div>
+    </div>
+    <div class="grid_item growFlex">
+        <div><img src="../Images/index_24.jpg" alt="Изготовление сувениров" /></div>
+        <div><span class="growH1">Изготовление <br /> товаров за один день</span></div>
+    </div>
+    <div class="grid_item growFlex">
+        <div><img src="../Images/index_zvezda.jpg" alt="качественное нанесение логотипа" /></div>
+        <div>
+            <span class="growH1"> 100% гарантии <br /> качества</span>
+        </div>
+    </div>
+    <div class="grid_item growFlex">
+        <div><img src="../Images/index_keys.jpg" alt="изготовление сувениров по индивидуальному заказу" /></div>
+        <div>
+            <span class="growH1"> Индивидуальные <br /> решения</span>
+        </div>
+    </div>
+</div>
+<div class="grid_row brands-title">
+    <span>Клиенты</span>
+</div>
+<div class="brands">
+    <div class="grid_row">
+        <div class="grid_item">
+            <img src="../Images/tatneft.jpg" alt="Татнефть клиент ЭдитПресс" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/abada.jpg" alt="бренды сувенирной продукции" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/otkritie.jpg" alt="сувенирная продукция оптом, клиенты Эдитпресс" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/miratorg.jpg" alt="Рекламно-полиграфический Холдинг ЭдитПресс наши клиенты" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/utkonos.jpg" alt="промо сувениры" />
+        </div>
+    </div>
+    <div class="grid_row">
+        <div class="grid_item">
+            <img src="../Images/doorhan.jpg" alt="промосувениры" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/PresidentShool.jpg" alt="сувенирная продукция для выпускников" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/reso.jpg" alt="сувенирная продукция для страховщиков" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/trio.jpg" alt="сувенирная продукция для мебельного производства" />
+        </div>
+        <div class="grid_item">
+            <img src="../Images/pekin.jpg" alt="сувенирная продукция для ресторанов" />
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <span class="banner-title">Самое лучшее у нас</span>
+    <h1>Более <span>100 000</span> наименований сувениров</h1>
+</div>
+<div class="grid_row partners">
+    <marquee behavior="alternate" scrolldelay="100" scrollamount="3"><a href="/brands" class="devkiLink zagolovok"><img src="../Images/Brands.png" alt="Бренды поставщиков" /></a></marquee>
+</div>
+<div itemscope itemtype="http://schema.org/Article" class="row">
+    <meta itemprop="datePublished" content="@DateTime.Now.ToShortDateString()" />
+    <div class="main" style="color:#808080;">
+        <div class="product-container">
+            <div class="product-holder">
+                <div class="viewText">
+                    <h2 class="litePadding" itemprop="headline name">Компания EditPress</h2>
+                    <article itemprop="articleBody">
+                        <p>
+                            Рекламно-производственная полиграфическая компания EditPress продает товары под печать и занимается нанесением логотипов на все предлагаемые изделия в каталоге. У нас постоянно обновляется наличие товара, и на нашем складе всегда найдется необходимое количество любого заказа. Если Вам потребуется больше – мы можем заказать большую партию прямиком от производителя. Производители продукции, предлагаемо на нашем сайте, это надежные и проверенные партнеры из Европы, Азии и Америки.
+                        </p>
+                        <h2 class="litePadding">Наши предложения</h2>
+                        <p>
+                            Чаще всего у нас заказывают продукцию оптом для крупных компаний в рекламных целях, с печатью логотипов или эмблем компаний. Для поддержки своего бизнеса рекламой у нас Вы можете купить:
+                        </p>
+                        <ul class="editList editmargin">
+                            <li>
+                                <a class="artikle_link" href="/products/ruchki">Брендовые ручки</a> с нанесением логотипа компании – это отличная идея для подарка сотрудникам на корпоративных мероприятиях;
+                            </li>
+                            <li>
+                                <a class="artikle_link" href="/products/fleshki">Флешки</a> – всех цветов и видов для рекламы и презентов клиентам, сотрудникам и партнерам;
+                            </li>
+                            <li>
+                                <a class="artikle_link" href="/products/umbrellas">Зонты всех цветов и видов</a> – оригинальные и необычные цвета, зонты V.I.P., плащи от дождя и полиэтиленовые дождевики с логотипом корпорации;
+                            </li>
+                            <li>
+                                Также мы предлагаем сувениры – <a class="artikle_link" href="/products/office">офисные предметы</a> которые станут прекрасным подарком любому офисному сотруднику ежедневники с индивидуальным дизайном и логотипом Вашей фирмы на обложке;
+                            </li>
+                            <li>
+                                Разнообразных <a class="artikle_link" href="/products/breloki">видов брелоки</a> – от промо до эксклюзивных, с нанесением лого;
+                            </li>
+                            <li>
+                                <a class="artikle_link" href="/products/tematicheskie">Тематические подарки</a> на все праздники – открытки, сладкие подарки, интересные и забавные сувениры;
+                            </li>
+                            <li>
+                                <a class="artikle_link" href="/products/sladkie-podarki">Сладости</a> – шоколадные наборы, леденцы, разнообразные сборки чаев и эксклюзивный кофе, продажа экзотических шоколадных изделий в причудливых и креативных формах;
+                            </li>
+                            <li>
+                                Разнообразная <a class="artikle_link" href="/products/kuhnya-i-posuda">посуда с логотипом</a> – такие презенты будут полезными и запоминающимися одновременно;
+                            </li>
+                            <li>
+                                Интересные и полезные изделия с эмблемой Вашей фирмы для избавления сотрудников от стресса, в том числе слаймы;
+                            </li>
+                            <li>
+                                <a class="artikle_link" href="/products/indiвidualnye-podarki">VIP подарки</a> – для важных деловых партнёров, возможно нанесение логотипа Вашей компании;
+                            </li>
+                            <li>
+                                Разнообразная <a class="artikle_link" href="/products/odegda-textil">одежда с принтом логотипа</a> корпорации не только повысит корпоративный дух, но и выделит Ваших сотрудников среди других людей обеспечив Вам ненавязчивую рекламу;
+                            </li>
+                            <li>
+                                Наборы <a class="artikle_link" href="/products/turism-sport">для спорта и туризма</a>, а также многое другое.
+                            </li>
+                        </ul>
+                        <p>
+                            Брендинг и печать на продукции пользуется большим спросом, поскольку каждой крупной компании нужна достойная реклама. Нанесение логотипов на разнообразные аксессуары, преподнесённые в качестве подарков Вашим сотрудникам, укрепят корпоративный дух. Чтобы купить корпоративные подарки, Вы можете заказать на нашем сайте оптом продукцию для своей фирмы по номеру телефона или электронному адресу, указанному на сайте.
+                        </p>
+                        <p>
+                            Товары под печать обладают высочайшим качеством и не разочаруют ни Вас, ни Ваших сотрудников и клиентов. Мы понимаем, насколько важна хорошая репутация для фирмы, поэтому тщательно следим за качественностью каждого бизнес подарка за его прочностью и презентабельным внешним видом. Преподнося бизнес сувенир с Вашим логотипом от компании ЭдитПресс Вы можете не сомневаться в том, что обеспечили себе выгодную рекламу и крепкую положительную репутацию.
+                        </p>
+                        <p>
+                            Нанесение логотипа на изделия производится профессионалами и тщательно проверяется каждый экземпляр партии перед тем, как отправить готовый заказ клиенту. На наших бизнес сувенирах Вы не найдете некачественного смазанного или неяркого принта.
+                        </p>
+                        <p>
+                            Печать эмблем и логотипов на бизнес продукции производится в нашей типографии в Москве, также мы предлагаем доставку готовой продукции по всей России.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.tovar-box').hover(
+              function () {
+                  $(this).children('.IndexPopup').show();
+              },
+              function () {
+                  $(this).children('.IndexPopup').hide();
+              });
+
+        $('.divIndxPop').hover(
+             function () {
+                 $(this).css("background", "#33B086");
+             },
+             function () {
+                 $(this).css("background", "transparent");
+             });
+
+        //****************************custom slider Actions tovars***************************************
+        //rotation speed and timer
+        var speed = 5000;
+        var run = setInterval('rotate2()', speed);
+
+        //grab the width and calculate left value
+        var item_width = $('#slides2 li').outerWidth();
+        var left_value = 10; //item_width/2;
+
+        //alert('left_value ' + left_value + ' item_width ' + item_width);
+
+        //move the last item before first item, just in case user click prev button
+        $('#slides2 li:first').before($('#slides2 li:last'));
+
+        //set the default item to the correct position
+        $('#slides2 ul').css({ 'left': left_value });
+
+        //if user clicked on prev button
+        $('#prev2').click(function () {
+
+            //get the right position
+            var left_indent = parseInt($('#slides2 ul').css('left')); //+ item_width;
+            //alert(left_indent);
+
+            //slide the item
+            $('#slides2 ul').animate({ 'left': left_indent }, 200, function () {
+
+                //move the last item and put it as first item
+                $('#slides2 li:first').before($('#slides2 li:last'));
+
+                //set the default item to correct position
+                $('#slides2 ul').css({ 'left': left_value });
+
+            });
+
+            //cancel the link behavior
+            return false;
+
+        });
+
+
+        //if user clicked on next button
+        $('#next2').click(function () {
+
+            //get the right position
+            var left_indent = parseInt($('#slides2 ul').css('left')); //- item_width;
+
+            //alert(left_value);
+
+            //slide the item
+            $('#slides2 ul').animate({ 'left': left_indent }, 200, function () {
+
+                //move the first item and put it as last item
+                $('#slides2 li:last').after($('#slides2 li:first'));
+
+                //set the default item to correct position
+                $('#slides2 ul').css({ 'left': left_value });
+
+            });
+
+            //cancel the link behavior
+            return false;
+
+        });
+
+        //if mouse hover, pause the auto rotation, otherwise rotate it
+        $('#slides2').hover(
+
+            function () {
+                clearInterval(run);
+            },
+            function () {
+                run = setInterval('rotate2()', speed);
+            }
+        );
+        //****************************custom slider Populars Categories***************************************
+        //rotation speed and timer
+        var speed = 5000;
+        var run = setInterval('rotate()', speed);
+
+        //grab the width and calculate left value
+        var item_width = $('#slides1 li').outerWidth();
+        var left_value = 10; //item_width/2;
+
+        //alert('left_value ' + left_value + ' item_width ' + item_width);
+
+        //move the last item before first item, just in case user click prev button
+        $('#slides1 li:first').before($('#slides1 li:last'));
+
+        //set the default item to the correct position
+        $('#slides1 ul').css({ 'left': left_value });
+
+        //if user clicked on prev button
+        $('#prev1').click(function () {
+
+            //get the right position
+            var left_indent = parseInt($('#slides1 ul').css('left')); //+ item_width;
+            //alert(left_indent);
+
+            //slide the item
+            $('#slides1 ul').animate({ 'left': left_indent }, 200, function () {
+
+                //move the last item and put it as first item
+                $('#slides1 li:first').before($('#slides1 li:last'));
+
+                //set the default item to correct position
+                $('#slides1 ul').css({ 'left': left_value });
+
+            });
+
+            //cancel the link behavior
+            return false;
+
+        });
+
+
+        //if user clicked on next button
+        $('#next1').click(function () {
+
+            //get the right position
+            var left_indent = parseInt($('#slides1 ul').css('left')); //- item_width;
+
+            //alert(left_value);
+
+            //slide the item
+            $('#slides1 ul').animate({ 'left': left_indent }, 200, function () {
+
+                //move the first item and put it as last item
+                $('#slides1 li:last').after($('#slides1 li:first'));
+
+                //set the default item to correct position
+                $('#slides1 ul').css({ 'left': left_value });
+
+            });
+
+            //cancel the link behavior
+            return false;
+
+        });
+
+        //if mouse hover, pause the auto rotation, otherwise rotate it
+        $('#slides1').hover(
+
+            function () {
+                clearInterval(run);
+            },
+            function () {
+                run = setInterval('rotate()', speed);
+            }
+        );
+
+    });
+    //a simple function to click next link
+    //a timer will call this function, and the rotation will begin :)
+    function rotate() {
+        $('#next1').click();
+    };
+
+    function rotate2() {
+        $('#next2').click();
+    };
+</script>
