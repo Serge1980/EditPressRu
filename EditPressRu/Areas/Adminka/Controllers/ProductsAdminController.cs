@@ -135,7 +135,13 @@ namespace EditPressRu.Areas.Adminka.Controllers
         // GET: Adminka/Products/Edit/5
         public ActionResult Edit(int? id)
         {
-            Products products = Db.Products.SingleOrDefault(x=>x.Id==id);
+            Products products = Db.Products
+                .Include(x=>x.ProdImages)
+                .Include(x=>x.ProdInCategory)
+                .Include(x=>x.Prods_Colors)
+                .Include(x=>x.Prods_Materials)
+                .Include(x=>x.Prods_Nanesenie)
+                .SingleOrDefault(x=>x.Id==id);
             return View(products);
         }
 

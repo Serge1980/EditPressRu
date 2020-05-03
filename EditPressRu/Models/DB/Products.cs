@@ -76,7 +76,7 @@ namespace EditPressRu.Models.DB
         [DisplayName("Объем")]
         public string Volume { get; set; }
         
-        [DisplayName("Количество")]
+        [DisplayName("Количество в упаковке")]
         public string Amount { get; set; }
 
         [DisplayName("Вес")]
